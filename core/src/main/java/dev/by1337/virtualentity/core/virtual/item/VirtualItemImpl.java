@@ -1,11 +1,12 @@
-package dev.by1337.virtualentity.core.virtual;
+package dev.by1337.virtualentity.core.virtual.item;
 
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
-import dev.by1337.virtualentity.api.virtual.VirtualItem;
+import dev.by1337.virtualentity.api.virtual.item.VirtualItem;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.network.Packet;
 import dev.by1337.virtualentity.core.network.impl.SetEntityMotionPacket;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
+import dev.by1337.virtualentity.core.virtual.VirtualEntityImpl;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

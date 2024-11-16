@@ -8,6 +8,7 @@ import dev.by1337.virtualentity.core.virtual.decoration.*;
 import dev.by1337.virtualentity.core.virtual.animal.*;
 import dev.by1337.virtualentity.core.virtual.animal.horse.*;
 import dev.by1337.virtualentity.core.virtual.decoration.VirtualArmorStandImpl;
+import dev.by1337.virtualentity.core.virtual.item.*;
 import org.by1337.blib.util.Version;
 
 public class VirtualEntityRegistrar {
@@ -61,5 +62,7 @@ public class VirtualEntityRegistrar {
         factory.register(VirtualEntityType.ITEM_FRAME, VirtualItemFrameImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.LEASH_KNOT, VirtualLeashFenceKnotEntityImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.PAINTING, VirtualPaintingImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.FALLING_BLOCK, VirtualFallingBlockEntityImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.TNT, VirtualPrimedTntImpl::new, Version.V1_16_5);
     }
 }

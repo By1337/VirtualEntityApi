@@ -1,5 +1,6 @@
-package dev.by1337.virtualentity.api.virtual;
+package dev.by1337.virtualentity.api.virtual.item;
 
+import dev.by1337.virtualentity.api.virtual.VirtualEntity;
 import org.bukkit.inventory.ItemStack;
 import org.by1337.blib.geom.Vec3d;
 
