@@ -22,5 +22,6 @@ public class VirtualEntityRegistrar {
         factory.register(VirtualEntityType.ITEM, VirtualItemImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.WITCH, VirtualWitchImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.VINDICATOR, VirtualVindicatorImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.RAVAGER, VirtualRavagerImpl::new, Version.V1_16_5);
     }
 }
