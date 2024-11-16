@@ -1,7 +1,7 @@
 package dev.by1337.virtualentity.core.network.impl;
 
 import dev.by1337.virtualentity.core.mappings.Mappings;
-import dev.by1337.virtualentity.core.network.ByteBuffCodecs;
+import dev.by1337.virtualentity.core.network.ByteBuffUtil;
 import dev.by1337.virtualentity.core.network.Packet;
 import dev.by1337.virtualentity.core.network.PacketType;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
@@ -23,8 +23,8 @@ public class SetEntityDataPacket extends Packet {
 
     @Override
     public void write(ByteBuf byteBuf) {
-        ByteBuffCodecs.VAR_INT.accept(PACKET_ID, byteBuf);
-        ByteBuffCodecs.VAR_INT.accept(id, byteBuf);
+        ByteBuffUtil.writeVarInt(PACKET_ID, byteBuf);
+        ByteBuffUtil.writeVarInt(id, byteBuf);
 
         for (SynchedEntityData.DataItem<?> dataItem : dataItems) {
             writeDataItem(byteBuf, dataItem);
@@ -36,7 +36,7 @@ public class SetEntityDataPacket extends Packet {
         EntityDataAccessor<T> accessor = dataItem.getAccessor();
         int serializerId = EntityDataSerializers.getId(dataItem.getAccessor().serializer());
         byteBuf.writeByte(accessor.id());
-        ByteBuffCodecs.VAR_INT.accept(serializerId, byteBuf);
+        ByteBuffUtil.writeVarInt(serializerId, byteBuf);
         accessor.serializer().write(dataItem.getValue(), byteBuf);
     }
 }

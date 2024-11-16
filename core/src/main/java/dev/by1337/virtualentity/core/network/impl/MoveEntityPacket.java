@@ -2,7 +2,7 @@ package dev.by1337.virtualentity.core.network.impl;
 
 import dev.by1337.virtualentity.api.virtual.VirtualEntity;
 import dev.by1337.virtualentity.core.mappings.Mappings;
-import dev.by1337.virtualentity.core.network.ByteBuffCodecs;
+import dev.by1337.virtualentity.core.network.ByteBuffUtil;
 import dev.by1337.virtualentity.core.network.Packet;
 import dev.by1337.virtualentity.core.network.PacketType;
 import io.netty.buffer.ByteBuf;
@@ -18,8 +18,8 @@ public abstract class MoveEntityPacket extends Packet {
 
     @Override
     public void write(ByteBuf byteBuf) {
-        ByteBuffCodecs.VAR_INT.accept(getPacketId(), byteBuf);
-        ByteBuffCodecs.VAR_INT.accept(entity.getId(), byteBuf);
+        ByteBuffUtil.writeVarInt(getPacketId(), byteBuf);
+        ByteBuffUtil.writeVarInt(entity.getId(), byteBuf);
     }
 
     protected abstract int getPacketId();
