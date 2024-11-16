@@ -28,5 +28,6 @@ public class VirtualEntityRegistrar {
         factory.register(VirtualEntityType.EVOKER, VirtualEvokerImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.CAT, VirtualCatImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.CHICKEN, VirtualChickenImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.COD, VirtualCodImpl::new, Version.V1_16_5);
     }
 }
