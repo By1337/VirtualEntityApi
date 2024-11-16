@@ -4,6 +4,7 @@ import dev.by1337.virtualentity.api.particles.ParticleOptions;
 import dev.by1337.virtualentity.core.annotations.ASM;
 import io.netty.buffer.ByteBuf;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class NmsUtil {
@@ -21,12 +22,17 @@ public class NmsUtil {
         accessor.writeItemStack(itemStack, b);
     }
 
+    public static void send(Player player, ByteBuf byteBuf) {
+        accessor.send(player, byteBuf);
+    }
+
     private interface NmsAccessor {
         int getCombinedId(BlockData blockData);
 
         void writeParticleOptions(ParticleOptions<?> particleOptions, ByteBuf b);
 
         void writeItemStack(ItemStack itemStack, ByteBuf b);
+        void send(Player player, ByteBuf byteBuf);
     }
 
     private static class NmsAccessorV1_16_5 implements NmsAccessor {
@@ -101,6 +107,28 @@ public class NmsUtil {
                         invokevirtual net/minecraft/server/v1_16_R3/PacketDataSerializer a (Lnet/minecraft/server/v1_16_R3/ItemStack;)Lnet/minecraft/server/v1_16_R3/PacketDataSerializer;
                         pop
                     C:
+                        return
+                    """;
+            System.out.println(asm);
+        }
+
+        @Override
+        @ASM
+        public void send(Player player, ByteBuf byteBuf) {
+            // source
+            // ((CraftPlayer)player).getHandle().playerConnection.networkManager.channel.writeAndFlush((Object)byteBuf);
+            String asm = """
+                    A:
+                        aload 1
+                        checkcast org/bukkit/craftbukkit/v1_16_R3/entity/CraftPlayer
+                        invokevirtual org/bukkit/craftbukkit/v1_16_R3/entity/CraftPlayer getHandle ()Lnet/minecraft/server/v1_16_R3/EntityPlayer;
+                        getfield net/minecraft/server/v1_16_R3/EntityPlayer playerConnection Lnet/minecraft/server/v1_16_R3/PlayerConnection;
+                        getfield net/minecraft/server/v1_16_R3/PlayerConnection networkManager Lnet/minecraft/server/v1_16_R3/NetworkManager;
+                        getfield net/minecraft/server/v1_16_R3/NetworkManager channel Lio/netty/channel/Channel;
+                        aload 2
+                        invokeinterface io/netty/channel/Channel writeAndFlush (Ljava/lang/Object;)Lio/netty/channel/ChannelFuture;
+                        pop
+                    B:
                         return
                     """;
             System.out.println(asm);

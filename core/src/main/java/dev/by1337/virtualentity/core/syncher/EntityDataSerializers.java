@@ -18,6 +18,8 @@ import java.util.*;
 
 public class EntityDataSerializers {
     private static final Map<String, EntityDataSerializer<?>> SERIALIZERS = new HashMap<>();
+    private static final Map<EntityDataSerializer<?>, Integer> SERIALIZER_TO_ID = new IdentityHashMap<>();
+    private static final Map<EntityDataSerializer<?>, String> SERIALIZER_TO_NAME = new IdentityHashMap<>();
 
     public static final EntityDataSerializer<Byte> BYTE = register((val, byteBuf) -> {
         byteBuf.writeByte(val);
@@ -110,10 +112,22 @@ public class EntityDataSerializers {
         if (SERIALIZERS.put(name, serializer) != null) {
             throw new IllegalArgumentException("Duplicate serializer: " + name);
         }
+        Integer id = Mappings.instance.serializerToId().get(name);
+        if (id != null) {
+            SERIALIZER_TO_ID.put(serializer, id);
+        }
+        SERIALIZER_TO_NAME.put(serializer, name);
         return serializer;
     }
 
     public static EntityDataSerializer<?> getByName(String name) {
         return SERIALIZERS.get(name);
+    }
+    public static int getId(EntityDataSerializer<?> serializer){
+        Integer id = SERIALIZER_TO_ID.get(serializer);
+        if (id == null){
+            throw new IllegalStateException("Has no EntityDataSerializer id for serializer " + SERIALIZER_TO_NAME.get(serializer) + " Version: " + Version.VERSION);
+        }
+        return id;
     }
 }

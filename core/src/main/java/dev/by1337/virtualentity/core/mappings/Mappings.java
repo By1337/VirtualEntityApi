@@ -8,11 +8,14 @@ import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.api.entity.npc.VillagerProfession;
 import dev.by1337.virtualentity.api.entity.npc.VillagerType;
 import dev.by1337.virtualentity.core.network.PacketType;
+import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
+import dev.by1337.virtualentity.core.syncher.EntityDataSerializer;
+import dev.by1337.virtualentity.core.syncher.EntityDataSerializers;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.PluginClassLoader;
 import org.by1337.blib.util.Version;
 
-import java.nio.charset.StandardCharsets;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
 
@@ -60,18 +63,55 @@ public class Mappings {
         return villagerTypeMappings;
     }
 
+    @SuppressWarnings("unchecked")
+    public static <T> EntityDataAccessor<T> findAccessor(String clazz, String id) {
+        List<NetworkValue> list = instance.entityNetworkValues.get(clazz);
+        if (list == null) {
+            throw new IllegalStateException("Has no mappings for entity " + clazz);
+        }
+        NetworkValue value = list.stream().filter(v -> v.name.equals(id)).findFirst().orElse(null);
+        if (value == null) {
+            throw new IllegalStateException("Has no NetworkValue " + id + " for entity " + clazz);
+        }
+        EntityDataSerializer<?> serializer = EntityDataSerializers.getByName(value.type);
+        if (serializer == null) {
+            throw new IllegalStateException("Unknown EntityDataSerializer type " + value.type);
+        }
+        return (EntityDataAccessor<T>) new EntityDataAccessor<>(value.id, serializer);
+    }
+
+    public static int getNetworkId(VirtualEntityType type){
+        EntityInfo entityInfo = instance.entityTypeToEntityInfo.get(type);
+        if (entityInfo == null){
+            throw new IllegalStateException("Has no EntityInfo for type " + type + " Version: " + Version.VERSION);
+        }
+        return entityInfo.networkId;
+    }
+    public static PacketType getSpawnPacket(VirtualEntityType type){
+        EntityInfo entityInfo = instance.entityTypeToEntityInfo.get(type);
+        if (entityInfo == null){
+            throw new IllegalStateException("Has no EntityInfo for type " + type + " Version: " + Version.VERSION);
+        }
+        return entityInfo.spawnPacket;
+    }
+
+    public static int getPacketId(PacketType packetType){
+        Integer integer = instance.packetToId.get(packetType);
+        if (integer == null){
+            throw new IllegalStateException("Has no packet id for packet " + packetType + " Version: " + Version.VERSION);
+        }
+        return integer;
+    }
+
     static {
         Plugin plugin = ((PluginClassLoader) Mappings.class.getClassLoader()).getPlugin();
-        var in = plugin.getResource(Version.VERSION + "/mappings.json");
+        var in = plugin.getResource("entity/" + Version.VERSION + "/mappings.json");
         if (in == null) {
             throw new RuntimeException("Could not find mappings file for version " + Version.VERSION);
         }
-        try (in) {
-            String data = new String(in.readAllBytes(), StandardCharsets.UTF_8);
-
+        try (var reader = new InputStreamReader(in)) {
             JsonParser jsonParser = new JsonParser();
-            instance = CODEC.decode(JsonOps.INSTANCE, jsonParser.parse(data)).getOrThrow().getFirst();
-
+            instance = CODEC.decode(JsonOps.INSTANCE, jsonParser.parse(reader)).getOrThrow().getFirst();
         } catch (Throwable e) {
             throw new RuntimeException("Failed to read mappings file for version " + Version.VERSION, e);
         }
