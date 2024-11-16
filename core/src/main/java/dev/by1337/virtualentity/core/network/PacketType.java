@@ -18,7 +18,9 @@ public enum PacketType {
     MOVE_ENTITY_PACKET_POS,
     MOVE_ENTITY_PACKET_POS_ROT,
     MOVE_ENTITY_PACKET_ROT,
-    SET_ENTITY_MOTION_PACKET
+    SET_ENTITY_MOTION_PACKET,
+    PLAYER_INFO_PACKET,
+    SET_PLAYER_TEAM_PACKET,
     ;
     public static final Codec<PacketType> CODEC = DefaultCodecs.createEnumCodec(PacketType.class);
 }
