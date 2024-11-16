@@ -19,7 +19,6 @@ import java.util.Set;
 
 public class Main extends JavaPlugin {
 
-
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
@@ -48,7 +47,7 @@ public class Main extends JavaPlugin {
                 }
                 vec = vec.rotateAroundY(Math.toRadians(5));
                 var pos = spawnPos.add(vec);
-                //armorStand.lookAt(pos);
+                armorStand.lookAt(pos);
                 armorStand.setPos(pos);
                 var loc = pos.toLocation(player.getWorld());
                 player.getWorld().spawnParticle(Particle.FLAME, loc, 0);

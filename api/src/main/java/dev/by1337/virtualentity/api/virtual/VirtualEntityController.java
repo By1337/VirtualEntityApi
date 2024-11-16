@@ -54,4 +54,5 @@ public interface VirtualEntityController {
 
     void playAnimation(EntityAnimation animation);
     void tick(Set<Player> viewers);
+    void lookAt(Vec3d at);
 }

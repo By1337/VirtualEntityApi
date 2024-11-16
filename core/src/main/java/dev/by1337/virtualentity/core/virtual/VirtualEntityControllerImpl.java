@@ -16,9 +16,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.by1337.blib.geom.Vec3d;
-import org.by1337.blib.util.collection.IdentityHashSet;
 
-import java.util.*;
+import java.util.EnumMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 
 public abstract class VirtualEntityControllerImpl implements VirtualEntityController {
@@ -155,13 +157,14 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
     }
 
     public void lookAt(Vec3d at) {
-      /*  double d0 = at.x - position.getPos().x;
-        double d1 = at.y - position.getPos().y;
-        double d2 = at.z - position.getPos().z;
-        double d3 = MojangMth.sqrt(d0 * d0 + d2 * d2);
-        position.setPitch(MojangMth.wrapDegrees((float) (-(MojangMth.atan2(d1, d3) * 57.2957763671875))));
-        position.setYaw(MojangMth.wrapDegrees((float) (MojangMth.atan2(d2, d0) * 57.2957763671875) - 90.0F));*/
+        Vec3d delta = at.sub(position.getPos());
+        double horizontalDistance = Math.sqrt(delta.x * delta.x + delta.z * delta.z);
+        float pitch = (float) Math.toDegrees(Math.atan2(delta.y, horizontalDistance));
+        float yaw = (float) Math.toDegrees(Math.atan2(delta.z, delta.x)) - 90.0f;
+        position.setPitch(pitch);
+        position.setYaw(yaw);
     }
+
 
     @Override
     public void clearEquipment() {
