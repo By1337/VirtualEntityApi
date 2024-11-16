@@ -17,5 +17,6 @@ public class VirtualEntityRegistrar {
         factory.register(VirtualEntityType.BEE, VirtualBeeImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.CREEPER, VirtualCreeperImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.ZOMBIE, VirtualZombieImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.DROWNED, VirtualDrownedImpl::new, Version.V1_16_5);
     }
 }
