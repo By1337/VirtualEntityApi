@@ -1,7 +1,7 @@
 package dev.by1337.virtualentity.core.network.impl;
 
 import dev.by1337.virtualentity.core.network.ByteBuffUtil;
-import dev.by1337.virtualentity.core.virtual.VirtualArmorStandImpl;
+import dev.by1337.virtualentity.core.virtual.decoration.VirtualArmorStandImpl;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import org.by1337.blib.geom.Vec3d;

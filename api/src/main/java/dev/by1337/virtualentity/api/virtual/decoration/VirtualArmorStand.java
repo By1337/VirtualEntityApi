@@ -1,6 +1,7 @@
-package dev.by1337.virtualentity.api.virtual;
+package dev.by1337.virtualentity.api.virtual.decoration;
 
 
+import dev.by1337.virtualentity.api.virtual.VirtualLivingEntity;
 import org.by1337.blib.geom.Vec3f;
 
 public interface VirtualArmorStand extends VirtualLivingEntity {

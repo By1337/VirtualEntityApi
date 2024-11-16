@@ -4,8 +4,10 @@ import dev.by1337.virtualentity.api.VirtualEntityApi;
 import dev.by1337.virtualentity.api.VirtualEntityFactory;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.core.virtual.*;
+import dev.by1337.virtualentity.core.virtual.decoration.*;
 import dev.by1337.virtualentity.core.virtual.animal.*;
 import dev.by1337.virtualentity.core.virtual.animal.horse.*;
+import dev.by1337.virtualentity.core.virtual.decoration.VirtualArmorStandImpl;
 import org.by1337.blib.util.Version;
 
 public class VirtualEntityRegistrar {
@@ -56,5 +58,8 @@ public class VirtualEntityRegistrar {
         factory.register(VirtualEntityType.SKELETON_HORSE, VirtualSkeletonHorseImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.TRADER_LLAMA, VirtualTraderLlamaImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.ZOMBIE_HORSE, VirtualZombieHorseImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.ITEM_FRAME, VirtualItemFrameImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.LEASH_KNOT, VirtualLeashFenceKnotEntityImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.PAINTING, VirtualPaintingImpl::new, Version.V1_16_5);
     }
 }
