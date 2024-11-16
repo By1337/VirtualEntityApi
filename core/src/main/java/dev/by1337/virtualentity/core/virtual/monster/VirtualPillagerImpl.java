@@ -4,6 +4,7 @@ import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.api.virtual.monster.VirtualPillager;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
+import dev.by1337.virtualentity.core.virtual.raid.VirtualRaiderImpl;
 
 public class VirtualPillagerImpl extends VirtualRaiderImpl implements VirtualPillager {
     private static final EntityDataAccessor<Boolean> IS_CHARGING_CROSSBOW;

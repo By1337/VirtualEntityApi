@@ -1,4 +1,4 @@
-package dev.by1337.virtualentity.api.virtual.monster;
+package dev.by1337.virtualentity.api.virtual.raid;
 
 import dev.by1337.virtualentity.api.virtual.VirtualMob;
 

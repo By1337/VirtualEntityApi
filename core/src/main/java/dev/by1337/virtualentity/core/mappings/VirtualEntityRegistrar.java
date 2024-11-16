@@ -15,6 +15,7 @@ import dev.by1337.virtualentity.core.virtual.monster.hoglin.*;
 import dev.by1337.virtualentity.core.virtual.npc.*;
 import dev.by1337.virtualentity.core.virtual.player.*;
 import dev.by1337.virtualentity.core.virtual.projectile.*;
+import dev.by1337.virtualentity.core.virtual.vehicle.*;
 import org.by1337.blib.util.Version;
 
 public class VirtualEntityRegistrar {
@@ -115,5 +116,15 @@ public class VirtualEntityRegistrar {
         factory.register(VirtualEntityType.POTION, VirtualThrownPotionImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.TRIDENT, VirtualThrownTridentImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.WITHER_SKULL, VirtualWitherSkullImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.BOAT, VirtualBoatImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.CHEST_MINECART, VirtualMinecartChestImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.COMMAND_BLOCK_MINECART, VirtualMinecartCommandBlockImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.FURNACE_MINECART, VirtualMinecartFurnaceImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.HOPPER_MINECART, VirtualMinecartHopperImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.MINECART, VirtualMinecartImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.SPAWNER_MINECART, VirtualMinecartSpawnerImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.TNT_MINECART, VirtualMinecartTNTImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.AREA_EFFECT_CLOUD, VirtualAreaEffectCloudImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.LIGHTNING_BOLT, VirtualLightningBoltImpl::new, Version.V1_16_5);
     }
 }
