@@ -61,6 +61,7 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
         };
     }
 
+    @Override
     public void tick(Set<Player> viewers) {
         if (viewers.isEmpty()) {
             broadcast(removePacket);

@@ -22,13 +22,8 @@ import java.util.UUID;
 import java.util.function.BiConsumer;
 
 public class ByteBuffCodecs {
-    public static BiConsumer<Integer, ByteBuf> VAR_INT = (i, b) -> {
-        while ((i & -128) != 0) {
-            b.writeByte(i & 127 | 128);
-            i >>>= 7;
-        }
-        b.writeByte(i);
-    };
+    public static BiConsumer<Integer, ByteBuf> VAR_INT = ByteBuffUtil::writeVarInt;
+
     public static BiConsumer<String, ByteBuf> STRING = (s, b) -> {
         byte[] bytes = s.getBytes(StandardCharsets.UTF_8);
         VAR_INT.accept(bytes.length, b);

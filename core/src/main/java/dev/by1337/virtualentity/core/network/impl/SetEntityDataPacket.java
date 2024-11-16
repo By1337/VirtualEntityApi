@@ -1,6 +1,5 @@
 package dev.by1337.virtualentity.core.network.impl;
 
-import dev.by1337.virtualentity.api.virtual.VirtualEntity;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.network.ByteBuffCodecs;
 import dev.by1337.virtualentity.core.network.Packet;
@@ -22,7 +21,7 @@ public class SetEntityDataPacket extends Packet {
     }
 
     @Override
-    protected void write(ByteBuf byteBuf) {
+    public void write(ByteBuf byteBuf) {
         ByteBuffCodecs.VAR_INT.accept(Mappings.getPacketId(PacketType.SET_ENTITY_DATA_PACKET), byteBuf);
         ByteBuffCodecs.VAR_INT.accept(id, byteBuf);
 

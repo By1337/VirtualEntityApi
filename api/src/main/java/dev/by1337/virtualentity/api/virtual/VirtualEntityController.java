@@ -3,9 +3,11 @@ package dev.by1337.virtualentity.api.virtual;
 import dev.by1337.virtualentity.api.entity.EntityAnimation;
 import dev.by1337.virtualentity.api.entity.EquipmentSlot;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.by1337.blib.geom.Vec3d;
 
+import java.util.Set;
 import java.util.UUID;
 
 public interface VirtualEntityController {
@@ -51,4 +53,5 @@ public interface VirtualEntityController {
     int getId();
 
     void playAnimation(EntityAnimation animation);
+    void tick(Set<Player> viewers);
 }

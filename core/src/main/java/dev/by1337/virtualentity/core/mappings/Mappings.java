@@ -14,12 +14,15 @@ import dev.by1337.virtualentity.core.syncher.EntityDataSerializers;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.PluginClassLoader;
 import org.by1337.blib.util.Version;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.List;
 import java.util.Map;
 
 public class Mappings {
+    private static final Logger LOGGER = LoggerFactory.getLogger("VirtualEntityApi#Mappings");
     public static final Codec<Mappings> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.unboundedMap(Codec.STRING, Codec.INT).fieldOf("serializerToId").forGetter(Mappings::serializerToId),
             Codec.unboundedMap(VirtualEntityType.CODEC, EntityInfo.CODEC).fieldOf("typeToData").forGetter(Mappings::entityTypeToEntityInfo),
@@ -28,6 +31,7 @@ public class Mappings {
             VillagerTypeMappings.CODEC.fieldOf("villagerData").forGetter(Mappings::villagerTypeMappings)
     ).apply(instance, Mappings::new));
     public static final Mappings instance;
+
 
     private final Map<String, Integer> serializerToId;
     private final Map<VirtualEntityType, EntityInfo> entityTypeToEntityInfo;
@@ -80,35 +84,49 @@ public class Mappings {
         return (EntityDataAccessor<T>) new EntityDataAccessor<>(value.id, serializer);
     }
 
-    public static int getNetworkId(VirtualEntityType type){
+    public static int getNetworkId(VirtualEntityType type) {
         EntityInfo entityInfo = instance.entityTypeToEntityInfo.get(type);
-        if (entityInfo == null){
+        if (entityInfo == null) {
             throw new IllegalStateException("Has no EntityInfo for type " + type + " Version: " + Version.VERSION);
         }
         return entityInfo.networkId;
     }
-    public static PacketType getSpawnPacket(VirtualEntityType type){
+
+    public static PacketType getSpawnPacket(VirtualEntityType type) {
         EntityInfo entityInfo = instance.entityTypeToEntityInfo.get(type);
-        if (entityInfo == null){
+        if (entityInfo == null) {
             throw new IllegalStateException("Has no EntityInfo for type " + type + " Version: " + Version.VERSION);
         }
         return entityInfo.spawnPacket;
     }
 
-    public static int getPacketId(PacketType packetType){
+    public static int getPacketId(PacketType packetType) {
         Integer integer = instance.packetToId.get(packetType);
-        if (integer == null){
+        if (integer == null) {
             throw new IllegalStateException("Has no packet id for packet " + packetType + " Version: " + Version.VERSION);
         }
         return integer;
     }
 
     static {
-        Plugin plugin = ((PluginClassLoader) Mappings.class.getClassLoader()).getPlugin();
-        var in = plugin.getResource("entity/" + Version.VERSION + "/mappings.json");
-        if (in == null) {
-            throw new RuntimeException("Could not find mappings file for version " + Version.VERSION);
+       final InputStream in;
+        File file = new File("src/test/resources/mappings.json");
+        if (file.exists()) {
+            LOGGER.info("Using test file mappings");
+            try {
+                in = new FileInputStream(file);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            Plugin plugin = ((PluginClassLoader) Mappings.class.getClassLoader()).getPlugin();
+            in = plugin.getResource("entity/" + Version.VERSION + "/mappings.json");
+            if (in == null) {
+                throw new RuntimeException("Could not find mappings file for version " + Version.VERSION);
+            }
         }
+
+
         try (var reader = new InputStreamReader(in)) {
             JsonParser jsonParser = new JsonParser();
             instance = CODEC.decode(JsonOps.INSTANCE, jsonParser.parse(reader)).getOrThrow().getFirst();

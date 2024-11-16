@@ -15,7 +15,8 @@ public class TeleportEntityPacket extends Packet {
     }
 
     @Override
-    protected void write(ByteBuf byteBuf) {
+    public void write(ByteBuf byteBuf) {
+        // https://wiki.vg/index.php?title=Protocol&oldid=16681#Entity_Teleport
         ByteBuffCodecs.VAR_INT.accept(Mappings.getPacketId(PacketType.TELEPORT_ENTITY_PACKET), byteBuf);
         ByteBuffCodecs.VAR_INT.accept(virtualEntity.getId(), byteBuf);
         byteBuf.writeDouble(virtualEntity.getPos().x);

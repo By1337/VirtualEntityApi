@@ -16,7 +16,7 @@ public class RotateHeadPacket extends Packet {
     }
 
     @Override
-    protected void write(ByteBuf byteBuf) {
+    public void write(ByteBuf byteBuf) {
         ByteBuffCodecs.VAR_INT.accept(Mappings.getPacketId(PacketType.ROTATE_HEAD_PACKET), byteBuf);
         ByteBuffCodecs.VAR_INT.accept(id, byteBuf);
         byteBuf.writeByte(yHeadRot);

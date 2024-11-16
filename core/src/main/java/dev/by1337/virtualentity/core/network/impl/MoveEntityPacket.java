@@ -17,7 +17,7 @@ public abstract class MoveEntityPacket extends Packet {
     }
 
     @Override
-    protected void write(ByteBuf byteBuf) {
+    public void write(ByteBuf byteBuf) {
         ByteBuffCodecs.VAR_INT.accept(Mappings.getPacketId(getPacketId()), byteBuf);
         ByteBuffCodecs.VAR_INT.accept(entity.getId(), byteBuf);
     }
@@ -31,7 +31,7 @@ public abstract class MoveEntityPacket extends Packet {
         }
 
         @Override
-        protected void write(ByteBuf byteBuf) {
+        public void write(ByteBuf byteBuf) {
             super.write(byteBuf);
             byteBuf.writeByte(entity.yaw());
             byteBuf.writeByte(entity.pitch());
@@ -52,7 +52,7 @@ public abstract class MoveEntityPacket extends Packet {
 
 
         @Override
-        protected void write(ByteBuf byteBuf) {
+        public void write(ByteBuf byteBuf) {
             super.write(byteBuf);
             // https://wiki.vg/Protocol#Update_Entity_Position
             Vec3d deltaD = entity.getPos().mul(4096).sub(entity.getOldPos().mul(4096));
@@ -77,9 +77,9 @@ public abstract class MoveEntityPacket extends Packet {
 
 
         @Override
-        protected void write(ByteBuf byteBuf) {
+        public void write(ByteBuf byteBuf) {
             super.write(byteBuf);
-            // https://wiki.vg/Protocol#Update_Entity_Position_and_Rotation
+            // https://wiki.vg/index.php?title=Protocol&oldid=16681#Entity_Position_and_Rotation
             Vec3d deltaD = entity.getPos().mul(4096).sub(entity.getOldPos().mul(4096));
             Vec3s delta = new Vec3s(deltaD.x, deltaD.y, deltaD.z);
             byteBuf.writeShort(delta.x);

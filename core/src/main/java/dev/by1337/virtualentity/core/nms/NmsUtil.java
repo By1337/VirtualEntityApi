@@ -3,6 +3,7 @@ package dev.by1337.virtualentity.core.nms;
 import dev.by1337.virtualentity.api.particles.ParticleOptions;
 import dev.by1337.virtualentity.core.annotations.ASM;
 import io.netty.buffer.ByteBuf;
+import io.netty.channel.Channel;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -22,8 +23,8 @@ public class NmsUtil {
         accessor.writeItemStack(itemStack, b);
     }
 
-    public static void send(Player player, ByteBuf byteBuf) {
-        accessor.send(player, byteBuf);
+    public static Channel getChannel(Player player) {
+        return accessor.getChannel(player);
     }
 
     private interface NmsAccessor {
@@ -32,7 +33,8 @@ public class NmsUtil {
         void writeParticleOptions(ParticleOptions<?> particleOptions, ByteBuf b);
 
         void writeItemStack(ItemStack itemStack, ByteBuf b);
-        void send(Player player, ByteBuf byteBuf);
+
+        Channel getChannel(Player player);
     }
 
     private static class NmsAccessorV1_16_5 implements NmsAccessor {
@@ -51,7 +53,7 @@ public class NmsUtil {
                         ireturn
                     """;
             System.out.println(asm);
-            return 0;
+            throw new IllegalStateException("ASM did not apply!");
         }
 
         @Override
@@ -64,9 +66,9 @@ public class NmsUtil {
             String asm = """
                     A:
                         aload 1
-                        invokevirtual dev/by1337/virtualentity/api/ParticleOptions particle ()Lorg/bukkit/Particle;
+                        invokevirtual dev/by1337/virtualentity/api/particles/ParticleOptions particle ()Lorg/bukkit/Particle;
                         aload 1
-                        invokevirtual dev/by1337/virtualentity/api/ParticleOptions value ()Ljava/lang/Object;
+                        invokevirtual dev/by1337/virtualentity/api/particles/ParticleOptions value ()Ljava/lang/Object;
                         invokestatic org/bukkit/craftbukkit/v1_16_R3/CraftParticle toNMS (Lorg/bukkit/Particle;Ljava/lang/Object;)Lnet/minecraft/server/v1_16_R3/ParticleParam;
                         astore 3
                     B:
@@ -89,6 +91,7 @@ public class NmsUtil {
                         return
                     """;
             System.out.println(asm);
+            throw new IllegalStateException("ASM did not apply!");
         }
 
         @Override
@@ -110,13 +113,14 @@ public class NmsUtil {
                         return
                     """;
             System.out.println(asm);
+            throw new IllegalStateException("ASM did not apply!");
         }
 
         @Override
         @ASM
-        public void send(Player player, ByteBuf byteBuf) {
+        public Channel getChannel(Player player) {
             // source
-            // ((CraftPlayer)player).getHandle().playerConnection.networkManager.channel.writeAndFlush((Object)byteBuf);
+            // return ((CraftPlayer) player).getHandle().playerConnection.networkManager.channel;
             String asm = """
                     A:
                         aload 1
@@ -125,13 +129,11 @@ public class NmsUtil {
                         getfield net/minecraft/server/v1_16_R3/EntityPlayer playerConnection Lnet/minecraft/server/v1_16_R3/PlayerConnection;
                         getfield net/minecraft/server/v1_16_R3/PlayerConnection networkManager Lnet/minecraft/server/v1_16_R3/NetworkManager;
                         getfield net/minecraft/server/v1_16_R3/NetworkManager channel Lio/netty/channel/Channel;
-                        aload 2
-                        invokeinterface io/netty/channel/Channel writeAndFlush (Ljava/lang/Object;)Lio/netty/channel/ChannelFuture;
-                        pop
-                    B:
-                        return
+                        areturn
                     """;
             System.out.println(asm);
+            throw new IllegalStateException("ASM did not apply!");
         }
+
     }
 }

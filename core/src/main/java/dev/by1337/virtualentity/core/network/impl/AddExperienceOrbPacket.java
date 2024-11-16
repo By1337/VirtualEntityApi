@@ -16,7 +16,8 @@ public class AddExperienceOrbPacket extends Packet {
     }
 
     @Override
-    protected void write(ByteBuf byteBuf) {
+    public void write(ByteBuf byteBuf) {
+        // https://wiki.vg/index.php?title=Protocol&oldid=16681#Spawn_Experience_Orb
         ByteBuffCodecs.VAR_INT.accept(Mappings.getPacketId(PacketType.ADD_EXPERIENCE_ORB_PACKET), byteBuf);
         ByteBuffCodecs.VAR_INT.accept(virtualEntity.getId(), byteBuf);
         byteBuf.writeDouble(virtualEntity.getPos().x);

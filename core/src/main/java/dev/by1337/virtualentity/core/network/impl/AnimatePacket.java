@@ -17,7 +17,8 @@ public class AnimatePacket extends Packet {
     }
 
     @Override
-    protected void write(ByteBuf byteBuf) {
+    public void write(ByteBuf byteBuf) {
+        // https://wiki.vg/index.php?title=Protocol&oldid=16681#Entity_Animation_.28clientbound.29
         ByteBuffCodecs.VAR_INT.accept(Mappings.getPacketId(PacketType.ANIMATE_PACKET), byteBuf);
         ByteBuffCodecs.VAR_INT.accept(id, byteBuf);
         byteBuf.writeByte(animation.ordinal());

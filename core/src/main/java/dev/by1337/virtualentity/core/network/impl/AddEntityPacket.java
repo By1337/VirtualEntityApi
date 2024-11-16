@@ -15,7 +15,8 @@ public class AddEntityPacket extends Packet {
     }
 
     @Override
-    protected void write(ByteBuf byteBuf) {
+    public void write(ByteBuf byteBuf) {
+        // https://wiki.vg/index.php?title=Protocol&oldid=16681#Spawn_Entity
         ByteBuffCodecs.VAR_INT.accept(Mappings.getPacketId(PacketType.ADD_ENTITY_PACKET), byteBuf);
         ByteBuffCodecs.VAR_INT.accept(virtualEntity.getId(), byteBuf);
         ByteBuffCodecs.UUID_CODEC.accept(virtualEntity.getUuid(), byteBuf);
@@ -23,8 +24,8 @@ public class AddEntityPacket extends Packet {
         byteBuf.writeDouble(virtualEntity.getPos().x);
         byteBuf.writeDouble(virtualEntity.getPos().y);
         byteBuf.writeDouble(virtualEntity.getPos().z);
-        byteBuf.writeByte(virtualEntity.yaw());
         byteBuf.writeByte(virtualEntity.pitch());
+        byteBuf.writeByte(virtualEntity.yaw());
         byteBuf.writeInt(virtualEntity.getCustomEntityData());
         byteBuf.writeShort(0);
         byteBuf.writeShort(0);

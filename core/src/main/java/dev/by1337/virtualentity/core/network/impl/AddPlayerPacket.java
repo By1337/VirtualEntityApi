@@ -15,7 +15,8 @@ public class AddPlayerPacket extends Packet {
     }
 
     @Override
-    protected void write(ByteBuf byteBuf) {
+    public void write(ByteBuf byteBuf) {
+        //https://wiki.vg/index.php?title=Protocol&oldid=16681#Spawn_Player
         ByteBuffCodecs.VAR_INT.accept(Mappings.getPacketId(PacketType.ADD_PLAYER_PACKET), byteBuf);
         ByteBuffCodecs.VAR_INT.accept(virtualEntity.getId(), byteBuf);
         ByteBuffCodecs.UUID_CODEC.accept(virtualEntity.getUuid(), byteBuf);
