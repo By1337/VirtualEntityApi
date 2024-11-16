@@ -32,5 +32,6 @@ public class VirtualEntityRegistrar {
         factory.register(VirtualEntityType.COW, VirtualCowImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.DOLPHIN, VirtualDolphinImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.FOX, VirtualFoxImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.IRON_GOLEM, VirtualIronGolemImpl::new, Version.V1_16_5);
     }
 }
