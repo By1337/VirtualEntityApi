@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Map;
 
 public class SetEquipmentPacket extends Packet {
+    private static final int PACKET_ID = Mappings.getPacketId(PacketType.SET_EQUIPMENT_PACKET);
     private final int id;
     private final Map<EquipmentSlot, ItemStack> items;
 
@@ -21,7 +22,7 @@ public class SetEquipmentPacket extends Packet {
 
     @Override
     public void write(ByteBuf byteBuf) {
-        ByteBuffCodecs.VAR_INT.accept(Mappings.getPacketId(PacketType.SET_EQUIPMENT_PACKET), byteBuf);
+        ByteBuffCodecs.VAR_INT.accept(PACKET_ID, byteBuf);
         ByteBuffCodecs.VAR_INT.accept(id, byteBuf);
 
         var iterator = items.entrySet().iterator();

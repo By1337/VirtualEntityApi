@@ -12,6 +12,7 @@ import io.netty.buffer.ByteBuf;
 import java.util.List;
 
 public class SetEntityDataPacket extends Packet {
+    private static final int PACKET_ID = Mappings.getPacketId(PacketType.SET_ENTITY_DATA_PACKET);
     private final int id;
     private final List<SynchedEntityData.DataItem<?>> dataItems;
 
@@ -22,7 +23,7 @@ public class SetEntityDataPacket extends Packet {
 
     @Override
     public void write(ByteBuf byteBuf) {
-        ByteBuffCodecs.VAR_INT.accept(Mappings.getPacketId(PacketType.SET_ENTITY_DATA_PACKET), byteBuf);
+        ByteBuffCodecs.VAR_INT.accept(PACKET_ID, byteBuf);
         ByteBuffCodecs.VAR_INT.accept(id, byteBuf);
 
         for (SynchedEntityData.DataItem<?> dataItem : dataItems) {

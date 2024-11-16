@@ -18,13 +18,14 @@ public abstract class MoveEntityPacket extends Packet {
 
     @Override
     public void write(ByteBuf byteBuf) {
-        ByteBuffCodecs.VAR_INT.accept(Mappings.getPacketId(getPacketId()), byteBuf);
+        ByteBuffCodecs.VAR_INT.accept(getPacketId(), byteBuf);
         ByteBuffCodecs.VAR_INT.accept(entity.getId(), byteBuf);
     }
 
-    protected abstract PacketType getPacketId();
+    protected abstract int getPacketId();
 
     public static class Rot extends MoveEntityPacket {
+        private static final int PACKET_ID = Mappings.getPacketId(PacketType.MOVE_ENTITY_PACKET_ROT);
 
         public Rot(VirtualEntity entity) {
             super(entity);
@@ -39,12 +40,13 @@ public abstract class MoveEntityPacket extends Packet {
         }
 
         @Override
-        protected PacketType getPacketId() {
-            return PacketType.MOVE_ENTITY_PACKET_ROT;
+        protected int getPacketId() {
+            return PACKET_ID;
         }
     }
 
     public static class Pos extends MoveEntityPacket {
+        private static final int PACKET_ID = Mappings.getPacketId(PacketType.MOVE_ENTITY_PACKET_POS);
 
         public Pos(VirtualEntity entity) {
             super(entity);
@@ -64,12 +66,13 @@ public abstract class MoveEntityPacket extends Packet {
         }
 
         @Override
-        protected PacketType getPacketId() {
-            return PacketType.MOVE_ENTITY_PACKET_POS;
+        protected int getPacketId() {
+            return PACKET_ID;
         }
     }
 
     public static class PosRot extends MoveEntityPacket {
+        private static final int PACKET_ID = Mappings.getPacketId(PacketType.MOVE_ENTITY_PACKET_POS_ROT);
 
         public PosRot(VirtualEntity entity) {
             super(entity);
@@ -91,8 +94,8 @@ public abstract class MoveEntityPacket extends Packet {
         }
 
         @Override
-        protected PacketType getPacketId() {
-            return PacketType.MOVE_ENTITY_PACKET_POS_ROT;
+        protected int getPacketId() {
+            return PACKET_ID;
         }
     }
 }

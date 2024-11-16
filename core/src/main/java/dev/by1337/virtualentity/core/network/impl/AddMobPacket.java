@@ -9,6 +9,7 @@ import dev.by1337.virtualentity.core.network.PacketType;
 import io.netty.buffer.ByteBuf;
 
 public class AddMobPacket extends Packet {
+    private static final int PACKET_ID = Mappings.getPacketId(PacketType.ADD_MOB_PACKET);
     private final VirtualEntity virtualEntity;
 
     public AddMobPacket(VirtualEntity virtualEntity) {
@@ -18,7 +19,7 @@ public class AddMobPacket extends Packet {
     @Override
     public void write(ByteBuf byteBuf) {
         // https://wiki.vg/index.php?title=Protocol&oldid=16681#Spawn_Living_Entity
-        ByteBuffUtil.writeVarInt(Mappings.getPacketId(PacketType.ADD_MOB_PACKET), byteBuf);
+        ByteBuffUtil.writeVarInt(PACKET_ID, byteBuf);
         ByteBuffUtil.writeVarInt(virtualEntity.getId(), byteBuf);
         ByteBuffUtil.writeUUID(virtualEntity.getUuid(), byteBuf);
         ByteBuffUtil.writeVarInt(Mappings.getNetworkId(virtualEntity.getType()), byteBuf);

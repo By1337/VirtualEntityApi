@@ -8,6 +8,7 @@ import dev.by1337.virtualentity.core.network.PacketType;
 import io.netty.buffer.ByteBuf;
 
 public class AddEntityPacket extends Packet {
+    private static final int PACKET_ID = Mappings.getPacketId(PacketType.ADD_ENTITY_PACKET);
     private final VirtualEntity virtualEntity;
 
     public AddEntityPacket(VirtualEntity virtualEntity) {
@@ -17,7 +18,7 @@ public class AddEntityPacket extends Packet {
     @Override
     public void write(ByteBuf byteBuf) {
         // https://wiki.vg/index.php?title=Protocol&oldid=16681#Spawn_Entity
-        ByteBuffCodecs.VAR_INT.accept(Mappings.getPacketId(PacketType.ADD_ENTITY_PACKET), byteBuf);
+        ByteBuffCodecs.VAR_INT.accept(PACKET_ID, byteBuf);
         ByteBuffCodecs.VAR_INT.accept(virtualEntity.getId(), byteBuf);
         ByteBuffCodecs.UUID_CODEC.accept(virtualEntity.getUuid(), byteBuf);
         ByteBuffCodecs.VAR_INT.accept(Mappings.getNetworkId(virtualEntity.getType()), byteBuf);

@@ -7,6 +7,7 @@ import dev.by1337.virtualentity.core.network.PacketType;
 import io.netty.buffer.ByteBuf;
 
 public class RotateHeadPacket extends Packet {
+    private static final int PACKET_ID = Mappings.getPacketId(PacketType.ROTATE_HEAD_PACKET);
     private final int id;
     private final byte yHeadRot;
 
@@ -17,7 +18,7 @@ public class RotateHeadPacket extends Packet {
 
     @Override
     public void write(ByteBuf byteBuf) {
-        ByteBuffCodecs.VAR_INT.accept(Mappings.getPacketId(PacketType.ROTATE_HEAD_PACKET), byteBuf);
+        ByteBuffCodecs.VAR_INT.accept(PACKET_ID, byteBuf);
         ByteBuffCodecs.VAR_INT.accept(id, byteBuf);
         byteBuf.writeByte(yHeadRot);
     }
