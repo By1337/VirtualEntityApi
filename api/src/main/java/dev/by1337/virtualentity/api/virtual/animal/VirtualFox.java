@@ -1,12 +1,10 @@
 package dev.by1337.virtualentity.api.virtual.animal;
 
-import com.google.common.collect.Lists;
 import dev.by1337.virtualentity.api.entity.FoxType;
 import dev.by1337.virtualentity.api.virtual.VirtualAgableMob;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface VirtualFox extends VirtualAgableMob {
@@ -14,33 +12,9 @@ public interface VirtualFox extends VirtualAgableMob {
 
     void setFoxType(FoxType type);
 
-    default List<UUID> getTrustedUUIDs() {
-        List<UUID> var1 = Lists.newArrayList();
-        var1.add(this.entityData.get(VirtualFoxImpl.DATA_TRUSTED_ID_0).orElse(null));
-        var1.add(this.entityData.get(VirtualFoxImpl.DATA_TRUSTED_ID_1).orElse(null));
-        return var1;
-    }
+    List<UUID> getTrustedUUIDs();
 
-    default void addTrustedUUID(@Nullable UUID uuid) {
-        if (this.entityData.get(VirtualFoxImpl.DATA_TRUSTED_ID_0).isPresent()) {
-            this.entityData.set(VirtualFoxImpl.DATA_TRUSTED_ID_1, Optional.ofNullable(uuid));
-        } else {
-            this.entityData.set(VirtualFoxImpl.DATA_TRUSTED_ID_0, Optional.ofNullable(uuid));
-        }
-    }
-
-    default void setFlag(int mask, boolean flag) {
-        if (flag) {
-            this.entityData.set(VirtualFoxImpl.DATA_FLAGS_ID, (byte) (this.entityData.get(VirtualFoxImpl.DATA_FLAGS_ID) | mask));
-        } else {
-            this.entityData.set(VirtualFoxImpl.DATA_FLAGS_ID, (byte) (this.entityData.get(VirtualFoxImpl.DATA_FLAGS_ID) & ~mask));
-        }
-
-    }
-
-    default boolean getFlag(int mask) {
-        return (this.entityData.get(VirtualFoxImpl.DATA_FLAGS_ID) & mask) != 0;
-    }
+    void addTrustedUUID(@Nullable UUID uuid);
 
     boolean isSitting();
 
@@ -48,23 +22,15 @@ public interface VirtualFox extends VirtualAgableMob {
 
     boolean isFaceplanted();
 
-    default void setFaceplanted(boolean flag) {
-        this.setFlag(64, flag);
-    }
+    void setFaceplanted(boolean flag);
 
-    default boolean isDefending() {
-        return this.getFlag(128);
-    }
+    boolean isDefending();
 
-    default void setDefending(boolean flag) {
-        this.setFlag(128, flag);
-    }
+    void setDefending(boolean flag);
 
     boolean isSleeping();
 
-    default void setSleeping(boolean flag) {
-        this.setFlag(32, flag);
-    }
+    void setSleeping(boolean flag);
 
     boolean isPouncing();
 

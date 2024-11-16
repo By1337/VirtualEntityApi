@@ -1,11 +1,14 @@
 package dev.by1337.virtualentity.core.virtual.animal;
 
+import com.google.common.collect.Lists;
 import dev.by1337.virtualentity.api.entity.FoxType;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
 import dev.by1337.virtualentity.core.virtual.VirtualAgableMobImpl;
 
+import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -25,6 +28,47 @@ public class VirtualFoxImpl extends VirtualAgableMobImpl implements dev.by1337.v
         this.entityData.define(DATA_TRUSTED_ID_1, Optional.empty());
         this.entityData.define(DATA_TYPE_ID, 0);
         this.entityData.define(DATA_FLAGS_ID, (byte) 0);
+    }
+
+    public List<UUID> getTrustedUUIDs() {
+        List<UUID> var1 = Lists.newArrayList();
+        var1.add(this.entityData.get(VirtualFoxImpl.DATA_TRUSTED_ID_0).orElse(null));
+        var1.add(this.entityData.get(VirtualFoxImpl.DATA_TRUSTED_ID_1).orElse(null));
+        return var1;
+    }
+
+    public void addTrustedUUID(@Nullable UUID uuid) {
+        if (this.entityData.get(VirtualFoxImpl.DATA_TRUSTED_ID_0).isPresent()) {
+            this.entityData.set(VirtualFoxImpl.DATA_TRUSTED_ID_1, Optional.ofNullable(uuid));
+        } else {
+            this.entityData.set(VirtualFoxImpl.DATA_TRUSTED_ID_0, Optional.ofNullable(uuid));
+        }
+    }
+
+    private void setFlag(int mask, boolean flag) {
+        if (flag) {
+            this.entityData.set(VirtualFoxImpl.DATA_FLAGS_ID, (byte) (this.entityData.get(VirtualFoxImpl.DATA_FLAGS_ID) | mask));
+        } else {
+            this.entityData.set(VirtualFoxImpl.DATA_FLAGS_ID, (byte) (this.entityData.get(VirtualFoxImpl.DATA_FLAGS_ID) & ~mask));
+        }
+    }
+    private boolean getFlag(int mask) {
+        return (this.entityData.get(VirtualFoxImpl.DATA_FLAGS_ID) & mask) != 0;
+    }
+    public void setFaceplanted(boolean flag) {
+        this.setFlag(64, flag);
+    }
+
+    public boolean isDefending() {
+        return this.getFlag(128);
+    }
+
+    public void setDefending(boolean flag) {
+        this.setFlag(128, flag);
+    }
+
+    public void setSleeping(boolean flag) {
+        this.setFlag(32, flag);
     }
 
     @Override
