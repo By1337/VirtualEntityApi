@@ -5,6 +5,7 @@ import dev.by1337.virtualentity.api.entity.EquipmentSlot;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.api.virtual.VirtualEntity;
 import dev.by1337.virtualentity.api.virtual.VirtualEntityController;
+import dev.by1337.virtualentity.api.virtual.VirtualLivingEntity;
 import dev.by1337.virtualentity.core.entity.EntityPosition;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.network.Packet;
@@ -12,6 +13,7 @@ import dev.by1337.virtualentity.core.network.PacketType;
 import dev.by1337.virtualentity.core.network.impl.*;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
 import dev.by1337.virtualentity.core.syncher.SynchedEntityData;
+import dev.by1337.virtualentity.core.util.ConcurrentPlayerHashSet;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -125,6 +127,9 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
         } else if (position.needPosUpdate() && position.needRotUpdate()) {
             Packet packet = new MoveEntityPacket.PosRot(virtualEntity);
             broadcast(packet);
+            if (this instanceof VirtualLivingEntity){
+                broadcast(new RotateHeadPacket(id, yaw())); // не для всех ентити работает, но будем пытаться на всех
+            }
             position.sync();
         } else if (position.needPosUpdate()) {
             Packet packet = new MoveEntityPacket.Pos(virtualEntity);
@@ -133,6 +138,9 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
         } else {
             Packet packet = new MoveEntityPacket.Rot(virtualEntity);
             broadcast(packet);
+            if (this instanceof VirtualLivingEntity){
+                broadcast(new RotateHeadPacket(id, yaw())); // не для всех ентити работает, но будем пытаться на всех
+            }
             position.sync();
         }
         rebuildSpawnPacket();

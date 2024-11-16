@@ -1,4 +1,4 @@
-package dev.by1337.virtualentity.core.virtual;
+package dev.by1337.virtualentity.core.util;
 
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -133,6 +133,19 @@ public class ConcurrentPlayerHashSet implements Set<Player> {
         try (var ignored = new AutoCloseableLock()) {
             map.clear();
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ConcurrentPlayerHashSet players = (ConcurrentPlayerHashSet) o;
+        return Objects.equals(map, players.map);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(map);
     }
 
     private class AutoCloseableLock implements AutoCloseable {
