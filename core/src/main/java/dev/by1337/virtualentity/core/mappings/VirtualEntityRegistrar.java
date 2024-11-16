@@ -12,6 +12,7 @@ import dev.by1337.virtualentity.core.virtual.item.*;
 import dev.by1337.virtualentity.core.virtual.monster.*;
 import dev.by1337.virtualentity.core.virtual.monster.piglin.*;
 import dev.by1337.virtualentity.core.virtual.monster.hoglin.*;
+import dev.by1337.virtualentity.core.virtual.npc.*;
 import org.by1337.blib.util.Version;
 
 public class VirtualEntityRegistrar {
@@ -91,5 +92,7 @@ public class VirtualEntityRegistrar {
         factory.register(VirtualEntityType.PIGLIN_BRUTE, VirtualPiglinBruteImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.PIGLIN, VirtualPiglinImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.HOGLIN, VirtualHoglinImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.VILLAGER, VirtualVillagerImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.WANDERING_TRADER, VirtualWanderingTraderImpl::new, Version.V1_16_5);
     }
 }
