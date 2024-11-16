@@ -140,6 +140,13 @@ public class ConcurrentIdentityHashSet<T> implements Set<T> {
         return Objects.hashCode(source);
     }
 
+    @Override
+    public String toString() {
+        return "ConcurrentIdentityHashSet{" +
+                "source=" + source +
+                '}';
+    }
+
     private class AutoCloseableLock implements AutoCloseable {
         public AutoCloseableLock() {
             lock.lock();

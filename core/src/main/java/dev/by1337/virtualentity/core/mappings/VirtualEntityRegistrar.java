@@ -132,5 +132,6 @@ public class VirtualEntityRegistrar {
         factory.register(VirtualEntityType.END_CRYSTAL, VirtualEndCrystalImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.ENDER_DRAGON, VirtualEnderDragonImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.WITHER, VirtualWitherBossImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.EXPERIENCE_ORB, VirtualExperienceOrbImpl::new, Version.V1_16_5);
     }
 }

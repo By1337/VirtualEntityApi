@@ -4,11 +4,14 @@ import dev.by1337.virtualentity.api.VirtualEntityApi;
 import dev.by1337.virtualentity.api.entity.EquipmentSlot;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.api.tracker.PlayerTracker;
+import dev.by1337.virtualentity.api.virtual.VirtualEntity;
 import dev.by1337.virtualentity.api.virtual.decoration.VirtualArmorStand;
-import dev.by1337.virtualentity.api.virtual.monster.VirtualCreeper;
 import dev.by1337.virtualentity.api.virtual.item.VirtualItem;
+import dev.by1337.virtualentity.api.virtual.monster.VirtualCreeper;
 import dev.by1337.virtualentity.core.mappings.VirtualEntityRegistrar;
 import dev.by1337.virtualentity.core.network.Packet;
+import dev.by1337.virtualentity.core.virtual.monster.VirtualSkeletonImpl;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.command.Command;
@@ -32,13 +35,36 @@ public class Main extends JavaPlugin {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
+        Player player = (Player) sender;
+
         if (args.length == 1) {
             if (args[0].equals("debug")) {
                 Packet.debug = !Packet.debug;
                 return true;
+            } else if (args[0].equals("all")) {
+                PlayerTracker tracker = new PlayerTracker(player.getWorld(), new Vec3d(player.getLocation()));
+                Vec3d pos = new Vec3d(player.getLocation());
+                for (VirtualEntityType value : VirtualEntityType.values()) {
+                    if (value == VirtualEntityType.PAINTING) continue;
+                    try {
+                        VirtualEntity entity = VirtualEntityApi.getFactory().create(value);
+                        entity.setCustomNameVisible(true);
+                        entity.setCustomName(Component.text(value.name()));
+                        entity.setNoGravity(true);
+                        entity.setPos(pos);
+                        tracker.addEntity(entity);
+                        pos = pos.add(0, 0, 2);
+                    }catch (Throwable t){
+                        System.out.println(value);
+                        t.printStackTrace();
+                    }
+                }
+                tracker.tick();
+                getServer().getScheduler().runTaskLater(this, tracker::removeAll, 2000);
+                return true;
             }
         }
-        Player player = (Player) sender;
+
 
         PlayerTracker tracker = new PlayerTracker(player.getWorld(), new Vec3d(player.getLocation()));
 

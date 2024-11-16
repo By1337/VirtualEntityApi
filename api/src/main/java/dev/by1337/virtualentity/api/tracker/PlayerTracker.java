@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 import org.by1337.blib.geom.Vec3d;
 import org.by1337.blib.util.collection.IdentityHashSet;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -22,6 +21,7 @@ public class PlayerTracker {
     public PlayerTracker(final World world, Vec3d center) {
         this(world, Collections.emptyList(), center, 30);
     }
+
     public PlayerTracker(final World world, final VirtualEntity entity, Vec3d center) {
         this(world, List.of(entity), center, 30);
     }
@@ -48,7 +48,7 @@ public class PlayerTracker {
         entities.forEach(e -> e.tick(actualViewers));
     }
 
-    public void removeAll(){
+    public void removeAll() {
         entities.forEach(e -> e.tick(Collections.emptySet()));
         entities.clear();
     }
