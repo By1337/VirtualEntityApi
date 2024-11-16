@@ -14,6 +14,7 @@ public class VirtualAbstractArrowImpl extends VirtualEntityImpl implements dev.b
     }
 
     protected void defineSynchedData() {
+        super.defineSynchedData();
         this.entityData.define(ID_FLAGS, (byte) 0);
         this.entityData.define(PIERCE_LEVEL, (byte) 0);
     }

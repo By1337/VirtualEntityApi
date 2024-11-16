@@ -19,10 +19,11 @@ public class VirtualAreaEffectCloudImpl extends VirtualEntityImpl implements dev
     }
 
     protected void defineSynchedData() {
+        super.defineSynchedData();
         this.entityData.define(DATA_COLOR, 0);
         this.entityData.define(DATA_RADIUS, 0.5F);
         this.entityData.define(DATA_WAITING, false);
-        this.entityData.define(DATA_PARTICLE, new ParticleOptions<>(Particle.SPELL, null));
+        this.entityData.define(DATA_PARTICLE, new ParticleOptions<>(null, Particle.SPELL));
     }
 
     /**

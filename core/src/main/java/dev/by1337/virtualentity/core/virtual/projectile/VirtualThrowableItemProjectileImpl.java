@@ -15,6 +15,7 @@ public abstract class VirtualThrowableItemProjectileImpl extends VirtualEntityIm
     }
 
     protected void defineSynchedData() {
+        super.defineSynchedData();
         this.entityData.define(DATA_ITEM_STACK, new ItemStack(Material.AIR));
     }
 

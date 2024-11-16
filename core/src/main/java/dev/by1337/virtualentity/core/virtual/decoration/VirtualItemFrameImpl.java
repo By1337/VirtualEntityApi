@@ -16,6 +16,7 @@ public class VirtualItemFrameImpl extends VirtualEntityImpl implements dev.by133
     }
 
     protected void defineSynchedData() {
+        super.defineSynchedData();
         this.entityData.define(DATA_ITEM, new ItemStack(Material.AIR));
         this.entityData.define(DATA_ROTATION, 0);
     }

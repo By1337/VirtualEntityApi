@@ -13,6 +13,7 @@ public class VirtualWitherSkullImpl extends VirtualEntityImpl implements dev.by1
     }
 
     protected void defineSynchedData() {
+        super.defineSynchedData();
         this.entityData.define(DATA_DANGEROUS, false);
     }
 

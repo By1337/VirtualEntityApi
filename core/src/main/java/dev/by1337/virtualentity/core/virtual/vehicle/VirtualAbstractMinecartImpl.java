@@ -22,6 +22,7 @@ public abstract class VirtualAbstractMinecartImpl extends VirtualEntityImpl impl
     }
 
     protected void defineSynchedData() {
+        super.defineSynchedData();
         this.entityData.define(DATA_ID_HURT, 0);
         this.entityData.define(DATA_ID_HURTDIR, 1);
         this.entityData.define(DATA_ID_DAMAGE, 0.0F);

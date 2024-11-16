@@ -25,6 +25,7 @@ public abstract class VirtualFireballImpl extends VirtualEntityImpl implements d
     }
 
     protected void defineSynchedData() {
+        super.defineSynchedData();
         this.entityData.define(DATA_ITEM_STACK, new ItemStack(Material.AIR));
     }
 

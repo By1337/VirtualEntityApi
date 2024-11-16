@@ -18,6 +18,7 @@ public class VirtualFireworkRocketEntityImpl extends VirtualEntityImpl implement
         super(VirtualEntityType.FIREWORK_ROCKET);
     }
     protected void defineSynchedData() {
+        super.defineSynchedData();
         this.entityData.define(DATA_ID_FIREWORKS_ITEM, new ItemStack(Material.AIR));
         this.entityData.define(DATA_ATTACHED_TO_TARGET, OptionalInt.empty());
         this.entityData.define(DATA_SHOT_AT_ANGLE, false);

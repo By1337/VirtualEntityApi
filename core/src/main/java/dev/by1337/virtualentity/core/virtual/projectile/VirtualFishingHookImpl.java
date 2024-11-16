@@ -14,6 +14,7 @@ public class VirtualFishingHookImpl extends VirtualEntityImpl implements dev.by1
     }
 
     protected void defineSynchedData() {
+        super.defineSynchedData();
         this.entityData.define(DATA_HOOKED_ENTITY, 0);
         this.entityData.define(DATA_BITING, false);
     }

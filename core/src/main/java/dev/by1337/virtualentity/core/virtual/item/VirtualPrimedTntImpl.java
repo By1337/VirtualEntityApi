@@ -13,6 +13,7 @@ public class VirtualPrimedTntImpl extends VirtualEntityImpl implements dev.by133
     }
 
     protected void defineSynchedData() {
+        super.defineSynchedData();
         this.entityData.define(DATA_FUSE_ID, 80);
     }
 

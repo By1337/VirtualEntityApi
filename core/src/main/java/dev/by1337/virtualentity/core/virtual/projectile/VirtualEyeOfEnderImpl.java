@@ -25,6 +25,7 @@ public class VirtualEyeOfEnderImpl extends VirtualEntityImpl implements dev.by13
     }
 
     protected void defineSynchedData() {
+        super.defineSynchedData();
         this.entityData.define(DATA_ITEM_STACK, new ItemStack(Material.AIR));
     }
 

@@ -16,6 +16,8 @@ import dev.by1337.virtualentity.core.virtual.npc.*;
 import dev.by1337.virtualentity.core.virtual.player.*;
 import dev.by1337.virtualentity.core.virtual.projectile.*;
 import dev.by1337.virtualentity.core.virtual.vehicle.*;
+import dev.by1337.virtualentity.core.virtual.boss.enderdragon.*;
+import dev.by1337.virtualentity.core.virtual.boss.wither.*;
 import org.by1337.blib.util.Version;
 
 public class VirtualEntityRegistrar {
@@ -126,5 +128,9 @@ public class VirtualEntityRegistrar {
         factory.register(VirtualEntityType.TNT_MINECART, VirtualMinecartTNTImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.AREA_EFFECT_CLOUD, VirtualAreaEffectCloudImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.LIGHTNING_BOLT, VirtualLightningBoltImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.WITHER_SKELETON, VirtualWitherSkeletonImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.END_CRYSTAL, VirtualEndCrystalImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.ENDER_DRAGON, VirtualEnderDragonImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.WITHER, VirtualWitherBossImpl::new, Version.V1_16_5);
     }
 }

@@ -21,6 +21,7 @@ public class VirtualFallingBlockEntityImpl extends VirtualEntityImpl implements 
 
     @Override
     protected void defineSynchedData() {
+        super.defineSynchedData();
         this.entityData.define(DATA_START_POS, Vec3i.ZERO);
     }
 
