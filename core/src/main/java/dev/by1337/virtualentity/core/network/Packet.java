@@ -18,7 +18,7 @@ public abstract class Packet {
         ByteBuf byteBuf = channel.alloc().buffer();
         write(byteBuf);
         if (debug){
-            LOGGER.info("Send {} bytes {} to player {}", this.getClass(), byteBuf.readableBytes(), player.getName());
+            LOGGER.info("Send {} {} bytes to player {}", this.getClass(), byteBuf.readableBytes(), player.getName());
         }
         channel.write(byteBuf);
     }

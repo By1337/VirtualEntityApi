@@ -32,7 +32,7 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
 
     protected final SynchedEntityData entityData;
     private final VirtualEntityType type;
-    private final Set<Player> lastViewers = Collections.synchronizedSet(new IdentityHashSet<>());
+    private final Set<Player> lastViewers = new ConcurrentPlayerHashSet();
     private final Packet removePacket;
     private Packet allEntityData;
     private Packet equipmentPacket;
@@ -99,9 +99,7 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
             }
             lastViewers.remove(player);
         }
-        for (Player lastViewer : lastViewers) {
-            removePacket.send(lastViewer);
-        }
+        lastViewers.forEach(removePacket::send);
         lastViewers.clear();
         lastViewers.addAll(viewers);
     }
