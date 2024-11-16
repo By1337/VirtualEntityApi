@@ -15,5 +15,6 @@ public class VirtualEntityRegistrar {
         factory.register(VirtualEntityType.ARMOR_STAND, VirtualArmorStandImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.BAT, VirtualBatImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.BEE, VirtualBeeImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.CREEPER, VirtualCreeperImpl::new, Version.V1_16_5);
     }
 }
