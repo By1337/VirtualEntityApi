@@ -14,6 +14,7 @@ import dev.by1337.virtualentity.core.virtual.monster.piglin.*;
 import dev.by1337.virtualentity.core.virtual.monster.hoglin.*;
 import dev.by1337.virtualentity.core.virtual.npc.*;
 import dev.by1337.virtualentity.core.virtual.player.*;
+import dev.by1337.virtualentity.core.virtual.projectile.*;
 import org.by1337.blib.util.Version;
 
 public class VirtualEntityRegistrar {
@@ -96,5 +97,23 @@ public class VirtualEntityRegistrar {
         factory.register(VirtualEntityType.VILLAGER, VirtualVillagerImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.WANDERING_TRADER, VirtualWanderingTraderImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.PLAYER, VirtualPlayerImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.ARROW, VirtualArrowImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.DRAGON_FIREBALL, VirtualDragonFireballImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.EVOKER_FANGS, VirtualEvokerFangsImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.EYE_OF_ENDER, VirtualEyeOfEnderImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.FIREWORK_ROCKET, VirtualFireworkRocketEntityImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.FISHING_BOBBER, VirtualFishingHookImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.FIREBALL, VirtualLargeFireballImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.LLAMA_SPIT, VirtualLlamaSpitImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.SHULKER_BULLET, VirtualShulkerBulletImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.SMALL_FIREBALL, VirtualSmallFireballImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.SNOWBALL, VirtualSnowballImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.SPECTRAL_ARROW, VirtualSpectralArrowImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.EGG, VirtualThrownEggImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.ENDER_PEARL, VirtualThrownEnderpearlImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.EXPERIENCE_BOTTLE, VirtualThrownExperienceBottleImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.POTION, VirtualThrownPotionImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.TRIDENT, VirtualThrownTridentImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.WITHER_SKULL, VirtualWitherSkullImpl::new, Version.V1_16_5);
     }
 }
