@@ -20,5 +20,6 @@ public class VirtualEntityRegistrar {
         factory.register(VirtualEntityType.DROWNED, VirtualDrownedImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.GUARDIAN, VirtualGuardianImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.ITEM, VirtualItemImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.WITCH, VirtualWitchImpl::new, Version.V1_16_5);
     }
 }

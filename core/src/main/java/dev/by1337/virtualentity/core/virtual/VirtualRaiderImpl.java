@@ -1,0 +1,33 @@
+package dev.by1337.virtualentity.core.virtual;
+
+import dev.by1337.virtualentity.api.entity.VirtualEntityType;
+import dev.by1337.virtualentity.api.virtual.VirtualRaider;
+import dev.by1337.virtualentity.core.mappings.Mappings;
+import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
+
+public abstract class VirtualRaiderImpl extends VirtualMobImpl implements VirtualRaider {
+    private static final EntityDataAccessor<Boolean> IS_CELEBRATING;
+
+    protected VirtualRaiderImpl(VirtualEntityType type) {
+        super(type);
+    }
+
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(IS_CELEBRATING, false);
+    }
+
+    @Override
+    public void setCelebrating(boolean flag) {
+        this.entityData.set(IS_CELEBRATING, flag);
+    }
+
+    @Override
+    public boolean isCelebrating() {
+        return entityData.get(IS_CELEBRATING);
+    }
+
+    static {
+        IS_CELEBRATING = Mappings.findAccessor("Raider", "IS_CELEBRATING");
+    }
+}
