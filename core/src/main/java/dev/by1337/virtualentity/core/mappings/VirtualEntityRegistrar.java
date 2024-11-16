@@ -9,6 +9,9 @@ import dev.by1337.virtualentity.core.virtual.animal.*;
 import dev.by1337.virtualentity.core.virtual.animal.horse.*;
 import dev.by1337.virtualentity.core.virtual.decoration.VirtualArmorStandImpl;
 import dev.by1337.virtualentity.core.virtual.item.*;
+import dev.by1337.virtualentity.core.virtual.monster.*;
+import dev.by1337.virtualentity.core.virtual.monster.piglin.*;
+import dev.by1337.virtualentity.core.virtual.monster.hoglin.*;
 import org.by1337.blib.util.Version;
 
 public class VirtualEntityRegistrar {
@@ -64,5 +67,29 @@ public class VirtualEntityRegistrar {
         factory.register(VirtualEntityType.PAINTING, VirtualPaintingImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.FALLING_BLOCK, VirtualFallingBlockEntityImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.TNT, VirtualPrimedTntImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.BLAZE, VirtualBlazeImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.CAVE_SPIDER, VirtualCaveSpiderImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.ELDER_GUARDIAN, VirtualElderGuardianImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.ENDERMAN, VirtualEnderManImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.ENDERMITE, VirtualEndermiteImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.GHAST, VirtualGhastImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.GIANT, VirtualGiantImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.HUSK, VirtualHuskImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.SPIDER, VirtualSpiderImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.SLIME, VirtualSlimeImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.MAGMA_CUBE, VirtualMagmaCubeImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.PHANTOM, VirtualPhantomImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.SHULKER, VirtualShulkerImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.SILVERFISH, VirtualSilverfishImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.SKELETON, VirtualSkeletonImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.STRAY, VirtualStrayImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.STRIDER, VirtualStriderImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.VEX, VirtualVexImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.ZOGLIN, VirtualZoglinImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.ZOMBIE_VILLAGER, VirtualZombieVillagerImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.ZOMBIFIED_PIGLIN, VirtualZombifiedPiglinImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.PIGLIN_BRUTE, VirtualPiglinBruteImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.PIGLIN, VirtualPiglinImpl::new, Version.V1_16_5);
+        factory.register(VirtualEntityType.HOGLIN, VirtualHoglinImpl::new, Version.V1_16_5);
     }
 }

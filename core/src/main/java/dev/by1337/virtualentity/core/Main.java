@@ -5,7 +5,7 @@ import dev.by1337.virtualentity.api.entity.EquipmentSlot;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.api.tracker.PlayerTracker;
 import dev.by1337.virtualentity.api.virtual.decoration.VirtualArmorStand;
-import dev.by1337.virtualentity.api.virtual.VirtualCreeper;
+import dev.by1337.virtualentity.api.virtual.monster.VirtualCreeper;
 import dev.by1337.virtualentity.api.virtual.item.VirtualItem;
 import dev.by1337.virtualentity.core.mappings.VirtualEntityRegistrar;
 import dev.by1337.virtualentity.core.network.Packet;
