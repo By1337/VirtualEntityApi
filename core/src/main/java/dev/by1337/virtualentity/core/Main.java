@@ -2,6 +2,7 @@ package dev.by1337.virtualentity.core;
 
 import dev.by1337.virtualentity.api.entity.EquipmentSlot;
 import dev.by1337.virtualentity.api.virtual.VirtualArmorStand;
+import dev.by1337.virtualentity.core.mappings.VirtualEntityRegistrar;
 import dev.by1337.virtualentity.core.network.Packet;
 import dev.by1337.virtualentity.core.virtual.VirtualArmorStandImpl;
 import org.bukkit.Material;
@@ -18,6 +19,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Set;
 
 public class Main extends JavaPlugin {
+
+    @Override
+    public void onLoad() {
+        VirtualEntityRegistrar.register();
+    }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {

@@ -49,6 +49,10 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
         defineSynchedData();
         removePacket = new RemoveEntitiesPacket(id);
         spawnPacketType = Mappings.getSpawnPacket(type);
+        rebuildSpawnPacket();
+    }
+
+    protected void rebuildSpawnPacket(){
         spawnPacket = createSpawnPacket();
     }
 
@@ -131,7 +135,7 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
             broadcast(packet);
             position.sync();
         }
-        spawnPacket = createSpawnPacket();
+        rebuildSpawnPacket();
     }
 
     protected void broadcast(Packet packet) {

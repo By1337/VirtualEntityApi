@@ -6,16 +6,15 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import org.junit.Test;
 
-import java.io.IOException;
-
 import static org.junit.Assert.assertEquals;
 
 public class MoveEntityPacketTest {
 
 
     @Test
-    public void run() throws IOException {
+    public void run() {
         SetupServer.setup();
+        System.setProperty("blib.server.version", "1.16.5");
         VirtualArmorStandImpl armorStand = new VirtualArmorStandImpl();
 
         MoveEntityPacket.PosRot teleportEntityPacket = new MoveEntityPacket.PosRot(armorStand);

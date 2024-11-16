@@ -7,7 +7,6 @@ import io.netty.buffer.Unpooled;
 import org.by1337.blib.geom.Vec3d;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
@@ -16,8 +15,9 @@ public class TeleportEntityPacketTest {
 
 
     @Test
-    public void run() throws IOException {
+    public void run() {
         SetupServer.setup();
+        System.setProperty("blib.server.version", "1.16.5");
         VirtualArmorStandImpl armorStand = new VirtualArmorStandImpl();
         Random random = new Random();
         armorStand.setPos(new Vec3d(random.nextInt(), random.nextInt(), random.nextInt()));
