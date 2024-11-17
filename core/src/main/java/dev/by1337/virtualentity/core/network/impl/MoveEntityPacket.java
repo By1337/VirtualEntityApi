@@ -25,7 +25,7 @@ public abstract class MoveEntityPacket extends Packet {
     protected abstract int getPacketId();
 
     public static class Rot extends MoveEntityPacket {
-        private static final int PACKET_ID = Mappings.getPacketId(PacketType.MOVE_ENTITY_PACKET_ROT);
+        private static final int PACKET_ID = PacketType.MOVE_ENTITY_PACKET_ROT.getId();
 
         public Rot(VirtualEntity entity) {
             super(entity);
@@ -46,7 +46,7 @@ public abstract class MoveEntityPacket extends Packet {
     }
 
     public static class Pos extends MoveEntityPacket {
-        private static final int PACKET_ID = Mappings.getPacketId(PacketType.MOVE_ENTITY_PACKET_POS);
+        private static final int PACKET_ID = PacketType.MOVE_ENTITY_PACKET_POS.getId();
 
         public Pos(VirtualEntity entity) {
             super(entity);
@@ -72,7 +72,7 @@ public abstract class MoveEntityPacket extends Packet {
     }
 
     public static class PosRot extends MoveEntityPacket {
-        private static final int PACKET_ID = Mappings.getPacketId(PacketType.MOVE_ENTITY_PACKET_POS_ROT);
+        private static final int PACKET_ID = PacketType.MOVE_ENTITY_PACKET_POS_ROT.getId();
 
         public PosRot(VirtualEntity entity) {
             super(entity);

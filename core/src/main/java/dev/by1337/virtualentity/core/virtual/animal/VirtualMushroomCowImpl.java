@@ -9,6 +9,7 @@ import dev.by1337.virtualentity.core.virtual.VirtualAgableMobImpl;
 public class VirtualMushroomCowImpl extends VirtualAgableMobImpl implements dev.by1337.virtualentity.api.virtual.animal.VirtualMushroom {
     private static final EntityDataAccessor<String> DATA_TYPE;
 
+
     public VirtualMushroomCowImpl() {
         super(VirtualEntityType.MOOSHROOM);
     }

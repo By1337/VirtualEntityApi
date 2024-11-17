@@ -57,9 +57,7 @@ public class EntityDataSerializers {
         ByteBuffUtil.writeOptional(byteBuf, val.orElse(null), ByteBuffUtil::writeBlockPos);
     }, "OPTIONAL_BLOCK_POS");
 
-    public static final EntityDataSerializer<Direction> DIRECTION = register((val, byteBuf) -> {
-        ByteBuffUtil.writeEnum(val, byteBuf); // todo use mappings
-    }, "DIRECTION");
+    public static final EntityDataSerializer<Direction> DIRECTION = register(ByteBuffUtil::writeEnum, "DIRECTION");
 
     public static final EntityDataSerializer<Optional<UUID>> OPTIONAL_UUID = register((val, byteBuf) -> {
         ByteBuffUtil.writeOptional(byteBuf, val.orElse(null), ByteBuffUtil::writeUUID);
@@ -68,17 +66,8 @@ public class EntityDataSerializers {
     public static final EntityDataSerializer<CompoundTag> COMPOUND_TAG = register(ByteBuffUtil::writeNbt, "COMPOUND_TAG");
 
     public static final EntityDataSerializer<VillagerData> VILLAGER_DATA = register((val, byteBuf) -> {
-        Mappings mappings = Mappings.instance;
-        Integer type = mappings.villagerTypeMappings().typeToId().get(val.type());
-        if (type == null) {
-            throw new IllegalStateException("Нет мапингов для villager type " + val.type() + " на версии " + Version.VERSION);
-        }
-        Integer profession = mappings.villagerTypeMappings().professionToId().get(val.profession());
-        if (profession == null) {
-            throw new IllegalStateException("Нет мапингов для villager profession " + val.profession() + " на версии " + Version.VERSION);
-        }
-        INT.write(type, byteBuf);
-        INT.write(profession, byteBuf);
+        INT.write(val.type().getId(), byteBuf);
+        INT.write(val.profession().getId(), byteBuf);
         INT.write(val.lvl(), byteBuf);
     }, "VILLAGER_DATA");
 
@@ -86,9 +75,7 @@ public class EntityDataSerializers {
         INT.write(val.orElse(-1) + 1, byteBuf);
     }, "OPTIONAL_UNSIGNED_INT");
 
-    public static final EntityDataSerializer<Pose> POSE = register((val, byteBuf) -> {
-        ByteBuffUtil.writeEnum(val, byteBuf); // todo use mappings
-    }, "POSE");
+    public static final EntityDataSerializer<Pose> POSE = register(ByteBuffUtil::writeEnum, "POSE");
 
     private static <T> EntityDataSerializer<T> register(EntityDataSerializer<T> serializer, String name) {
         if (SERIALIZERS.put(name, serializer) != null) {

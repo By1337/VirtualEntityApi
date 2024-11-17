@@ -21,7 +21,7 @@ public class VirtualSheepImpl extends VirtualAgableMobImpl implements dev.by1337
     @Override
     public void setColor(DyeColor color) {
         byte var2 = this.entityData.get(DATA_WOOL_ID);
-        this.entityData.set(DATA_WOOL_ID, (byte) (var2 & 240 | color.ordinal() & 15));
+        this.entityData.set(DATA_WOOL_ID, (byte) (var2 & 240 | color.getId() & 15));
     }
 
     @Override

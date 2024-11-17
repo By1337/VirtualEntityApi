@@ -1,5 +1,6 @@
 package dev.by1337.virtualentity.core.network;
 
+import dev.by1337.virtualentity.api.entity.MappedEnum;
 import dev.by1337.virtualentity.api.particles.ParticleOptions;
 import dev.by1337.virtualentity.core.nms.NmsUtil;
 import io.netty.buffer.ByteBuf;
@@ -134,7 +135,11 @@ public class ByteBuffUtil {
     }
 
     public static <T extends Enum<T>> void writeEnum(T val, ByteBuf byteBuf) {
-        writeVarInt(val.ordinal(), byteBuf);
+        if (val instanceof MappedEnum mappedEnum) {
+            writeVarInt(mappedEnum.getId(), byteBuf);
+        } else {
+            writeVarInt(val.ordinal(), byteBuf);
+        }
     }
 
     public static void writeNbt(@Nullable NBT nbt, ByteBuf byteBuf) {

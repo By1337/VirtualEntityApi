@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Map;
 
 public class SetEquipmentPacket extends Packet {
-    private static final int PACKET_ID = Mappings.getPacketId(PacketType.SET_EQUIPMENT_PACKET);
+    private static final int PACKET_ID = PacketType.SET_EQUIPMENT_PACKET.getId();
     private final int id;
     private final Map<EquipmentSlot, ItemStack> items;
 
@@ -32,7 +32,7 @@ public class SetEquipmentPacket extends Packet {
             EquipmentSlot slot = entry.getKey();
             ItemStack itemStack = entry.getValue();
 
-            int slotId = slot.ordinal();
+            int slotId = slot.getId();
 
             byteBuf.writeByte(iterator.hasNext() ? slotId | -128 : slotId);
             ByteBuffUtil.writeItemStack(itemStack, byteBuf);

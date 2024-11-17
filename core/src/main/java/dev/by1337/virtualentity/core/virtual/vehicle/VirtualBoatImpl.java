@@ -24,7 +24,7 @@ public class VirtualBoatImpl extends VirtualEntityImpl implements dev.by1337.vir
         this.entityData.define(DATA_ID_HURT, 0);
         this.entityData.define(DATA_ID_HURTDIR, 1);
         this.entityData.define(DATA_ID_DAMAGE, 0.0F);
-        this.entityData.define(DATA_ID_TYPE, BoatType.OAK.ordinal());
+        this.entityData.define(DATA_ID_TYPE, BoatType.OAK.getId());
         this.entityData.define(DATA_ID_PADDLE_LEFT, false);
         this.entityData.define(DATA_ID_PADDLE_RIGHT, false);
         this.entityData.define(DATA_ID_BUBBLE_TIME, 0);
@@ -108,7 +108,7 @@ public class VirtualBoatImpl extends VirtualEntityImpl implements dev.by1337.vir
      */
     @Override
     public void setBoatType(BoatType boatType) {
-        this.entityData.set(DATA_ID_TYPE, boatType.ordinal());
+        this.entityData.set(DATA_ID_TYPE, boatType.getId());
     }
 
     /**

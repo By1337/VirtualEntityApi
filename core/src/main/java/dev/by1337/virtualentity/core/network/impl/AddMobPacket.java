@@ -8,7 +8,7 @@ import dev.by1337.virtualentity.core.network.PacketType;
 import io.netty.buffer.ByteBuf;
 
 public class AddMobPacket extends Packet {
-    private static final int PACKET_ID = Mappings.getPacketId(PacketType.ADD_MOB_PACKET);
+    private static final int PACKET_ID = PacketType.ADD_MOB_PACKET.getId();
     private final VirtualEntity virtualEntity;
 
     public AddMobPacket(VirtualEntity virtualEntity) {

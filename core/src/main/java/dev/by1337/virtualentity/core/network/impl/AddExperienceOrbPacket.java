@@ -9,7 +9,7 @@ import dev.by1337.virtualentity.core.network.PacketType;
 import io.netty.buffer.ByteBuf;
 
 public class AddExperienceOrbPacket extends Packet {
-    private static final int PACKET_ID = Mappings.getPacketId(PacketType.ADD_EXPERIENCE_ORB_PACKET);
+    private static final int PACKET_ID = PacketType.ADD_EXPERIENCE_ORB_PACKET.getId();
     private final VirtualExperienceOrb virtualEntity;
 
     public AddExperienceOrbPacket(VirtualEntity virtualEntity) {

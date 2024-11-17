@@ -17,7 +17,7 @@ public class VirtualWolfImpl extends VirtualTamableAnimalImpl implements dev.by1
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(DATA_INTERESTED_ID, false);
-        this.entityData.define(DATA_COLLAR_COLOR, DyeColor.RED.ordinal());
+        this.entityData.define(DATA_COLLAR_COLOR, DyeColor.RED.getId());
         this.entityData.define(DATA_REMAINING_ANGER_TIME, 0);
     }
 
@@ -38,7 +38,7 @@ public class VirtualWolfImpl extends VirtualTamableAnimalImpl implements dev.by1
 
     @Override
     public void setCollarColor(DyeColor color) {
-        this.entityData.set(DATA_COLLAR_COLOR, color.ordinal());
+        this.entityData.set(DATA_COLLAR_COLOR, color.getId());
     }
 
     @Override

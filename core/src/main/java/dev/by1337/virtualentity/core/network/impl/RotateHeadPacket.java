@@ -7,7 +7,7 @@ import dev.by1337.virtualentity.core.network.PacketType;
 import io.netty.buffer.ByteBuf;
 
 public class RotateHeadPacket extends Packet {
-    private static final int PACKET_ID = Mappings.getPacketId(PacketType.ROTATE_HEAD_PACKET);
+    private static final int PACKET_ID = PacketType.ROTATE_HEAD_PACKET.getId();
     private final int id;
     private final byte yHeadRot;
 

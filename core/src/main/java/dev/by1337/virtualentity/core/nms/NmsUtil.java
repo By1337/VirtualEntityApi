@@ -61,7 +61,7 @@ public class NmsUtil {
         public void writeParticleOptions(ParticleOptions<?> particleOptions, ByteBuf b) {
             // source
             // var nms = CraftParticle.toNMS(particleOptions.particle(), particleOptions.value());
-            // ByteBuffCodecs.VAR_INT.accept(Registry.PARTICLE_TYPE.getId(nms.getParticle()), b);
+            // ByteBuffUtil.writeVarInt(Registry.PARTICLE_TYPE.getId(nms.getParticle()), b);
             // nms.writeToNetwork(new FriendlyByteBuf(b));
             String asm = """
                     A:
@@ -72,14 +72,12 @@ public class NmsUtil {
                         invokestatic org/bukkit/craftbukkit/v1_16_R3/CraftParticle toNMS (Lorg/bukkit/Particle;Ljava/lang/Object;)Lnet/minecraft/server/v1_16_R3/ParticleParam;
                         astore 3
                     B:
-                        getstatic dev/by1337/virtualentity/core/network/ByteBuffCodecs VAR_INT Ljava/util/function/BiConsumer;
                         getstatic net/minecraft/server/v1_16_R3/IRegistry PARTICLE_TYPE Lnet/minecraft/server/v1_16_R3/IRegistry;
                         aload 3
                         invokeinterface net/minecraft/server/v1_16_R3/ParticleParam getParticle ()Lnet/minecraft/server/v1_16_R3/Particle;
                         invokevirtual net/minecraft/server/v1_16_R3/IRegistry a (Ljava/lang/Object;)I
-                        invokestatic java/lang/Integer valueOf (I)Ljava/lang/Integer;
                         aload 2
-                        invokeinterface java/util/function/BiConsumer accept (Ljava/lang/Object;Ljava/lang/Object;)V
+                        invokestatic dev/by1337/virtualentity/core/network/ByteBuffUtil writeVarInt (ILio/netty/buffer/ByteBuf;)V
                     C:
                         aload 3
                         new net/minecraft/server/v1_16_R3/PacketDataSerializer
@@ -89,6 +87,7 @@ public class NmsUtil {
                         invokeinterface net/minecraft/server/v1_16_R3/ParticleParam a (Lnet/minecraft/server/v1_16_R3/PacketDataSerializer;)V
                     D:
                         return
+                    E:
                     """;
             System.out.println(asm);
             throw new IllegalStateException("ASM did not apply!");

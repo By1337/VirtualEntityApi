@@ -1,6 +1,6 @@
 package dev.by1337.virtualentity.api.virtual.animal;
 
-import org.bukkit.DyeColor;
+import dev.by1337.virtualentity.api.entity.DyeColor;
 
 public interface VirtualCat extends VirtualTamableAnimal {
     int getCatType();

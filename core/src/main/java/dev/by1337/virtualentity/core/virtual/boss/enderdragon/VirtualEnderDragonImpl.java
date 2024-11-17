@@ -20,7 +20,7 @@ public class VirtualEnderDragonImpl extends VirtualMobImpl implements dev.by1337
 
     @Override
     public void setPhase(EnderDragonPhase phase) {
-        entityData.set(DATA_PHASE, phase.ordinal());
+        entityData.set(DATA_PHASE, phase.getId());
     }
 
     static {

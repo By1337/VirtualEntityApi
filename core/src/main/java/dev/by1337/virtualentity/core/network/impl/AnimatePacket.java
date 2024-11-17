@@ -8,7 +8,7 @@ import dev.by1337.virtualentity.core.network.PacketType;
 import io.netty.buffer.ByteBuf;
 
 public class AnimatePacket extends Packet {
-    private static final int PACKET_ID = Mappings.getPacketId(PacketType.ANIMATE_PACKET);
+    private static final int PACKET_ID = PacketType.ANIMATE_PACKET.getId();
     private final int id;
     private final EntityAnimation animation;
 
@@ -22,6 +22,6 @@ public class AnimatePacket extends Packet {
         // https://wiki.vg/index.php?title=Protocol&oldid=16681#Entity_Animation_.28clientbound.29
         ByteBuffUtil.writeVarInt(PACKET_ID, byteBuf);
         ByteBuffUtil.writeVarInt(id, byteBuf);
-        byteBuf.writeByte(animation.ordinal());
+        byteBuf.writeByte(animation.getId());
     }
 }

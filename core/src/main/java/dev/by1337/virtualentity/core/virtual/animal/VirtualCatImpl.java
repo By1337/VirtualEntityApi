@@ -1,9 +1,9 @@
 package dev.by1337.virtualentity.core.virtual.animal;
 
+import dev.by1337.virtualentity.api.entity.DyeColor;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
-import org.bukkit.DyeColor;
 
 public class VirtualCatImpl extends VirtualTamableAnimalImpl implements dev.by1337.virtualentity.api.virtual.animal.VirtualCat {
     private static final EntityDataAccessor<Integer> DATA_TYPE_ID;
@@ -21,7 +21,7 @@ public class VirtualCatImpl extends VirtualTamableAnimalImpl implements dev.by13
         this.entityData.define(DATA_TYPE_ID, 1);
         this.entityData.define(IS_LYING, false);
         this.entityData.define(RELAX_STATE_ONE, false);
-        this.entityData.define(DATA_COLLAR_COLOR, DyeColor.RED.ordinal());
+        this.entityData.define(DATA_COLLAR_COLOR, DyeColor.RED.getId());
     }
 
     @Override
@@ -64,7 +64,7 @@ public class VirtualCatImpl extends VirtualTamableAnimalImpl implements dev.by13
 
     @Override
     public void setCollarColor(DyeColor dyeColor) {
-        this.entityData.set(DATA_COLLAR_COLOR, dyeColor.ordinal());
+        this.entityData.set(DATA_COLLAR_COLOR, dyeColor.getId());
     }
 
 

@@ -1,14 +1,13 @@
 package dev.by1337.virtualentity.core.network.impl;
 
 import dev.by1337.virtualentity.api.virtual.decoration.VirtualPainting;
-import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.network.ByteBuffUtil;
 import dev.by1337.virtualentity.core.network.Packet;
 import dev.by1337.virtualentity.core.network.PacketType;
 import io.netty.buffer.ByteBuf;
 
 public class AddPaintingPacket extends Packet {
-    private static final int PACKET_ID = Mappings.getPacketId(PacketType.ADD_PAINTING_PACKET);
+    private static final int PACKET_ID = PacketType.ADD_PAINTING_PACKET.getId();
     private final VirtualPainting painting;
 
     public AddPaintingPacket(VirtualPainting painting) {

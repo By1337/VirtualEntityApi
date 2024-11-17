@@ -1,9 +1,13 @@
 package dev.by1337.virtualentity.core.network;
 
 import blib.com.mojang.serialization.Codec;
+import dev.by1337.virtualentity.api.entity.MappedEnum;
+import dev.by1337.virtualentity.api.entity.MappedEnumUtils;
 import org.by1337.blib.configuration.serialization.DefaultCodecs;
 
-public enum PacketType {
+import java.util.EnumMap;
+
+public enum PacketType implements MappedEnum {
     SET_ENTITY_DATA_PACKET,
     ANIMATE_PACKET,
     ROTATE_HEAD_PACKET,
@@ -23,4 +27,10 @@ public enum PacketType {
     SET_PLAYER_TEAM_PACKET,
     ;
     public static final Codec<PacketType> CODEC = DefaultCodecs.createEnumCodec(PacketType.class);
+    private static final EnumMap<PacketType, Integer> TO_ID = new EnumMap<>(PacketType.class);
+
+    @Override
+    public int getId() {
+        return MappedEnumUtils.getId(this, TO_ID);
+    }
 }

@@ -100,10 +100,10 @@ public class VirtualPandaImpl extends VirtualAgableMobImpl implements dev.by1337
 
     @Override
     public void setMainGene(PandaGene pandaGene) {
-        if (pandaGene.ordinal() > 6) {
+        if (pandaGene.getId() > 6) {
             pandaGene = PandaGene.NORMAL;
         }
-        this.entityData.set(MAIN_GENE_ID, (byte) pandaGene.ordinal());
+        this.entityData.set(MAIN_GENE_ID, (byte) pandaGene.getId());
     }
 
     @Override
@@ -114,10 +114,10 @@ public class VirtualPandaImpl extends VirtualAgableMobImpl implements dev.by1337
 
     @Override
     public void setHiddenGene(PandaGene pandaGene) {
-        if (pandaGene.ordinal() > 6) {
+        if (pandaGene.getId() > 6) {
             pandaGene = PandaGene.NORMAL;
         }
-        this.entityData.set(HIDDEN_GENE_ID, (byte) pandaGene.ordinal());
+        this.entityData.set(HIDDEN_GENE_ID, (byte) pandaGene.getId());
     }
 
     private boolean getFlag(int param0) {

@@ -8,7 +8,7 @@ import io.netty.buffer.ByteBuf;
 import org.by1337.blib.geom.Vec3d;
 
 public class SetEntityMotionPacket extends Packet {
-    private static final int PACKET_ID = Mappings.getPacketId(PacketType.SET_ENTITY_MOTION_PACKET);
+    private static final int PACKET_ID = PacketType.SET_ENTITY_MOTION_PACKET.getId();
 
     private final int id;
     private final Vec3d motion;

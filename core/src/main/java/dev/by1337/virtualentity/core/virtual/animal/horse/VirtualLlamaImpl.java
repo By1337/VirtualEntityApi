@@ -53,7 +53,7 @@ public class VirtualLlamaImpl extends VirtualAbstractChestedHorseImpl implements
 
     @Override
     public void setSwag(@Nullable DyeColor param0) {
-        this.entityData.set(DATA_SWAG_ID, param0 == null ? -1 : param0.ordinal());
+        this.entityData.set(DATA_SWAG_ID, param0 == null ? -1 : param0.getId());
     }
 
     @Nullable

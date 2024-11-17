@@ -78,7 +78,7 @@ public class VirtualFoxImpl extends VirtualAgableMobImpl implements dev.by1337.v
 
     @Override
     public void setFoxType(FoxType type) {
-        this.entityData.set(DATA_TYPE_ID, type.ordinal());
+        this.entityData.set(DATA_TYPE_ID, type.getId());
     }
 
     @Override

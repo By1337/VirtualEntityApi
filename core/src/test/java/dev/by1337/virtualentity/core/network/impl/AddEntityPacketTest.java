@@ -1,6 +1,7 @@
 package dev.by1337.virtualentity.core.network.impl;
 
 
+import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.network.ByteBuffUtil;
 import dev.by1337.virtualentity.core.virtual.decoration.VirtualArmorStandImpl;
 import io.netty.buffer.ByteBuf;
@@ -49,4 +50,16 @@ public class AddEntityPacketTest {
 
         assertEquals(0, byteBuf.readableBytes());
     }
+
+
+
+//    @Test
+//    public void run0() {
+//        System.setProperty("blib.server.version", "1.16.5");
+//        Mappings mappings = Mappings.instance;
+//
+//        System.out.println(mappings.enumMappings());
+//    }
+
+
 }

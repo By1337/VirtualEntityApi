@@ -12,7 +12,7 @@ import io.netty.buffer.ByteBuf;
 import java.util.List;
 
 public class SetEntityDataPacket extends Packet {
-    private static final int PACKET_ID = Mappings.getPacketId(PacketType.SET_ENTITY_DATA_PACKET);
+    private static final int PACKET_ID = PacketType.SET_ENTITY_DATA_PACKET.getId();
     private final int id;
     private final List<SynchedEntityData.DataItem<?>> dataItems;
 

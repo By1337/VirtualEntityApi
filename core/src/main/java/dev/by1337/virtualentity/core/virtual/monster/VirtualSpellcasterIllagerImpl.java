@@ -25,7 +25,7 @@ public abstract class VirtualSpellcasterIllagerImpl extends VirtualRaiderImpl im
 
     @Override
     public void setIsCastingSpell(IllagerSpell spell) {
-        this.entityData.set(DATA_SPELL_CASTING_ID, (byte)spell.ordinal());
+        this.entityData.set(DATA_SPELL_CASTING_ID, (byte)spell.getId());
     }
 
     static {
