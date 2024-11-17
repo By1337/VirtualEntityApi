@@ -19,5 +19,16 @@ public class AddPaintingPacket extends Packet {
         ByteBuffUtil.writeVarInt(PACKET_ID, byteBuf);
         ByteBuffUtil.writeVarInt(painting.getId(), byteBuf);
         ByteBuffUtil.writeUUID(painting.getUuid(), byteBuf);
+        ByteBuffUtil.writeVarInt(painting.motive().getId(), byteBuf);
+        ByteBuffUtil.writeBlockPos(painting.getPos().toBlockPos(), byteBuf);
+        byteBuf.writeByte(
+                switch (painting.direction()) {
+                    case DOWN, UP -> -1;
+                    case NORTH -> 2;
+                    case SOUTH -> 0;
+                    case WEST -> 1;
+                    case EAST -> 3;
+                }
+        );
     }
 }

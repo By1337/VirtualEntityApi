@@ -6,6 +6,7 @@ import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.api.virtual.VirtualEntity;
 import dev.by1337.virtualentity.api.virtual.VirtualEntityController;
 import dev.by1337.virtualentity.api.virtual.VirtualLivingEntity;
+import dev.by1337.virtualentity.api.virtual.decoration.VirtualPainting;
 import dev.by1337.virtualentity.core.entity.EntityPosition;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.network.Packet;
@@ -64,7 +65,7 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
             case ADD_ENTITY_PACKET -> new AddEntityPacket(virtualEntity);
             case ADD_PLAYER_PACKET -> new AddPlayerPacket(virtualEntity);
             case ADD_EXPERIENCE_ORB_PACKET -> new AddExperienceOrbPacket(virtualEntity);
-            //case ADD_PAINTING_PACKET -> // todo
+            case ADD_PAINTING_PACKET -> new AddPaintingPacket((VirtualPainting) this);
             default -> throw new IllegalStateException("Unknown spawn packet type: " + spawnPacket);
         };
     }

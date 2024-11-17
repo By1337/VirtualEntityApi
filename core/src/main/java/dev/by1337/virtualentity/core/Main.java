@@ -47,7 +47,6 @@ public class Main extends JavaPlugin {
                 PlayerTracker tracker = new PlayerTracker(player.getWorld(), new Vec3d(player.getLocation()));
                 Vec3d pos = new Vec3d(player.getLocation());
                 for (VirtualEntityType value : VirtualEntityType.values()) {
-                    if (value == VirtualEntityType.PAINTING) continue;
                     try {
                         VirtualEntity entity = VirtualEntityApi.getFactory().create(value);
                         entity.setCustomNameVisible(true);
