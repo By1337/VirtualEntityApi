@@ -13,6 +13,9 @@ import dev.by1337.virtualentity.core.syncher.EntityDataSerializer;
 import dev.by1337.virtualentity.core.syncher.EntityDataSerializers;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.PluginClassLoader;
+import org.by1337.blib.nbt.MojangNbtReader;
+import org.by1337.blib.nbt.NbtOps;
+import org.by1337.blib.nbt.impl.CompoundTag;
 import org.by1337.blib.util.Version;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,8 +30,9 @@ public class Mappings {
             Codec.unboundedMap(Codec.STRING, Codec.INT).fieldOf("serializerToId").forGetter(Mappings::serializerToId),
             Codec.unboundedMap(VirtualEntityType.CODEC, EntityInfo.CODEC).fieldOf("typeToData").forGetter(Mappings::entityTypeToEntityInfo),
             Codec.unboundedMap(Codec.STRING, NetworkValue.CODEC.listOf()).fieldOf("entities").forGetter(Mappings::entityNetworkValues),
-            Codec.unboundedMap(PacketType.CODEC, Codec.INT).fieldOf("packets").forGetter(Mappings::packetToId),
-            VillagerTypeMappings.CODEC.fieldOf("villagerData").forGetter(Mappings::villagerTypeMappings)
+          //  Codec.unboundedMap(PacketType.CODEC, Codec.INT).fieldOf("packets").forGetter(Mappings::packetToId),
+            Codec.unboundedMap(Codec.STRING, Codec.unboundedMap(Codec.STRING, Codec.INT)).fieldOf("enums").forGetter(Mappings::enumMappings)
+         //   VillagerTypeMappings.CODEC.fieldOf("villagerData").forGetter(Mappings::villagerTypeMappings)
     ).apply(instance, Mappings::new));
     public static final Mappings instance;
 
@@ -38,13 +42,16 @@ public class Mappings {
     private final Map<String, List<NetworkValue>> entityNetworkValues;
     private final Map<PacketType, Integer> packetToId;
     private final VillagerTypeMappings villagerTypeMappings;
+    private final Map<String, Map<String, Integer>> enumMappings;
 
-    public Mappings(Map<String, Integer> serializerToId, Map<VirtualEntityType, EntityInfo> entityTypeToEntityInfo, Map<String, List<NetworkValue>> entityNetworkValues, Map<PacketType, Integer> packetToId, VillagerTypeMappings villagerTypeMappings) {
+    public Mappings(Map<String, Integer> serializerToId, Map<VirtualEntityType, EntityInfo> entityTypeToEntityInfo, Map<String, List<NetworkValue>> entityNetworkValues/*, Map<PacketType, Integer> packetToId*/, Map<String, Map<String, Integer>> enumMappings/*, VillagerTypeMappings villagerTypeMappings*/) {
         this.serializerToId = serializerToId;
         this.entityTypeToEntityInfo = entityTypeToEntityInfo;
         this.entityNetworkValues = entityNetworkValues;
-        this.packetToId = packetToId;
-        this.villagerTypeMappings = villagerTypeMappings;
+        this.packetToId = null;
+        this.enumMappings = enumMappings;
+        //this.villagerTypeMappings = villagerTypeMappings;
+        villagerTypeMappings = null;
     }
 
     public Map<String, Integer> serializerToId() {
@@ -65,6 +72,10 @@ public class Mappings {
 
     public VillagerTypeMappings villagerTypeMappings() {
         return villagerTypeMappings;
+    }
+
+    public Map<String, Map<String, Integer>> enumMappings() {
+        return enumMappings;
     }
 
     @SuppressWarnings("unchecked")
@@ -109,8 +120,8 @@ public class Mappings {
     }
 
     static {
-       final InputStream in;
-        File file = new File("src/test/resources/mappings.json");
+        final InputStream in;
+        File file = new File("src/test/resources/mappings.nbt");
         if (file.exists()) {
             LOGGER.info("Using test file mappings");
             try {
@@ -120,17 +131,17 @@ public class Mappings {
             }
         } else {
             Plugin plugin = ((PluginClassLoader) Mappings.class.getClassLoader()).getPlugin();
-            in = plugin.getResource("entity/" + Version.VERSION + "/mappings.json");
+            in = plugin.getResource("entity/" + Version.VERSION + "/mappings.nbt");
             if (in == null) {
                 throw new RuntimeException("Could not find mappings file for version " + Version.VERSION);
             }
         }
 
 
-        try (var reader = new InputStreamReader(in)) {
-            JsonParser jsonParser = new JsonParser();
-            instance = CODEC.decode(JsonOps.INSTANCE, jsonParser.parse(reader)).getOrThrow().getFirst();
-        } catch (Throwable e) {
+        try {
+            CompoundTag nbt = MojangNbtReader.readCompressed(in);
+            instance = CODEC.decode(NbtOps.INSTANCE, nbt).getOrThrow().getFirst();
+        } catch (IOException e) {
             throw new RuntimeException("Failed to read mappings file for version " + Version.VERSION, e);
         }
     }

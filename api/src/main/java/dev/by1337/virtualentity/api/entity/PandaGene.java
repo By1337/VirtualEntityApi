@@ -1,5 +1,8 @@
 package dev.by1337.virtualentity.api.entity;
 
+import blib.com.mojang.serialization.Codec;
+import org.by1337.blib.configuration.serialization.DefaultCodecs;
+
 public enum PandaGene {
     NORMAL,
     LAZY,
@@ -7,5 +10,6 @@ public enum PandaGene {
     PLAYFUL,
     BROWN,
     WEAK,
-    AGGRESSIVE,
+    AGGRESSIVE;
+    public static final Codec<PandaGene> CODEC = DefaultCodecs.createEnumCodec(PandaGene.class);
 }
