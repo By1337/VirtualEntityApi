@@ -1,8 +1,8 @@
 package dev.by1337.virtualentity.api.virtual.monster;
 
-import dev.by1337.virtualentity.api.virtual.VirtualAgableMob;
+import dev.by1337.virtualentity.api.virtual.VirtualAgeableMob;
 
-public interface VirtualStrider extends VirtualAgableMob {
+public interface VirtualStrider extends VirtualAgeableMob {
     int getBoostTime();
 
     void setBoostTime(int boostTime);

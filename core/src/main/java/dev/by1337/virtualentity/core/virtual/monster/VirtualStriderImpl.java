@@ -3,9 +3,9 @@ package dev.by1337.virtualentity.core.virtual.monster;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
-import dev.by1337.virtualentity.core.virtual.VirtualAgableMobImpl;
+import dev.by1337.virtualentity.core.virtual.VirtualAgeableMobImpl;
 
-public class VirtualStriderImpl extends VirtualAgableMobImpl implements dev.by1337.virtualentity.api.virtual.monster.VirtualStrider {
+public class VirtualStriderImpl extends VirtualAgeableMobImpl implements dev.by1337.virtualentity.api.virtual.monster.VirtualStrider {
     private static final EntityDataAccessor<Integer> DATA_BOOST_TIME;
     private static final EntityDataAccessor<Boolean> DATA_SUFFOCATING;
     private static final EntityDataAccessor<Boolean> DATA_SADDLE_ID;

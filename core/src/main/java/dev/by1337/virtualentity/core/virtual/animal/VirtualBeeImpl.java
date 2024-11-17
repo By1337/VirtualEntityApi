@@ -4,9 +4,9 @@ import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.api.virtual.animal.VirtualBee;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
-import dev.by1337.virtualentity.core.virtual.VirtualAgableMobImpl;
+import dev.by1337.virtualentity.core.virtual.VirtualAgeableMobImpl;
 
-public class VirtualBeeImpl extends VirtualAgableMobImpl implements VirtualBee {
+public class VirtualBeeImpl extends VirtualAgeableMobImpl implements VirtualBee {
     private static final EntityDataAccessor<Byte> DATA_FLAGS_ID;
     private static final EntityDataAccessor<Integer> DATA_REMAINING_ANGER_TIME;
 

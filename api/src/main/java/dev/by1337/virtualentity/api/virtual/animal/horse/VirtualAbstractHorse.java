@@ -1,11 +1,11 @@
 package dev.by1337.virtualentity.api.virtual.animal.horse;
 
-import dev.by1337.virtualentity.api.virtual.VirtualAgableMob;
+import dev.by1337.virtualentity.api.virtual.VirtualAgeableMob;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-public interface VirtualAbstractHorse extends VirtualAgableMob {
+public interface VirtualAbstractHorse extends VirtualAgeableMob {
     @Nullable
     UUID getOwnerUUID();
 

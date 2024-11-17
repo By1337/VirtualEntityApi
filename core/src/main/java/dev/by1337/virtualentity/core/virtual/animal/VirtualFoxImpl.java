@@ -5,14 +5,14 @@ import dev.by1337.virtualentity.api.entity.FoxType;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
-import dev.by1337.virtualentity.core.virtual.VirtualAgableMobImpl;
+import dev.by1337.virtualentity.core.virtual.VirtualAgeableMobImpl;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class VirtualFoxImpl extends VirtualAgableMobImpl implements dev.by1337.virtualentity.api.virtual.animal.VirtualFox {
+public class VirtualFoxImpl extends VirtualAgeableMobImpl implements dev.by1337.virtualentity.api.virtual.animal.VirtualFox {
     private static final EntityDataAccessor<Integer> DATA_TYPE_ID;
     private static final EntityDataAccessor<Byte> DATA_FLAGS_ID;
     private static final EntityDataAccessor<Optional<UUID>> DATA_TRUSTED_ID_0;

@@ -4,10 +4,10 @@ import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
-import dev.by1337.virtualentity.core.virtual.VirtualAgableMobImpl;
+import dev.by1337.virtualentity.core.virtual.VirtualAgeableMobImpl;
 
 @SinceMinecraftVersion("1.17.1")
-public class VirtualGoatImpl extends VirtualAgableMobImpl implements dev.by1337.virtualentity.api.virtual.animal.goat.VirtualGoat {
+public class VirtualGoatImpl extends VirtualAgeableMobImpl implements dev.by1337.virtualentity.api.virtual.animal.goat.VirtualGoat {
     private static final EntityDataAccessor<Boolean> DATA_IS_SCREAMING_GOAT;
 
     public VirtualGoatImpl() {

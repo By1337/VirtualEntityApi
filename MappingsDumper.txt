@@ -1,9 +1,11 @@
+package net.minecraft.world.entity.monster; // req
 
 import com.mojang.authlib.GameProfile;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.network.ConnectionProtocol;
+import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.network.protocol.game.*;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -17,9 +19,9 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.animal.Fox;
 import net.minecraft.world.entity.animal.Panda;
+import net.minecraft.world.entity.animal.axolotl.Axolotl;
 import net.minecraft.world.entity.boss.enderdragon.phases.EnderDragonPhase;
 import net.minecraft.world.entity.decoration.Motive;
-import net.minecraft.world.entity.monster.SpellcasterIllager;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerType;
 import net.minecraft.world.entity.player.Player;
@@ -64,7 +66,6 @@ public class MappingsDumper {
             }
             printStream.println(Registry.ENTITY_TYPE.getId(EntityType.ARMOR_STAND));
         }));
-
         net.minecraft.server.Main.main(args);
     }
 
@@ -122,12 +123,14 @@ public class MappingsDumper {
             field.setAccessible(true);
             if (field.getType() != EntityType.class) continue;
             EntityType<?> type = (EntityType<?>) field.get(null);
+            if (type == EntityType.MARKER) continue;
             CompoundTag info = new CompoundTag();
             info.putInt("networkId", Registry.ENTITY_TYPE.getId(type));
             Class<?> entityClazz = Class.forName(((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0].getTypeName());
             if (entityClazz == Player.class) {
                 entityClazz = ServerPlayer.class;
             }
+
             Entity entity = (Entity) unsafe.allocateInstance(entityClazz);
             Class<?> c = entity.getClass();
             do { // init base fields
@@ -145,7 +148,6 @@ public class MappingsDumper {
                 }
                 c = c.getSuperclass();
             } while (c != Object.class);
-
             Class<?> spawnPacket = entity.getAddEntityPacket().getClass();
             if (spawnPacket == ClientboundAddEntityPacket.class) {
                 info.putString("spawnPacket", "ADD_ENTITY_PACKET");
@@ -239,14 +241,6 @@ public class MappingsDumper {
             }
             enums.putTag("dev.by1337.virtualentity.api.entity.InteractionHand", hand);
         }
-//        { // MushroomType
-//            CompoundTag hand = new CompoundTag();
-//            for (var value : MushroomCow.MushroomType.values()) {
-//                hand.putInt(value.name(), value.ordinal());
-//            }
-//            enums.putTag("dev.by1337.virtualentity.api.entity.MushroomType", hand);
-//        }
-
         { // PandaGene
             CompoundTag pandaGeneToId = new CompoundTag();
             for (var value : Panda.Gene.values()) {
@@ -260,6 +254,13 @@ public class MappingsDumper {
                 poseToId.putInt(value.name(), value.ordinal());
             }
             enums.putTag("dev.by1337.virtualentity.api.entity.Pose", poseToId);
+        }
+        { // AxolotVariant
+            CompoundTag poseToId = new CompoundTag();
+            for (var value : Axolotl.Variant.values()) {
+                poseToId.putInt(value.name(), value.getId());
+            }
+            enums.putTag("dev.by1337.virtualentity.api.entity.AxolotVariant", poseToId);
         }
         { // VillagerProfession
             CompoundTag profession = new CompoundTag();
@@ -281,25 +282,26 @@ public class MappingsDumper {
             }
             enums.putTag("dev.by1337.virtualentity.api.entity.npc.VillagerType", villagerType);
         }
+
         { // PacketType
             CompoundTag packets = new CompoundTag();
-            packets.putInt("PLAYER_INFO_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, new ClientboundPlayerInfoPacket()));
-            packets.putInt("SET_PLAYER_TEAM_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, new ClientboundSetPlayerTeamPacket()));
-            packets.putInt("SET_ENTITY_DATA_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, new ClientboundSetEntityDataPacket()));
-            packets.putInt("ANIMATE_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, new ClientboundAnimatePacket()));
-            packets.putInt("ROTATE_HEAD_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, new ClientboundRotateHeadPacket()));
-            packets.putInt("TELEPORT_ENTITY_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, new ClientboundTeleportEntityPacket()));
-            packets.putInt("ADD_ENTITY_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, new ClientboundAddEntityPacket()));
-            packets.putInt("ADD_MOB_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, new ClientboundAddMobPacket()));
-            packets.putInt("ADD_PLAYER_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, new ClientboundAddPlayerPacket()));
-            packets.putInt("ADD_EXPERIENCE_ORB_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, new ClientboundAddExperienceOrbPacket()));
-            packets.putInt("ADD_PAINTING_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, new ClientboundAddPaintingPacket()));
-            packets.putInt("REMOVE_ENTITIES_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, new ClientboundRemoveEntitiesPacket()));
-            packets.putInt("SET_EQUIPMENT_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, new ClientboundSetEquipmentPacket()));
-            packets.putInt("MOVE_ENTITY_PACKET_POS", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, new ClientboundMoveEntityPacket.Pos()));
-            packets.putInt("MOVE_ENTITY_PACKET_POS_ROT", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, new ClientboundMoveEntityPacket.PosRot()));
-            packets.putInt("MOVE_ENTITY_PACKET_ROT", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, new ClientboundMoveEntityPacket.Rot()));
-            packets.putInt("SET_ENTITY_MOTION_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, new ClientboundSetEntityMotionPacket()));
+            packets.putInt("PLAYER_INFO_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundPlayerInfoPacket.class)));
+            packets.putInt("SET_PLAYER_TEAM_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundSetPlayerTeamPacket.class)));
+            packets.putInt("SET_ENTITY_DATA_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundSetEntityDataPacket.class)));
+            packets.putInt("ANIMATE_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundAnimatePacket.class)));
+            packets.putInt("ROTATE_HEAD_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundRotateHeadPacket.class)));
+            packets.putInt("TELEPORT_ENTITY_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundTeleportEntityPacket.class)));
+            packets.putInt("ADD_ENTITY_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundAddEntityPacket.class)));
+            packets.putInt("ADD_MOB_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundAddMobPacket.class)));
+            packets.putInt("ADD_PLAYER_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundAddPlayerPacket.class)));
+            packets.putInt("ADD_EXPERIENCE_ORB_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundAddExperienceOrbPacket.class)));
+            packets.putInt("ADD_PAINTING_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundAddPaintingPacket.class)));
+            packets.putInt("REMOVE_ENTITIES_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundRemoveEntitiesPacket.class)));
+            packets.putInt("SET_EQUIPMENT_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundSetEquipmentPacket.class)));
+            packets.putInt("MOVE_ENTITY_PACKET_POS", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundMoveEntityPacket.Pos.class)));
+            packets.putInt("MOVE_ENTITY_PACKET_POS_ROT", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundMoveEntityPacket.PosRot.class)));
+            packets.putInt("MOVE_ENTITY_PACKET_ROT", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundMoveEntityPacket.Rot.class)));
+            packets.putInt("SET_ENTITY_MOTION_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundSetEntityMotionPacket.class)));
             enums.putTag("dev.by1337.virtualentity.core.network.PacketType", packets);
         }
         {// PaintingMotive
@@ -331,7 +333,7 @@ public class MappingsDumper {
 
 
     private static void addMinecraftClasses() throws Throwable {
-        File file = new File("./lib/minecraft_server_1.17.1.jar"); // todo path to remapped minecraft
+        File file = new File("./lib/minecraft_server_1.17.1.jar");
 
         URLClassLoader urlClassLoader = new URLClassLoader(new URL[]{file.toURI().toURL()});
 

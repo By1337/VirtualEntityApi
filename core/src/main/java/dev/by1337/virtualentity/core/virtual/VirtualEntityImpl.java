@@ -1,12 +1,14 @@
 package dev.by1337.virtualentity.core.virtual;
 
 
+import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 import dev.by1337.virtualentity.api.entity.Pose;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.api.virtual.VirtualEntity;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
 import net.kyori.adventure.text.Component;
+import org.by1337.blib.util.Version;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -19,6 +21,8 @@ public abstract class VirtualEntityImpl extends VirtualEntityControllerImpl impl
     private static final EntityDataAccessor<Boolean> DATA_SILENT;
     private static final EntityDataAccessor<Boolean> DATA_NO_GRAVITY;
     protected static final EntityDataAccessor<Pose> DATA_POSE;
+    @SinceMinecraftVersion("1.17.1")
+    private static final EntityDataAccessor<Integer> DATA_TICKS_FROZEN;
 
 
     public VirtualEntityImpl(VirtualEntityType type) {
@@ -27,13 +31,15 @@ public abstract class VirtualEntityImpl extends VirtualEntityControllerImpl impl
 
     @Override
     protected void defineSynchedData() {
-        this.entityData.define(DATA_SHARED_FLAGS_ID, (byte) 0x0);
+        this.entityData.define(DATA_SHARED_FLAGS_ID, (byte) 0);
         this.entityData.define(DATA_AIR_SUPPLY_ID, 0x12C);
         this.entityData.define(DATA_CUSTOM_NAME_VISIBLE, false);
         this.entityData.define(DATA_CUSTOM_NAME, Optional.empty());
         this.entityData.define(DATA_SILENT, false);
         this.entityData.define(DATA_NO_GRAVITY, false);
         this.entityData.define(DATA_POSE, Pose.STANDING);
+        if (Version.VERSION.newerThanOrEqual(Version.V1_17_1))
+            this.entityData.define(DATA_TICKS_FROZEN, 0);
     }
 
     @Override
@@ -170,6 +176,16 @@ public abstract class VirtualEntityImpl extends VirtualEntityControllerImpl impl
         entityData.set(DATA_POSE, pose);
     }
 
+    @SinceMinecraftVersion("1.17.1")
+    public int getTicksFrozen() {
+        return this.entityData.get(DATA_TICKS_FROZEN);
+    }
+
+    @SinceMinecraftVersion("1.17.1")
+    public void setTicksFrozen(int ticks) {
+        this.entityData.set(DATA_TICKS_FROZEN, ticks);
+    }
+
     static {
         DATA_SHARED_FLAGS_ID = Mappings.findAccessor("Entity", "DATA_SHARED_FLAGS_ID");
         DATA_AIR_SUPPLY_ID = Mappings.findAccessor("Entity", "DATA_AIR_SUPPLY_ID");
@@ -178,5 +194,10 @@ public abstract class VirtualEntityImpl extends VirtualEntityControllerImpl impl
         DATA_SILENT = Mappings.findAccessor("Entity", "DATA_SILENT");
         DATA_NO_GRAVITY = Mappings.findAccessor("Entity", "DATA_NO_GRAVITY");
         DATA_POSE = Mappings.findAccessor("Entity", "DATA_POSE");
+        if (Version.VERSION.newerThanOrEqual(Version.V1_17_1)) {
+            DATA_TICKS_FROZEN = Mappings.findAccessor("Entity", "DATA_TICKS_FROZEN");
+        } else {
+            DATA_TICKS_FROZEN = null;
+        }
     }
 }

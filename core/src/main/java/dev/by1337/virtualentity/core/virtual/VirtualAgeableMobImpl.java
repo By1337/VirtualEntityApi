@@ -1,15 +1,16 @@
 package dev.by1337.virtualentity.core.virtual;
 
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
-import dev.by1337.virtualentity.api.virtual.VirtualAgableMob;
+import dev.by1337.virtualentity.api.virtual.VirtualAgeableMob;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
+import org.by1337.blib.util.Version;
 
-public abstract class VirtualAgableMobImpl extends VirtualMobImpl implements VirtualAgableMob {
+public abstract class VirtualAgeableMobImpl extends VirtualMobImpl implements VirtualAgeableMob {
     private static final EntityDataAccessor<Boolean> DATA_BABY_ID;
 
-    public VirtualAgableMobImpl(VirtualEntityType type) {
-        super(type);
+    public VirtualAgeableMobImpl(VirtualEntityType type) {
+        super(type); // AgableMob Ageable
     }
 
     protected void defineSynchedData() {
@@ -28,6 +29,9 @@ public abstract class VirtualAgableMobImpl extends VirtualMobImpl implements Vir
     }
 
     static {
-        DATA_BABY_ID = Mappings.findAccessor("AgableMob", "DATA_BABY_ID");
+        if (Version.VERSION.olderThan(Version.V1_17_1))
+            DATA_BABY_ID = Mappings.findAccessor("AgableMob", "DATA_BABY_ID");
+        else
+            DATA_BABY_ID = Mappings.findAccessor("AgeableMob", "DATA_BABY_ID");
     }
 }

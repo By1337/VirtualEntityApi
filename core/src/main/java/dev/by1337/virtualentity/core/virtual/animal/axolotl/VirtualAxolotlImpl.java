@@ -5,10 +5,10 @@ import dev.by1337.virtualentity.api.entity.AxolotVariant;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
-import dev.by1337.virtualentity.core.virtual.VirtualAgableMobImpl;
+import dev.by1337.virtualentity.core.virtual.VirtualAgeableMobImpl;
 
 @SinceMinecraftVersion("1.17.1")
-public class VirtualAxolotlImpl extends VirtualAgableMobImpl implements dev.by1337.virtualentity.api.virtual.animal.axolotl.VirtualAxolotl {
+public class VirtualAxolotlImpl extends VirtualAgeableMobImpl implements dev.by1337.virtualentity.api.virtual.animal.axolotl.VirtualAxolotl {
     private static final EntityDataAccessor<Integer> DATA_VARIANT;
     private static final EntityDataAccessor<Boolean> DATA_PLAYING_DEAD;
     private static final EntityDataAccessor<Boolean> FROM_BUCKET;

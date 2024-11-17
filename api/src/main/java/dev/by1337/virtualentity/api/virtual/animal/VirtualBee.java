@@ -1,8 +1,8 @@
 package dev.by1337.virtualentity.api.virtual.animal;
 
-import dev.by1337.virtualentity.api.virtual.VirtualAgableMob;
+import dev.by1337.virtualentity.api.virtual.VirtualAgeableMob;
 
-public interface VirtualBee extends VirtualAgableMob {
+public interface VirtualBee extends VirtualAgeableMob {
     int getRemainingPersistentAngerTime();
     void setRemainingPersistentAngerTime(int time);
     boolean hasStung();

@@ -3,10 +3,10 @@ package dev.by1337.virtualentity.core.virtual.animal;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
-import dev.by1337.virtualentity.core.virtual.VirtualAgableMobImpl;
+import dev.by1337.virtualentity.core.virtual.VirtualAgeableMobImpl;
 import org.by1337.blib.geom.Vec3i;
 
-public class VirtualTurtleImpl extends VirtualAgableMobImpl implements dev.by1337.virtualentity.api.virtual.animal.VirtualTurtle {
+public class VirtualTurtleImpl extends VirtualAgeableMobImpl implements dev.by1337.virtualentity.api.virtual.animal.VirtualTurtle {
     private static final EntityDataAccessor<Vec3i> HOME_POS;
     private static final EntityDataAccessor<Boolean> HAS_EGG;
     private static final EntityDataAccessor<Boolean> LAYING_EGG;

@@ -1,13 +1,13 @@
 package dev.by1337.virtualentity.api.virtual.animal;
 
 import dev.by1337.virtualentity.api.entity.FoxType;
-import dev.by1337.virtualentity.api.virtual.VirtualAgableMob;
+import dev.by1337.virtualentity.api.virtual.VirtualAgeableMob;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-public interface VirtualFox extends VirtualAgableMob {
+public interface VirtualFox extends VirtualAgeableMob {
     FoxType getFoxType();
 
     void setFoxType(FoxType type);

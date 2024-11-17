@@ -16,6 +16,7 @@ public class AddPaintingPacket extends Packet {
 
     @Override
     public void write(ByteBuf byteBuf) {
+        //https://wiki.vg/index.php?title=Protocol&oldid=16866#Spawn_Painting
         ByteBuffUtil.writeVarInt(PACKET_ID, byteBuf);
         ByteBuffUtil.writeVarInt(painting.getId(), byteBuf);
         ByteBuffUtil.writeUUID(painting.getUuid(), byteBuf);

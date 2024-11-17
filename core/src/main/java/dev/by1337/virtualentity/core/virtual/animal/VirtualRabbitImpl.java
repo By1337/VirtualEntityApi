@@ -3,9 +3,9 @@ package dev.by1337.virtualentity.core.virtual.animal;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
-import dev.by1337.virtualentity.core.virtual.VirtualAgableMobImpl;
+import dev.by1337.virtualentity.core.virtual.VirtualAgeableMobImpl;
 
-public class VirtualRabbitImpl extends VirtualAgableMobImpl implements dev.by1337.virtualentity.api.virtual.animal.VirtualRabbit {
+public class VirtualRabbitImpl extends VirtualAgeableMobImpl implements dev.by1337.virtualentity.api.virtual.animal.VirtualRabbit {
     private static final EntityDataAccessor<Integer> DATA_TYPE_ID;
 
     public VirtualRabbitImpl() {

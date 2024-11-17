@@ -130,4 +130,8 @@ public enum VirtualEntityType {
     VirtualEntityType(Version availableSinceVersion) {
         this.availableSinceVersion = availableSinceVersion;
     }
+
+    public Version availableSinceVersion() {
+        return availableSinceVersion;
+    }
 }

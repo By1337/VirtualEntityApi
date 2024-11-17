@@ -3,13 +3,13 @@ package dev.by1337.virtualentity.core.virtual.animal.horse;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
-import dev.by1337.virtualentity.core.virtual.VirtualAgableMobImpl;
+import dev.by1337.virtualentity.core.virtual.VirtualAgeableMobImpl;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
 import java.util.UUID;
 
-public abstract class VirtualAbstractHorseImpl extends VirtualAgableMobImpl implements dev.by1337.virtualentity.api.virtual.animal.horse.VirtualAbstractHorse {
+public abstract class VirtualAbstractHorseImpl extends VirtualAgeableMobImpl implements dev.by1337.virtualentity.api.virtual.animal.horse.VirtualAbstractHorse {
     private static final EntityDataAccessor<Byte> DATA_ID_FLAGS;
     private static final EntityDataAccessor<Optional<UUID>> DATA_ID_OWNER_UUID;
 
