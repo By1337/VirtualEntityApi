@@ -15,6 +15,10 @@ public class VirtualItemFrameImpl extends VirtualEntityImpl implements dev.by133
         super(VirtualEntityType.ITEM_FRAME);
     }
 
+    public VirtualItemFrameImpl(VirtualEntityType type) {
+        super(type);
+    }
+
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(DATA_ITEM, new ItemStack(Material.AIR));

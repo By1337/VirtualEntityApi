@@ -6,6 +6,8 @@ import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.core.virtual.*;
 import dev.by1337.virtualentity.core.virtual.decoration.*;
 import dev.by1337.virtualentity.core.virtual.animal.*;
+import dev.by1337.virtualentity.core.virtual.animal.axolotl.*;
+import dev.by1337.virtualentity.core.virtual.animal.goat.*;
 import dev.by1337.virtualentity.core.virtual.animal.horse.*;
 import dev.by1337.virtualentity.core.virtual.decoration.VirtualArmorStandImpl;
 import dev.by1337.virtualentity.core.virtual.item.*;
@@ -133,5 +135,10 @@ public class VirtualEntityRegistrar {
         factory.register(VirtualEntityType.ENDER_DRAGON, VirtualEnderDragonImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.WITHER, VirtualWitherBossImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.EXPERIENCE_ORB, VirtualExperienceOrbImpl::new, Version.V1_16_5);
+
+        factory.register(VirtualEntityType.AXOLOTL, VirtualAxolotlImpl::new, Version.V1_17_1);
+        factory.register(VirtualEntityType.GOAT, VirtualGoatImpl::new, Version.V1_17_1);
+        factory.register(VirtualEntityType.GLOW_ITEM_FRAME, VirtualGlowItemFrameImpl::new, Version.V1_17_1);
+        factory.register(VirtualEntityType.GLOW_SQUID, VirtualGlowSquidImpl::new, Version.V1_17_1);
     }
 }
