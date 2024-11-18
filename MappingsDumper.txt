@@ -1,3 +1,26 @@
+// libs
+// com.github.oshi:oshi-core:5.8.5
+// com.google.code.gson:gson:2.8.9
+// com.google.guava:failureaccess:1.0.1
+// com.google.guava:guava:31.0.1-jre
+// com.mojang:authlib:3.3.39
+// com.mojang:brigadier:1.0.18
+// com.mojang:datafixerupper:4.1.27
+// com.mojang:javabridge:1.2.24
+// com.mojang:logging:1.0.0
+// commons-io:commons-io:2.11.0
+// io.netty:netty-all:4.1.68.Final
+// it.unimi.dsi:fastutil:8.5.6
+// net.java.dev.jna:jna:5.10.0
+// net.java.dev.jna:jna-platform:5.10.0
+// net.sf.jopt-simple:jopt-simple:5.0.4
+// org.apache.commons:commons-lang3:3.12.0
+// org.apache.logging.log4j:log4j-api:2.17.0
+// org.apache.logging.log4j:log4j-core:2.17.0
+// org.apache.logging.log4j:log4j-slf4j18-impl:2.17.0
+// org.slf4j:slf4j-api:1.8.0-beta4
+// org.by1337.blib.nbt:Blib-nbt: 1.3.1-beta
+
 package net.minecraft.world.entity.monster; // req
 
 import com.mojang.authlib.GameProfile;
