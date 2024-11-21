@@ -10,6 +10,7 @@ import dev.by1337.virtualentity.core.virtual.animal.axolotl.*;
 import dev.by1337.virtualentity.core.virtual.animal.goat.*;
 import dev.by1337.virtualentity.core.virtual.animal.horse.*;
 import dev.by1337.virtualentity.core.virtual.decoration.VirtualArmorStandImpl;
+import dev.by1337.virtualentity.core.virtual.display.*;
 import dev.by1337.virtualentity.core.virtual.item.*;
 import dev.by1337.virtualentity.core.virtual.monster.*;
 import dev.by1337.virtualentity.core.virtual.monster.piglin.*;
@@ -140,5 +141,10 @@ public class VirtualEntityRegistrar {
         factory.register(VirtualEntityType.GOAT, VirtualGoatImpl::new, Version.V1_17_1);
         factory.register(VirtualEntityType.GLOW_ITEM_FRAME, VirtualGlowItemFrameImpl::new, Version.V1_17_1);
         factory.register(VirtualEntityType.GLOW_SQUID, VirtualGlowSquidImpl::new, Version.V1_17_1);
+
+        factory.register(VirtualEntityType.INTERACTION, VirtualInteractionImpl::new, Version.V1_19_4);
+        factory.register(VirtualEntityType.BLOCK_DISPLAY, VirtualBlockDisplayImpl::new, Version.V1_19_4);
+        factory.register(VirtualEntityType.ITEM_DISPLAY, VirtualItemDisplayImpl::new, Version.V1_19_4);
+        factory.register(VirtualEntityType.TEXT_DISPLAY, VirtualTextDisplayImpl::new, Version.V1_19_4);
     }
 }

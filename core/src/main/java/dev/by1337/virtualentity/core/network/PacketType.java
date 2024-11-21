@@ -25,6 +25,7 @@ public enum PacketType implements MappedEnum {
     SET_ENTITY_MOTION_PACKET,
     PLAYER_INFO_PACKET,
     SET_PLAYER_TEAM_PACKET,
+    ENTITY_EVENT_PACKET, // todo new packet
     ;
     public static final Codec<PacketType> CODEC = DefaultCodecs.createEnumCodec(PacketType.class);
     private static final EnumMap<PacketType, Integer> TO_ID = new EnumMap<>(PacketType.class);

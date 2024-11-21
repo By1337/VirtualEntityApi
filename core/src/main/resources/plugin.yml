@@ -2,7 +2,9 @@ name: VirtualEntityApi
 main: dev.by1337.virtualentity.core.Main
 version: 1.0
 api-version: '1.16'
-
+depend:
+  - BLib
+  - BTCPServer
 commands:
   virtualentityapi:
     aliases:

@@ -41,10 +41,13 @@ public class SynchedEntityData {
     }
 
     public <T> void set(EntityDataAccessor<T> accessor, T value) {
+        set(accessor, value, false);
+    }
+    public <T> void set(EntityDataAccessor<T> accessor, T value, boolean force) {
         this.lock.writeLock().lock();
         try {
             DataItem<T> dataItem = this.getItem(accessor);
-            if (!Objects.equals(value, dataItem.getValue())) {
+            if (force || !Objects.equals(value, dataItem.getValue())) {
                 dataItem.setValue(value);
                 onUpdate.accept(accessor);
                 dataItem.setDirty(true);

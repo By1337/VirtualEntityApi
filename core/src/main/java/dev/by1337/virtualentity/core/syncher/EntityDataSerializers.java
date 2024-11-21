@@ -77,6 +77,16 @@ public class EntityDataSerializers {
 
     public static final EntityDataSerializer<Pose> POSE = register(ByteBuffUtil::writeEnum, "POSE");
 
+    // QUATERNION todo 1.19.4
+    // SNIFFER_STATE todo 1.19.4
+    // OPTIONAL_BLOCK_POS todo 1.19.4
+    // OPTIONAL_BLOCK_STATE todo 1.19.4
+    // LONG todo 1.19.4
+    // OPTIONAL_GLOBAL_POS todo 1.19.4
+    // PAINTING_VARIANT todo 1.19.4
+    // FROG_VARIANT todo 1.19.4
+    // VECTOR3 todo 1.19.4
+
     private static <T> EntityDataSerializer<T> register(EntityDataSerializer<T> serializer, String name) {
         if (SERIALIZERS.put(name, serializer) != null) {
             throw new IllegalArgumentException("Duplicate serializer: " + name);
