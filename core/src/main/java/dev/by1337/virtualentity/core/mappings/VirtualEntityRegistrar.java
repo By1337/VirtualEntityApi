@@ -4,6 +4,7 @@ import dev.by1337.virtualentity.api.VirtualEntityApi;
 import dev.by1337.virtualentity.api.VirtualEntityFactory;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.core.virtual.*;
+import dev.by1337.virtualentity.core.virtual.animal.sniffer.VirtualSnifferImpl;
 import dev.by1337.virtualentity.core.virtual.decoration.*;
 import dev.by1337.virtualentity.core.virtual.animal.*;
 import dev.by1337.virtualentity.core.virtual.animal.axolotl.*;
@@ -146,5 +147,6 @@ public class VirtualEntityRegistrar {
         factory.register(VirtualEntityType.BLOCK_DISPLAY, VirtualBlockDisplayImpl::new, Version.V1_19_4);
         factory.register(VirtualEntityType.ITEM_DISPLAY, VirtualItemDisplayImpl::new, Version.V1_19_4);
         factory.register(VirtualEntityType.TEXT_DISPLAY, VirtualTextDisplayImpl::new, Version.V1_19_4);
+        factory.register(VirtualEntityType.SNIFFER, VirtualSnifferImpl::new, Version.V1_19_4);
     }
 }
