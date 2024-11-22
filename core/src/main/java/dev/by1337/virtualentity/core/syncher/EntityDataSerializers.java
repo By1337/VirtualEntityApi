@@ -1,6 +1,6 @@
 package dev.by1337.virtualentity.core.syncher;
 
-import dev.by1337.virtualentity.api.entity.Pose;
+import dev.by1337.virtualentity.api.entity.*;
 import dev.by1337.virtualentity.api.entity.npc.VillagerData;
 import dev.by1337.virtualentity.api.particles.ParticleOptions;
 import dev.by1337.virtualentity.core.mappings.Mappings;
@@ -13,6 +13,8 @@ import org.by1337.blib.geom.Vec3i;
 import org.by1337.blib.nbt.impl.CompoundTag;
 import org.by1337.blib.util.Direction;
 import org.by1337.blib.util.Version;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 import java.util.*;
 
@@ -77,15 +79,32 @@ public class EntityDataSerializers {
 
     public static final EntityDataSerializer<Pose> POSE = register(ByteBuffUtil::writeEnum, "POSE");
 
-    // QUATERNION todo 1.19.4
-    // SNIFFER_STATE todo 1.19.4
-    // OPTIONAL_BLOCK_POS todo 1.19.4
-    // OPTIONAL_BLOCK_STATE todo 1.19.4
-    // LONG todo 1.19.4
-    // OPTIONAL_GLOBAL_POS todo 1.19.4
-    // PAINTING_VARIANT todo 1.19.4
-    // FROG_VARIANT todo 1.19.4
-    // VECTOR3 todo 1.19.4
+    public static final EntityDataSerializer<Quaternionf> QUATERNION = register((val, byteBuf) -> {
+        byteBuf.writeFloat(val.x);
+        byteBuf.writeFloat(val.y);
+        byteBuf.writeFloat(val.z);
+        byteBuf.writeFloat(val.w);
+    }, "QUATERNION");
+
+    public static final EntityDataSerializer<SnifferState> SNIFFER_STATE = register(ByteBuffUtil::writeEnum, "SNIFFER_STATE");
+    public static final EntityDataSerializer<CatVariant> CAT_VARIANT = register(ByteBuffUtil::writeEnum, "CAT_VARIANT");
+    public static final EntityDataSerializer<FrogVariant> FROG_VARIANT = register(ByteBuffUtil::writeEnum, "FROG_VARIANT");
+    public static final EntityDataSerializer<PaintingMotive> PAINTING_VARIANT = register(ByteBuffUtil::writeEnum, "PAINTING_VARIANT");
+    public static final EntityDataSerializer<Long> LONG = register(ByteBuffUtil::writeVarLong, "LONG");
+    public static final EntityDataSerializer<Optional<BlockData>> OPTIONAL_BLOCK_STATE = register((val, buff) -> {
+        if (val.isPresent()) {
+            ByteBuffUtil.writeBlockState(val.get(), buff);
+        } else {
+            ByteBuffUtil.writeVarInt(0, buff);
+        }
+    }, "OPTIONAL_BLOCK_STATE");
+    public static final EntityDataSerializer<Vector3f> VECTOR3 = register((val, buff) -> {
+        buff.writeFloat(val.x);
+        buff.writeFloat(val.y);
+        buff.writeFloat(val.z);
+    }, "VECTOR3");
+
+    // OPTIONAL_GLOBAL_POS unused
 
     private static <T> EntityDataSerializer<T> register(EntityDataSerializer<T> serializer, String name) {
         if (SERIALIZERS.put(name, serializer) != null) {
@@ -102,9 +121,10 @@ public class EntityDataSerializers {
     public static EntityDataSerializer<?> getByName(String name) {
         return SERIALIZERS.get(name);
     }
-    public static int getId(EntityDataSerializer<?> serializer){
+
+    public static int getId(EntityDataSerializer<?> serializer) {
         Integer id = SERIALIZER_TO_ID.get(serializer);
-        if (id == null){
+        if (id == null) {
             throw new IllegalStateException("Has no EntityDataSerializer id for serializer " + SERIALIZER_TO_NAME.get(serializer) + " Version: " + Version.VERSION);
         }
         return id;
