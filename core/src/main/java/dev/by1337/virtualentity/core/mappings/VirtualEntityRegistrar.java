@@ -11,6 +11,7 @@ import dev.by1337.virtualentity.core.virtual.animal.axolotl.*;
 import dev.by1337.virtualentity.core.virtual.animal.goat.*;
 import dev.by1337.virtualentity.core.virtual.animal.horse.*;
 import dev.by1337.virtualentity.core.virtual.animal.frog.*;
+import dev.by1337.virtualentity.core.virtual.animal.camel.*;
 import dev.by1337.virtualentity.core.virtual.decoration.VirtualArmorStandImpl;
 import dev.by1337.virtualentity.core.virtual.display.*;
 import dev.by1337.virtualentity.core.virtual.item.*;
@@ -151,5 +152,6 @@ public class VirtualEntityRegistrar {
         factory.register(VirtualEntityType.SNIFFER, VirtualSnifferImpl::new, Version.V1_19_4);
         factory.register(VirtualEntityType.TADPOLE, VirtualTadpoleImpl::new, Version.V1_19_4);
         factory.register(VirtualEntityType.FROG, VirtualFrogImpl::new, Version.V1_19_4);
+        factory.register(VirtualEntityType.CAMEL, VirtualCamelImpl::new, Version.V1_19_4);
     }
 }
