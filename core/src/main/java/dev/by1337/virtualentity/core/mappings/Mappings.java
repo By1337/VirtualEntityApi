@@ -92,7 +92,8 @@ public class Mappings {
     public static <T> EntityDataAccessor<T> findAccessor(String clazz, String id) {
         List<NetworkValue> list = instance.entityNetworkValues.get(clazz);
         if (list == null) {
-            throw new IllegalStateException("Has no mappings for entity " + clazz);
+            return null;
+            //   throw new IllegalStateException("Has no mappings for entity " + clazz);
         }
         NetworkValue value = list.stream().filter(v -> v.name.equals(id)).findFirst().orElse(null);
         if (value == null) {

@@ -150,5 +150,6 @@ public class VirtualEntityRegistrar {
         factory.register(VirtualEntityType.TEXT_DISPLAY, VirtualTextDisplayImpl::new, Version.V1_19_4);
         factory.register(VirtualEntityType.SNIFFER, VirtualSnifferImpl::new, Version.V1_19_4);
         factory.register(VirtualEntityType.TADPOLE, VirtualTadpoleImpl::new, Version.V1_19_4);
+        factory.register(VirtualEntityType.FROG, VirtualFrogImpl::new, Version.V1_19_4);
     }
 }
