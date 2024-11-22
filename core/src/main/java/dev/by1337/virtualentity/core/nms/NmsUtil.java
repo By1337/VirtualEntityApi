@@ -35,6 +35,7 @@ public class NmsUtil {
             case V1_16_5 -> new NmsAccessorV1_16_5();
             case V1_17_1 -> new NmsAccessorV1_17_1();
             case V1_18_2 -> new NmsAccessorV1_18_2();
+            case V1_19_4 -> new NmsAccessorV1_19_4();
             default -> throw new UnsupportedOperationException("Unsupported version " + Version.VERSION);
         };
     }
@@ -339,6 +340,97 @@ public class NmsUtil {
                         invokevirtual org/bukkit/craftbukkit/v1_18_R2/entity/CraftPlayer getHandle ()Lnet/minecraft/server/level/EntityPlayer;
                         getfield net/minecraft/server/level/EntityPlayer b Lnet/minecraft/server/network/PlayerConnection;
                         getfield net/minecraft/server/network/PlayerConnection a Lnet/minecraft/network/NetworkManager;
+                        getfield net/minecraft/network/NetworkManager m Lio/netty/channel/Channel;
+                        areturn
+                    B:
+                    """;
+            System.out.println(asm);
+            throw new IllegalStateException("ASM did not apply!");
+        }
+    }
+    private static class NmsAccessorV1_19_4 implements NmsAccessor {
+
+        @Override
+        @ASM
+        public int getBlockId(BlockData blockData) {
+            String asm = """
+                    A:
+                        aload 1
+                        checkcast org/bukkit/craftbukkit/v1_19_R3/block/data/CraftBlockData
+                        invokevirtual org/bukkit/craftbukkit/v1_19_R3/block/data/CraftBlockData getState ()Lnet/minecraft/world/level/block/state/IBlockData;
+                        invokestatic net/minecraft/world/level/block/Block i (Lnet/minecraft/world/level/block/state/IBlockData;)I
+                        ireturn
+                    B:
+                    """;
+            System.out.println(asm);
+            throw new IllegalStateException("ASM did not apply!");
+        }
+
+        @Override
+        @ASM
+        public void writeParticle(Particle particle, @Nullable Object value, ByteBuf b) {
+            String asm = """
+                    A:
+                        aload 1
+                        aload 2
+                        invokestatic org/bukkit/craftbukkit/v1_19_R3/CraftParticle toNMS (Lorg/bukkit/Particle;Ljava/lang/Object;)Lnet/minecraft/core/particles/ParticleParam;
+                        astore 4
+                    B:
+                        new net/minecraft/network/PacketDataSerializer
+                        dup
+                        aload 3
+                        invokespecial net/minecraft/network/PacketDataSerializer <init> (Lio/netty/buffer/ByteBuf;)V
+                        dup
+                        astore 5
+                        getstatic net/minecraft/core/registries/BuiltInRegistries k Lnet/minecraft/core/IRegistry;
+                        aload 4
+                        invokeinterface net/minecraft/core/particles/ParticleParam b ()Lnet/minecraft/core/particles/Particle;
+                        invokeinterface net/minecraft/core/IRegistry a (Ljava/lang/Object;)I
+                        invokevirtual net/minecraft/network/PacketDataSerializer d (I)Lnet/minecraft/network/PacketDataSerializer;
+                        pop
+                    D:
+                        aload 4
+                        aload 5
+                        invokeinterface net/minecraft/core/particles/ParticleParam a (Lnet/minecraft/network/PacketDataSerializer;)V
+                    E:
+                        return
+                    F:
+                    """;
+            System.out.println(asm);
+            throw new IllegalStateException("ASM did not apply!");
+        }
+
+        @Override
+        @ASM
+        public void writeItemStack(ItemStack itemStack, ByteBuf b) {
+            String asm = """
+                    A:
+                        new net/minecraft/network/PacketDataSerializer
+                        dup
+                        aload 2
+                        invokespecial net/minecraft/network/PacketDataSerializer <init> (Lio/netty/buffer/ByteBuf;)V
+                        aload 1
+                        invokestatic org/bukkit/craftbukkit/v1_19_R3/inventory/CraftItemStack asNMSCopy (Lorg/bukkit/inventory/ItemStack;)Lnet/minecraft/world/item/ItemStack;
+                        invokevirtual net/minecraft/network/PacketDataSerializer a (Lnet/minecraft/world/item/ItemStack;)Lnet/minecraft/network/PacketDataSerializer;
+                        pop
+                    B:
+                        return
+                    C:
+                    """;
+            System.out.println(asm);
+            throw new IllegalStateException("ASM did not apply!");
+        }
+
+        @Override
+        @ASM
+        public Channel getChannel(Player player) {
+            String asm = """
+                    A:
+                        aload 1
+                        checkcast org/bukkit/craftbukkit/v1_19_R3/entity/CraftPlayer
+                        invokevirtual org/bukkit/craftbukkit/v1_19_R3/entity/CraftPlayer getHandle ()Lnet/minecraft/server/level/EntityPlayer;
+                        getfield net/minecraft/server/level/EntityPlayer b Lnet/minecraft/server/network/PlayerConnection;
+                        getfield net/minecraft/server/network/PlayerConnection h Lnet/minecraft/network/NetworkManager;
                         getfield net/minecraft/network/NetworkManager m Lio/netty/channel/Channel;
                         areturn
                     B:
