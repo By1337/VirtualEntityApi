@@ -1,6 +1,7 @@
 package dev.by1337.virtualentity.api.entity;
 
 import blib.com.mojang.serialization.Codec;
+import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 import org.by1337.blib.configuration.serialization.DefaultCodecs;
 
 import java.util.EnumMap;
@@ -63,8 +64,11 @@ public enum EntityEvent implements MappedEnum {
     START_RAM,
     END_RAM,
     POOF,
+    @SinceMinecraftVersion("1.19.4")
     TENDRILS_SHIVER,
+    @SinceMinecraftVersion("1.19.4")
     SONIC_CHARGE,
+    @SinceMinecraftVersion("1.19.4")
     SNIFFER_DIGGING_SOUND,
     ;
     public static final Codec<EntityEvent> CODEC = DefaultCodecs.createEnumCodec(EntityEvent.class);
