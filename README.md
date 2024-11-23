@@ -6,6 +6,8 @@
 - **Minimal use of NMS**.
 - **Maximum ease of use**.
 
+Supported versions: 1.16.5, 1.17.1, 1.18.2, 1.19.4
+
 ---
 
 ## Example Usage
