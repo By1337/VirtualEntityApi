@@ -1,6 +1,7 @@
 package dev.by1337.virtualentity.core.virtual;
 
 import dev.by1337.virtualentity.api.entity.EntityAnimation;
+import dev.by1337.virtualentity.api.entity.EntityEvent;
 import dev.by1337.virtualentity.api.entity.EquipmentSlot;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.api.virtual.VirtualEntity;
@@ -55,7 +56,7 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
         rebuildSpawnPacket();
     }
 
-    protected void rebuildSpawnPacket(){
+    protected void rebuildSpawnPacket() {
         spawnPacket = createSpawnPacket();
     }
 
@@ -129,7 +130,7 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
         } else if (position.needPosUpdate() && position.needRotUpdate()) {
             Packet packet = new MoveEntityPacket.PosRot(virtualEntity);
             broadcast(packet);
-            if (this instanceof VirtualLivingEntity){
+            if (this instanceof VirtualLivingEntity) {
                 broadcast(new RotateHeadPacket(id, yaw())); // не для всех ентити работает, но будем пытаться на всех
             }
             position.sync();
@@ -140,12 +141,17 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
         } else {
             Packet packet = new MoveEntityPacket.Rot(virtualEntity);
             broadcast(packet);
-            if (this instanceof VirtualLivingEntity){
+            if (this instanceof VirtualLivingEntity) {
                 broadcast(new RotateHeadPacket(id, yaw())); // не для всех ентити работает, но будем пытаться на всех
             }
             position.sync();
         }
         rebuildSpawnPacket();
+    }
+
+    @Override
+    public void broadcastEntityEvent(EntityEvent event) {
+        broadcast(new EntityEventPacket(id, event));
     }
 
     protected void broadcast(Packet packet) {

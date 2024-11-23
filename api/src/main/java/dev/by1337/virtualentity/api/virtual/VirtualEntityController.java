@@ -1,6 +1,7 @@
 package dev.by1337.virtualentity.api.virtual;
 
 import dev.by1337.virtualentity.api.entity.EntityAnimation;
+import dev.by1337.virtualentity.api.entity.EntityEvent;
 import dev.by1337.virtualentity.api.entity.EquipmentSlot;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import org.bukkit.entity.Player;
@@ -58,4 +59,5 @@ public interface VirtualEntityController {
 
     default void onTick(){
     }
+    void broadcastEntityEvent(EntityEvent event);
 }
