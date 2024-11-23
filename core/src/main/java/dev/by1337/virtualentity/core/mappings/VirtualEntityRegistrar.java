@@ -162,5 +162,7 @@ public class VirtualEntityRegistrar {
         factory.register(VirtualEntityType.FROG, VirtualFrogImpl::new, Version.V1_19_4);
         factory.register(VirtualEntityType.CAMEL, VirtualCamelImpl::new, Version.V1_19_4);
         factory.register(VirtualEntityType.ALLAY, VirtualAllayImpl::new, Version.V1_19_4);
+        factory.register(VirtualEntityType.WARDEN, VirtualWardenImpl::new, Version.V1_19_4);
+        factory.register(VirtualEntityType.CHEST_BOAT, VirtualChestBoatImpl::new, Version.V1_19_4);
     }
 }

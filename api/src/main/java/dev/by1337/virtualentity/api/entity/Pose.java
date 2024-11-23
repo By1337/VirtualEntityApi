@@ -28,6 +28,8 @@ public enum Pose implements MappedEnum {
     ROARING,
     @SinceMinecraftVersion("1.19.4")
     DIGGING,
+    @SinceMinecraftVersion("1.19.4")
+    CROAKING
     ;
     public static final Codec<Pose> CODEC = DefaultCodecs.createEnumCodec(Pose.class);
     private static final EnumMap<Pose, Integer> TO_ID = new EnumMap<>(Pose.class);

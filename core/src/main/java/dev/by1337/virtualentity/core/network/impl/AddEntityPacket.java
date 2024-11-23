@@ -6,6 +6,7 @@ import dev.by1337.virtualentity.core.network.ByteBuffUtil;
 import dev.by1337.virtualentity.core.network.Packet;
 import dev.by1337.virtualentity.core.network.PacketType;
 import io.netty.buffer.ByteBuf;
+import org.by1337.blib.util.Version;
 
 public class AddEntityPacket extends Packet {
     private static final int PACKET_ID = PacketType.ADD_ENTITY_PACKET.getId();
@@ -27,7 +28,12 @@ public class AddEntityPacket extends Packet {
         byteBuf.writeDouble(virtualEntity.getPos().z);
         byteBuf.writeByte(virtualEntity.pitch());
         byteBuf.writeByte(virtualEntity.yaw());
-        byteBuf.writeInt(virtualEntity.getCustomEntityData());
+        if (Version.VERSION.newerThanOrEqual(Version.V1_19_4)) {
+            byteBuf.writeByte(virtualEntity.yaw()); // хз здесь должен быть yHeadRot
+            ByteBuffUtil.writeVarInt(virtualEntity.getCustomEntityData(), byteBuf);
+        } else {
+            byteBuf.writeInt(virtualEntity.getCustomEntityData());
+        }
         byteBuf.writeShort(0);
         byteBuf.writeShort(0);
         byteBuf.writeShort(0);

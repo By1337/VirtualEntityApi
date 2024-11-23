@@ -41,9 +41,8 @@ public class EntityDataSerializers {
 
     public static final EntityDataSerializer<ItemStack> ITEM_STACK = register(ByteBuffUtil::writeItemStack, "ITEM_STACK");
 
-    public static final EntityDataSerializer<Optional<BlockData>> BLOCK_STATE = register((val, byteBuf) -> {
-        ByteBuffUtil.writeOptional(byteBuf, val.orElse(null), ByteBuffUtil::writeBlockState);
-    }, "BLOCK_STATE");
+    @SuppressWarnings("rawtypes")
+    public static final EntityDataSerializer BLOCK_STATE; // 1.19.4< is Optional<BlockData> 1.19.4>= is BlockData
 
     public static final EntityDataSerializer<Boolean> BOOLEAN = register((val, byteBuf) -> {
         byteBuf.writeBoolean(val);
@@ -128,5 +127,20 @@ public class EntityDataSerializers {
             throw new IllegalStateException("Has no EntityDataSerializer id for serializer " + SERIALIZER_TO_NAME.get(serializer) + " Version: " + Version.VERSION);
         }
         return id;
+    }
+
+    static {
+        if (Version.VERSION.newerThanOrEqual(Version.V1_19_4)) {
+            BLOCK_STATE = register((val, byteBuf) -> {
+                BlockData blockData = (BlockData) val;
+                ByteBuffUtil.writeBlockState(blockData, byteBuf);
+            }, "BLOCK_STATE");
+        } else {
+            BLOCK_STATE = register((val, byteBuf) -> {
+                @SuppressWarnings("unchecked")
+                Optional<BlockData> opt = (Optional<BlockData>) val;
+                ByteBuffUtil.writeOptional(byteBuf, opt.orElse(null), ByteBuffUtil::writeBlockState);
+            }, "BLOCK_STATE");
+        }
     }
 }

@@ -10,9 +10,11 @@ import dev.by1337.virtualentity.api.virtual.VirtualEntity;
 import dev.by1337.virtualentity.api.virtual.decoration.VirtualArmorStand;
 import dev.by1337.virtualentity.api.virtual.item.VirtualItem;
 import dev.by1337.virtualentity.api.virtual.monster.VirtualCreeper;
+import dev.by1337.virtualentity.api.virtual.projectile.VirtualSnowball;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.mappings.VirtualEntityRegistrar;
 import dev.by1337.virtualentity.core.network.Packet;
+import dev.by1337.virtualentity.core.virtual.projectile.VirtualThrowableItemProjectileImpl;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -27,6 +29,7 @@ import org.by1337.blib.util.Version;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
+import java.util.Set;
 
 public class Main extends JavaPlugin {
 
@@ -67,6 +70,7 @@ public class Main extends JavaPlugin {
                 getServer().getScheduler().runTaskLater(this, tracker::removeAll, 2000);
                 return true;
             }
+
         }
 
 
