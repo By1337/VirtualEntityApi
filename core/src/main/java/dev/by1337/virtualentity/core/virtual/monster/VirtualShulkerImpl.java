@@ -1,6 +1,6 @@
 package dev.by1337.virtualentity.core.virtual.monster;
 
-import dev.by1337.virtualentity.api.annotations.DeprecatedInMinecraftVersion;
+import dev.by1337.virtualentity.api.annotations.RemovedInMinecraftVersion;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
@@ -15,7 +15,7 @@ import java.util.Optional;
 public class VirtualShulkerImpl extends VirtualMobImpl implements dev.by1337.virtualentity.api.virtual.monster.VirtualShulker {
 
     private static final EntityDataAccessor<Direction> DATA_ATTACH_FACE_ID;
-    @DeprecatedInMinecraftVersion("1.17.1")
+    @RemovedInMinecraftVersion("1.17.1")
     private static final EntityDataAccessor<Optional<Vec3i>> DATA_ATTACH_POS_ID;
     private static final EntityDataAccessor<Byte> DATA_PEEK_ID;
     private static final EntityDataAccessor<Byte> DATA_COLOR_ID;
@@ -45,13 +45,13 @@ public class VirtualShulkerImpl extends VirtualMobImpl implements dev.by1337.vir
     }
 
     @Override
-    @DeprecatedInMinecraftVersion("1.17.1")
+    @RemovedInMinecraftVersion("1.17.1")
     public @Nullable Vec3i getAttachPos() {
         return this.entityData.get(DATA_ATTACH_POS_ID).orElse(null);
     }
 
     @Override
-    @DeprecatedInMinecraftVersion("1.17.1")
+    @RemovedInMinecraftVersion("1.17.1")
     public void setAttachPos(@Nullable Vec3i pos) {
         this.entityData.set(DATA_ATTACH_POS_ID, Optional.ofNullable(pos));
     }

@@ -77,6 +77,7 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
             lastViewers.clear();
             return;
         }
+        onTick();
         updateLocation();
         Packet dirtyData;
         if (allEntityData == null || entityData.isDirty()) {

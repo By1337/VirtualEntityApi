@@ -3,15 +3,18 @@ package dev.by1337.virtualentity.core;
 import dev.by1337.virtualentity.api.VirtualEntityApi;
 import dev.by1337.virtualentity.api.entity.EquipmentSlot;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
+import dev.by1337.virtualentity.api.particles.ParticleOptions;
 import dev.by1337.virtualentity.api.tracker.PlayerTracker;
+import dev.by1337.virtualentity.api.virtual.VirtualAreaEffectCloud;
 import dev.by1337.virtualentity.api.virtual.VirtualEntity;
 import dev.by1337.virtualentity.api.virtual.decoration.VirtualArmorStand;
 import dev.by1337.virtualentity.api.virtual.item.VirtualItem;
 import dev.by1337.virtualentity.api.virtual.monster.VirtualCreeper;
+import dev.by1337.virtualentity.api.virtual.projectile.VirtualSnowball;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.mappings.VirtualEntityRegistrar;
 import dev.by1337.virtualentity.core.network.Packet;
-import dev.by1337.virtualentity.core.virtual.monster.VirtualSkeletonImpl;
+import dev.by1337.virtualentity.core.virtual.projectile.VirtualThrowableItemProjectileImpl;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -26,6 +29,7 @@ import org.by1337.blib.util.Version;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
+import java.util.Set;
 
 public class Main extends JavaPlugin {
 
@@ -35,9 +39,9 @@ public class Main extends JavaPlugin {
         VirtualEntityRegistrar.register();
     }
 
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-
         Player player = (Player) sender;
 
         if (args.length == 1) {
@@ -57,7 +61,7 @@ public class Main extends JavaPlugin {
                         entity.setPos(pos);
                         tracker.addEntity(entity);
                         pos = pos.add(0, 0, 2);
-                    }catch (Throwable t){
+                    } catch (Throwable t) {
                         System.out.println(value);
                         t.printStackTrace();
                     }
@@ -66,6 +70,7 @@ public class Main extends JavaPlugin {
                 getServer().getScheduler().runTaskLater(this, tracker::removeAll, 2000);
                 return true;
             }
+
         }
 
 
@@ -83,6 +88,13 @@ public class Main extends JavaPlugin {
         creeper.lookAt(armorStand.getPos());
         creeper.setPowered(true);
         tracker.addEntity(creeper);
+
+        VirtualAreaEffectCloud areaEffectCloud = VirtualEntityApi.getFactory().create(VirtualEntityType.AREA_EFFECT_CLOUD, VirtualAreaEffectCloud.class);
+        areaEffectCloud.setPos(center);
+        areaEffectCloud.setRadius(1);
+        areaEffectCloud.setParticle(new ParticleOptions<>(null, Particle.FLAME));
+        tracker.addEntity(areaEffectCloud);
+
 
         new BukkitRunnable() {
             Vec3d vec = new Vec3d(0, 0, (360D / 7D) / 7);
@@ -109,6 +121,9 @@ public class Main extends JavaPlugin {
                     item.setPos(armorStand.getPos());
                     item.setItem(new ItemStack(Material.values()[random.nextInt(50)]));
                     tracker.addEntity(item);
+                }
+                if (tick % 3 == 0 && areaEffectCloud.getRadius() < 10) {
+                    areaEffectCloud.setRadius(areaEffectCloud.getRadius() + 0.25f);
                 }
                 tick++;
             }

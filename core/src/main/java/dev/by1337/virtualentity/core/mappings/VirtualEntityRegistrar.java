@@ -4,27 +4,39 @@ import dev.by1337.virtualentity.api.VirtualEntityApi;
 import dev.by1337.virtualentity.api.VirtualEntityFactory;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.core.virtual.*;
-import dev.by1337.virtualentity.core.virtual.decoration.*;
 import dev.by1337.virtualentity.core.virtual.animal.*;
-import dev.by1337.virtualentity.core.virtual.animal.axolotl.*;
-import dev.by1337.virtualentity.core.virtual.animal.goat.*;
+import dev.by1337.virtualentity.core.virtual.animal.allay.VirtualAllayImpl;
+import dev.by1337.virtualentity.core.virtual.animal.axolotl.VirtualAxolotlImpl;
+import dev.by1337.virtualentity.core.virtual.animal.camel.VirtualCamelImpl;
+import dev.by1337.virtualentity.core.virtual.animal.frog.VirtualFrogImpl;
+import dev.by1337.virtualentity.core.virtual.animal.frog.VirtualTadpoleImpl;
+import dev.by1337.virtualentity.core.virtual.animal.goat.VirtualGoatImpl;
 import dev.by1337.virtualentity.core.virtual.animal.horse.*;
-import dev.by1337.virtualentity.core.virtual.decoration.VirtualArmorStandImpl;
-import dev.by1337.virtualentity.core.virtual.item.*;
+import dev.by1337.virtualentity.core.virtual.animal.sniffer.VirtualSnifferImpl;
+import dev.by1337.virtualentity.core.virtual.boss.enderdragon.VirtualEndCrystalImpl;
+import dev.by1337.virtualentity.core.virtual.boss.enderdragon.VirtualEnderDragonImpl;
+import dev.by1337.virtualentity.core.virtual.boss.wither.VirtualWitherBossImpl;
+import dev.by1337.virtualentity.core.virtual.decoration.*;
+import dev.by1337.virtualentity.core.virtual.display.VirtualBlockDisplayImpl;
+import dev.by1337.virtualentity.core.virtual.display.VirtualItemDisplayImpl;
+import dev.by1337.virtualentity.core.virtual.display.VirtualTextDisplayImpl;
+import dev.by1337.virtualentity.core.virtual.item.VirtualFallingBlockEntityImpl;
+import dev.by1337.virtualentity.core.virtual.item.VirtualItemImpl;
+import dev.by1337.virtualentity.core.virtual.item.VirtualPrimedTntImpl;
 import dev.by1337.virtualentity.core.virtual.monster.*;
-import dev.by1337.virtualentity.core.virtual.monster.piglin.*;
-import dev.by1337.virtualentity.core.virtual.monster.hoglin.*;
-import dev.by1337.virtualentity.core.virtual.npc.*;
-import dev.by1337.virtualentity.core.virtual.player.*;
+import dev.by1337.virtualentity.core.virtual.monster.hoglin.VirtualHoglinImpl;
+import dev.by1337.virtualentity.core.virtual.monster.piglin.VirtualPiglinBruteImpl;
+import dev.by1337.virtualentity.core.virtual.monster.piglin.VirtualPiglinImpl;
+import dev.by1337.virtualentity.core.virtual.npc.VirtualVillagerImpl;
+import dev.by1337.virtualentity.core.virtual.npc.VirtualWanderingTraderImpl;
+import dev.by1337.virtualentity.core.virtual.player.VirtualPlayerImpl;
 import dev.by1337.virtualentity.core.virtual.projectile.*;
 import dev.by1337.virtualentity.core.virtual.vehicle.*;
-import dev.by1337.virtualentity.core.virtual.boss.enderdragon.*;
-import dev.by1337.virtualentity.core.virtual.boss.wither.*;
 import org.by1337.blib.util.Version;
 
 public class VirtualEntityRegistrar {
 
-    public static void register(){
+    public static void register() {
         VirtualEntityFactory factory = VirtualEntityApi.getFactory();
 
         factory.register(VirtualEntityType.ARMOR_STAND, VirtualArmorStandImpl::new, Version.V1_16_5);
@@ -140,5 +152,17 @@ public class VirtualEntityRegistrar {
         factory.register(VirtualEntityType.GOAT, VirtualGoatImpl::new, Version.V1_17_1);
         factory.register(VirtualEntityType.GLOW_ITEM_FRAME, VirtualGlowItemFrameImpl::new, Version.V1_17_1);
         factory.register(VirtualEntityType.GLOW_SQUID, VirtualGlowSquidImpl::new, Version.V1_17_1);
+
+        factory.register(VirtualEntityType.INTERACTION, VirtualInteractionImpl::new, Version.V1_19_4);
+        factory.register(VirtualEntityType.BLOCK_DISPLAY, VirtualBlockDisplayImpl::new, Version.V1_19_4);
+        factory.register(VirtualEntityType.ITEM_DISPLAY, VirtualItemDisplayImpl::new, Version.V1_19_4);
+        factory.register(VirtualEntityType.TEXT_DISPLAY, VirtualTextDisplayImpl::new, Version.V1_19_4);
+        factory.register(VirtualEntityType.SNIFFER, VirtualSnifferImpl::new, Version.V1_19_4);
+        factory.register(VirtualEntityType.TADPOLE, VirtualTadpoleImpl::new, Version.V1_19_4);
+        factory.register(VirtualEntityType.FROG, VirtualFrogImpl::new, Version.V1_19_4);
+        factory.register(VirtualEntityType.CAMEL, VirtualCamelImpl::new, Version.V1_19_4);
+        factory.register(VirtualEntityType.ALLAY, VirtualAllayImpl::new, Version.V1_19_4);
+        factory.register(VirtualEntityType.WARDEN, VirtualWardenImpl::new, Version.V1_19_4);
+        factory.register(VirtualEntityType.CHEST_BOAT, VirtualChestBoatImpl::new, Version.V1_19_4);
     }
 }

@@ -122,6 +122,29 @@ public enum VirtualEntityType {
     GLOW_ITEM_FRAME(Version.V1_17_1),
     @SinceMinecraftVersion("1.17.1")
     GLOW_SQUID(Version.V1_17_1),
+
+    @SinceMinecraftVersion("1.19.4")
+    WARDEN(Version.V1_19_4),
+    @SinceMinecraftVersion("1.19.4")
+    TEXT_DISPLAY(Version.V1_19_4),
+    @SinceMinecraftVersion("1.19.4")
+    CAMEL(Version.V1_19_4),
+    @SinceMinecraftVersion("1.19.4")
+    SNIFFER(Version.V1_19_4),
+    @SinceMinecraftVersion("1.19.4")
+    ITEM_DISPLAY(Version.V1_19_4),
+    @SinceMinecraftVersion("1.19.4")
+    FROG(Version.V1_19_4),
+    @SinceMinecraftVersion("1.19.4")
+    BLOCK_DISPLAY(Version.V1_19_4),
+    @SinceMinecraftVersion("1.19.4")
+    CHEST_BOAT(Version.V1_19_4),
+    @SinceMinecraftVersion("1.19.4")
+    INTERACTION(Version.V1_19_4),
+    @SinceMinecraftVersion("1.19.4")
+    ALLAY(Version.V1_19_4),
+    @SinceMinecraftVersion("1.19.4")
+    TADPOLE(Version.V1_19_4),
     ;
     public static final Codec<VirtualEntityType> CODEC = DefaultCodecs.createEnumCodec(VirtualEntityType.class);
 

@@ -19,6 +19,10 @@ public class VirtualBoatImpl extends VirtualEntityImpl implements dev.by1337.vir
         super(VirtualEntityType.BOAT);
     }
 
+    public VirtualBoatImpl(VirtualEntityType type) {
+        super(type);
+    }
+
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(DATA_ID_HURT, 0);

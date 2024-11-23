@@ -1,11 +1,13 @@
 package dev.by1337.virtualentity.core.network.impl;
 
+import dev.by1337.virtualentity.api.annotations.RemovedInMinecraftVersion;
 import dev.by1337.virtualentity.api.virtual.decoration.VirtualPainting;
 import dev.by1337.virtualentity.core.network.ByteBuffUtil;
 import dev.by1337.virtualentity.core.network.Packet;
 import dev.by1337.virtualentity.core.network.PacketType;
 import io.netty.buffer.ByteBuf;
 
+@RemovedInMinecraftVersion("1.19.4")
 public class AddPaintingPacket extends Packet {
     private static final int PACKET_ID = PacketType.ADD_PAINTING_PACKET.getId();
     private final VirtualPainting painting;

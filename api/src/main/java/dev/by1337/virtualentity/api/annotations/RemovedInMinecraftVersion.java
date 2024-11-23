@@ -5,6 +5,6 @@ import java.lang.annotation.*;
 @Documented
 @Retention(RetentionPolicy.SOURCE)
 @Target({ElementType.FIELD, ElementType.TYPE, ElementType.METHOD})
-public @interface DeprecatedInMinecraftVersion {
+public @interface RemovedInMinecraftVersion {
     String value();
 }

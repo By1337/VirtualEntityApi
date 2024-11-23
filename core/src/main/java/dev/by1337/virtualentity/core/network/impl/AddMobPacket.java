@@ -1,5 +1,6 @@
 package dev.by1337.virtualentity.core.network.impl;
 
+import dev.by1337.virtualentity.api.annotations.RemovedInMinecraftVersion;
 import dev.by1337.virtualentity.api.virtual.VirtualEntity;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.network.ByteBuffUtil;
@@ -7,6 +8,7 @@ import dev.by1337.virtualentity.core.network.Packet;
 import dev.by1337.virtualentity.core.network.PacketType;
 import io.netty.buffer.ByteBuf;
 
+@RemovedInMinecraftVersion("1.19.4")
 public class AddMobPacket extends Packet {
     private static final int PACKET_ID = PacketType.ADD_MOB_PACKET.getId();
     private final VirtualEntity virtualEntity;

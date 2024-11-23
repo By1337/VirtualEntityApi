@@ -1,6 +1,6 @@
 package dev.by1337.virtualentity.core.syncher;
 
-import dev.by1337.virtualentity.api.entity.Pose;
+import dev.by1337.virtualentity.api.entity.*;
 import dev.by1337.virtualentity.api.entity.npc.VillagerData;
 import dev.by1337.virtualentity.api.particles.ParticleOptions;
 import dev.by1337.virtualentity.core.mappings.Mappings;
@@ -13,6 +13,8 @@ import org.by1337.blib.geom.Vec3i;
 import org.by1337.blib.nbt.impl.CompoundTag;
 import org.by1337.blib.util.Direction;
 import org.by1337.blib.util.Version;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 import java.util.*;
 
@@ -39,9 +41,8 @@ public class EntityDataSerializers {
 
     public static final EntityDataSerializer<ItemStack> ITEM_STACK = register(ByteBuffUtil::writeItemStack, "ITEM_STACK");
 
-    public static final EntityDataSerializer<Optional<BlockData>> BLOCK_STATE = register((val, byteBuf) -> {
-        ByteBuffUtil.writeOptional(byteBuf, val.orElse(null), ByteBuffUtil::writeBlockState);
-    }, "BLOCK_STATE");
+    @SuppressWarnings("rawtypes")
+    public static final EntityDataSerializer BLOCK_STATE; // 1.19.4< is Optional<BlockData> 1.19.4>= is BlockData
 
     public static final EntityDataSerializer<Boolean> BOOLEAN = register((val, byteBuf) -> {
         byteBuf.writeBoolean(val);
@@ -77,6 +78,33 @@ public class EntityDataSerializers {
 
     public static final EntityDataSerializer<Pose> POSE = register(ByteBuffUtil::writeEnum, "POSE");
 
+    public static final EntityDataSerializer<Quaternionf> QUATERNION = register((val, byteBuf) -> {
+        byteBuf.writeFloat(val.x);
+        byteBuf.writeFloat(val.y);
+        byteBuf.writeFloat(val.z);
+        byteBuf.writeFloat(val.w);
+    }, "QUATERNION");
+
+    public static final EntityDataSerializer<SnifferState> SNIFFER_STATE = register(ByteBuffUtil::writeEnum, "SNIFFER_STATE");
+    public static final EntityDataSerializer<CatVariant> CAT_VARIANT = register(ByteBuffUtil::writeEnum, "CAT_VARIANT");
+    public static final EntityDataSerializer<FrogVariant> FROG_VARIANT = register(ByteBuffUtil::writeEnum, "FROG_VARIANT");
+    public static final EntityDataSerializer<PaintingMotive> PAINTING_VARIANT = register(ByteBuffUtil::writeEnum, "PAINTING_VARIANT");
+    public static final EntityDataSerializer<Long> LONG = register(ByteBuffUtil::writeVarLong, "LONG");
+    public static final EntityDataSerializer<Optional<BlockData>> OPTIONAL_BLOCK_STATE = register((val, buff) -> {
+        if (val.isPresent()) {
+            ByteBuffUtil.writeBlockState(val.get(), buff);
+        } else {
+            ByteBuffUtil.writeVarInt(0, buff);
+        }
+    }, "OPTIONAL_BLOCK_STATE");
+    public static final EntityDataSerializer<Vector3f> VECTOR3 = register((val, buff) -> {
+        buff.writeFloat(val.x);
+        buff.writeFloat(val.y);
+        buff.writeFloat(val.z);
+    }, "VECTOR3");
+
+    // OPTIONAL_GLOBAL_POS unused
+
     private static <T> EntityDataSerializer<T> register(EntityDataSerializer<T> serializer, String name) {
         if (SERIALIZERS.put(name, serializer) != null) {
             throw new IllegalArgumentException("Duplicate serializer: " + name);
@@ -92,11 +120,27 @@ public class EntityDataSerializers {
     public static EntityDataSerializer<?> getByName(String name) {
         return SERIALIZERS.get(name);
     }
-    public static int getId(EntityDataSerializer<?> serializer){
+
+    public static int getId(EntityDataSerializer<?> serializer) {
         Integer id = SERIALIZER_TO_ID.get(serializer);
-        if (id == null){
+        if (id == null) {
             throw new IllegalStateException("Has no EntityDataSerializer id for serializer " + SERIALIZER_TO_NAME.get(serializer) + " Version: " + Version.VERSION);
         }
         return id;
+    }
+
+    static {
+        if (Version.VERSION.newerThanOrEqual(Version.V1_19_4)) {
+            BLOCK_STATE = register((val, byteBuf) -> {
+                BlockData blockData = (BlockData) val;
+                ByteBuffUtil.writeBlockState(blockData, byteBuf);
+            }, "BLOCK_STATE");
+        } else {
+            BLOCK_STATE = register((val, byteBuf) -> {
+                @SuppressWarnings("unchecked")
+                Optional<BlockData> opt = (Optional<BlockData>) val;
+                ByteBuffUtil.writeOptional(byteBuf, opt.orElse(null), ByteBuffUtil::writeBlockState);
+            }, "BLOCK_STATE");
+        }
     }
 }
