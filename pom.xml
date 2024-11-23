@@ -1,14 +1,27 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>dev.by1337.virtualentity</groupId>
-  <artifactId>VirtualEntityApi</artifactId>
-  <version>1.0</version>
-  <packaging>pom</packaging>
-  <name>VirtualEntityApi</name>
-  <modules>
-    <module>core</module>
-    <module>api</module>
-    <module>asm</module>
-  </modules>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>dev.by1337.virtualentity</groupId>
+    <artifactId>VirtualEntityApi</artifactId>
+    <version>1.0</version>
+    <packaging>pom</packaging>
+    <name>VirtualEntityApi</name>
+    <modules>
+        <module>core</module>
+        <module>api</module>
+        <module>asm</module>
+    </modules>
+
+    <distributionManagement>
+        <repository>
+            <id>by1337.repo.2</id>
+            <name>releases</name>
+            <url>https://repo.by1337.space/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>by1337.repo.2</id>
+            <name>snapshots</name>
+            <url>https://repo.by1337.space/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
