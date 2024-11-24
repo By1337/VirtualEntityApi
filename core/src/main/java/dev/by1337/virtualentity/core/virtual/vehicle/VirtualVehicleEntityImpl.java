@@ -13,23 +13,27 @@ public abstract class VirtualVehicleEntityImpl extends VirtualEntityImpl impleme
     private static final AccessorSet BOAT;
     private static final AccessorSet MINECART;
 
-    private final AccessorSet accessorSet;
+    private AccessorSet accessorSet;
 
     public VirtualVehicleEntityImpl(VirtualEntityType type) {
         super(type);
+    }
+
+    private AccessorSet getAccessorSet() {
         if (Version.VERSION.newerThanOrEqual(Version.V1_20_4)) {
-            accessorSet = VEHICLE;
+            return VEHICLE;
         } else {
             if (this instanceof VirtualBoat) {
-                accessorSet = BOAT;
+                return BOAT;
             } else {
-                accessorSet = MINECART;
+                return MINECART;
             }
         }
     }
 
     protected void defineSynchedData() {
         super.defineSynchedData();
+        accessorSet = getAccessorSet();
         this.entityData.define(accessorSet.idHurt(), 0);
         this.entityData.define(accessorSet.idHurtDir(), 1);
         this.entityData.define(accessorSet.idDamage(), 0.0F);
