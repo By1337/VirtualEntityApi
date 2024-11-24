@@ -164,5 +164,7 @@ public class VirtualEntityRegistrar {
         factory.register(VirtualEntityType.ALLAY, VirtualAllayImpl::new, Version.V1_19_4);
         factory.register(VirtualEntityType.WARDEN, VirtualWardenImpl::new, Version.V1_19_4);
         factory.register(VirtualEntityType.CHEST_BOAT, VirtualChestBoatImpl::new, Version.V1_19_4);
+
+        factory.register(VirtualEntityType.WIND_CHARGE, VirtualWindChargeImpl::new, Version.V1_20_4);
     }
 }

@@ -1,5 +1,6 @@
 package dev.by1337.virtualentity.core.virtual.vehicle;
 
+import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.api.virtual.vehicle.VirtualBoat;
 import dev.by1337.virtualentity.core.mappings.Mappings;
@@ -85,6 +86,7 @@ public abstract class VirtualVehicleEntityImpl extends VirtualEntityImpl impleme
         EntityDataAccessor<Float> idDamage();
     }
 
+    @SinceMinecraftVersion("1.20.4")
     private static class VehicleEntityAccessors implements AccessorSet {
         private static final EntityDataAccessor<Integer> DATA_ID_HURT;
         private static final EntityDataAccessor<Integer> DATA_ID_HURTDIR;
