@@ -147,6 +147,8 @@ public enum VirtualEntityType {
     TADPOLE(Version.V1_19_4),
     @SinceMinecraftVersion("1.20.4")
     WIND_CHARGE(Version.V1_20_4),
+    @SinceMinecraftVersion("1.20.4")
+    BREEZE(Version.V1_20_4),
     ;
     public static final Codec<VirtualEntityType> CODEC = DefaultCodecs.createEnumCodec(VirtualEntityType.class);
 
