@@ -14,14 +14,15 @@ import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.mappings.VirtualEntityRegistrar;
 import dev.by1337.virtualentity.core.network.Packet;
 import net.kyori.adventure.text.Component;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 import org.by1337.blib.command.Command;
 import org.by1337.blib.command.CommandWrapper;
 import org.by1337.blib.command.argument.ArgumentEnumValue;
@@ -42,7 +43,6 @@ public class Main extends JavaPlugin {
         VirtualEntityRegistrar.register();
     }
 
-
     @Override
     public void onEnable() {
         commandWrapper = new CommandWrapper(createCommand(this), this);
@@ -53,31 +53,6 @@ public class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         commandWrapper.close();
-
-        Player player = null;
-        // Создаём пакетный ArmorStand
-        VirtualArmorStand armorStand = VirtualEntityApi.getFactory().create(VirtualEntityType.ARMOR_STAND, VirtualArmorStand.class);
-        // устанавливаем параметры
-        armorStand.setCustomName(Component.text("Custom name"));
-        armorStand.setCustomNameVisible(true);
-        armorStand.setPos(new Vec3d(player.getLocation()));
-        armorStand.setNoBasePlate(true);
-        // Передаём актуальный список наблюдателей
-        armorStand.tick(Set.of(player));
-    }
-
-    private void spawn(Location location, Plugin plugin) {
-        PlayerTracker tracker = new PlayerTracker(location.getWorld(), new Vec3d(location));
-
-        VirtualArmorStand armorStand = VirtualEntityApi.getFactory().create(VirtualEntityType.ARMOR_STAND, VirtualArmorStand.class);
-        armorStand.setCustomName(Component.text("Custom name"));
-        armorStand.setCustomNameVisible(true);
-        armorStand.setPos(new Vec3d(location));
-
-        tracker.addEntity(armorStand);
-
-        BukkitTask task = plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, tracker::tick, 1, 1);
-        //
     }
 
     public static Command<CommandSender> createCommand(Plugin plugin) {

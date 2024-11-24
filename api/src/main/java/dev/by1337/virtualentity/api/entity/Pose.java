@@ -29,7 +29,13 @@ public enum Pose implements MappedEnum {
     @SinceMinecraftVersion("1.19.4")
     DIGGING,
     @SinceMinecraftVersion("1.19.4")
-    CROAKING
+    CROAKING,
+    @SinceMinecraftVersion("1.20.4")
+    INHALING,
+    @SinceMinecraftVersion("1.20.4")
+    SHOOTING,
+    @SinceMinecraftVersion("1.20.4")
+    SLIDING,
     ;
     public static final Codec<Pose> CODEC = DefaultCodecs.createEnumCodec(Pose.class);
     private static final EnumMap<Pose, Integer> TO_ID = new EnumMap<>(Pose.class);
