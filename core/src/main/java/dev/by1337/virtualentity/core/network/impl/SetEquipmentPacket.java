@@ -37,6 +37,13 @@ public class SetEquipmentPacket extends Packet {
             byteBuf.writeByte(iterator.hasNext() ? slotId | -128 : slotId);
             ByteBuffUtil.writeItemStack(itemStack, byteBuf);
         }
+    }
 
+    @Override
+    public String toString() {
+        return "SetEquipmentPacket{" +
+                "id=" + id +
+                ", items=" + items +
+                '}';
     }
 }

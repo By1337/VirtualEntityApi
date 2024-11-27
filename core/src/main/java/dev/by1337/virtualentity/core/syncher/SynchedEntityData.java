@@ -127,5 +127,14 @@ public class SynchedEntityData {
         public DataItem<T> copy() {
             return new DataItem<>(this.accessor, value);
         }
+
+        @Override
+        public String toString() {
+            return "DataItem{" +
+                    "accessor=" + accessor +
+                    ", value=" + value +
+                    ", dirty=" + dirty +
+                    '}';
+        }
     }
 }

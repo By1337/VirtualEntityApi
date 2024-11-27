@@ -10,14 +10,17 @@ import dev.by1337.virtualentity.core.syncher.SynchedEntityData;
 import dev.by1337.virtualentity.core.util.ColorUtil;
 import dev.by1337.virtualentity.core.virtual.VirtualEntityImpl;
 import org.bukkit.Color;
+import org.by1337.blib.util.Version;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 @SinceMinecraftVersion("1.19.4")
 public class VirtualDisplayImpl extends VirtualEntityImpl implements dev.by1337.virtualentity.api.virtual.display.VirtualDisplay {
-    private static final EntityDataAccessor<Integer> DATA_INTERPOLATION_START_DELTA_TICKS_ID;
-    private static final EntityDataAccessor<Integer> DATA_INTERPOLATION_DURATION_ID;
+    private static final EntityDataAccessor<Integer> DATA_TRANSFORMATION_INTERPOLATION_START_DELTA_TICKS_ID;
+    private static final EntityDataAccessor<Integer> DATA_TRANSFORMATION_INTERPOLATION_DURATION_ID;
+    @SinceMinecraftVersion("1.20.4")
+    private static final EntityDataAccessor<Integer> DATA_POS_ROT_INTERPOLATION_DURATION_ID;
     private static final EntityDataAccessor<Vector3f> DATA_TRANSLATION_ID;
     private static final EntityDataAccessor<Vector3f> DATA_SCALE_ID;
     private static final EntityDataAccessor<Quaternionf> DATA_LEFT_ROTATION_ID;
@@ -46,8 +49,8 @@ public class VirtualDisplayImpl extends VirtualEntityImpl implements dev.by1337.
 
     protected void defineSynchedData() {
         super.defineSynchedData();
-        this.entityData.define(DATA_INTERPOLATION_START_DELTA_TICKS_ID, 0);
-        this.entityData.define(DATA_INTERPOLATION_DURATION_ID, 0);
+        this.entityData.define(DATA_TRANSFORMATION_INTERPOLATION_START_DELTA_TICKS_ID, 0);
+        this.entityData.define(DATA_TRANSFORMATION_INTERPOLATION_DURATION_ID, 0);
         this.entityData.define(DATA_TRANSLATION_ID, new Vector3f());
         this.entityData.define(DATA_SCALE_ID, new Vector3f(1.0F, 1.0F, 1.0F));
         this.entityData.define(DATA_RIGHT_ROTATION_ID, new Quaternionf());
@@ -60,6 +63,9 @@ public class VirtualDisplayImpl extends VirtualEntityImpl implements dev.by1337.
         this.entityData.define(DATA_WIDTH_ID, 0.0F);
         this.entityData.define(DATA_HEIGHT_ID, 0.0F);
         this.entityData.define(DATA_GLOW_COLOR_OVERRIDE_ID, -1);
+        if (Version.VERSION.newerThanOrEqual(Version.V1_20_4)) {
+            entityData.define(DATA_POS_ROT_INTERPOLATION_DURATION_ID, 0);
+        }
     }
 
     @Override
@@ -70,24 +76,51 @@ public class VirtualDisplayImpl extends VirtualEntityImpl implements dev.by1337.
         this.entityData.set(DATA_RIGHT_ROTATION_ID, transformation.getRightRotation());
     }
 
+    @SinceMinecraftVersion("1.20.4")
+    public void setPosRotInterpolationDuration(int i) {
+        this.entityData.set(DATA_POS_ROT_INTERPOLATION_DURATION_ID, i);
+    }
+
+    @SinceMinecraftVersion("1.20.4")
+    public int getPosRotInterpolationDuration() {
+        return this.entityData.get(DATA_POS_ROT_INTERPOLATION_DURATION_ID);
+    }
+
+
     @Override
     public void setInterpolationDuration(int i) {
-        this.entityData.set(DATA_INTERPOLATION_DURATION_ID, i);
+        setTransformationInterpolationDuration(i);
     }
 
     @Override
     public int getInterpolationDuration() {
-        return this.entityData.get(DATA_INTERPOLATION_DURATION_ID);
+        return getTransformationInterpolationDuration();
+    }
+
+    public void setTransformationInterpolationDuration(int i) {
+        this.entityData.set(DATA_TRANSFORMATION_INTERPOLATION_DURATION_ID, i);
+    }
+
+    public int getTransformationInterpolationDuration() {
+        return this.entityData.get(DATA_TRANSFORMATION_INTERPOLATION_DURATION_ID);
     }
 
     @Override
     public void setInterpolationDelay(int i) {
-        this.entityData.set(DATA_INTERPOLATION_START_DELTA_TICKS_ID, i, true);
+        setTransformationInterpolationDelay(i);
     }
 
     @Override
     public int getInterpolationDelay() {
-        return this.entityData.get(DATA_INTERPOLATION_START_DELTA_TICKS_ID);
+        return getTransformationInterpolationDelay();
+    }
+
+    public void setTransformationInterpolationDelay(int i) {
+        this.entityData.set(DATA_TRANSFORMATION_INTERPOLATION_START_DELTA_TICKS_ID, i, true);
+    }
+
+    public int getTransformationInterpolationDelay() {
+        return this.entityData.get(DATA_TRANSFORMATION_INTERPOLATION_START_DELTA_TICKS_ID);
     }
 
     @Override
@@ -170,8 +203,15 @@ public class VirtualDisplayImpl extends VirtualEntityImpl implements dev.by1337.
     }
 
     static {
-        DATA_INTERPOLATION_START_DELTA_TICKS_ID = Mappings.findAccessor("Display", "DATA_INTERPOLATION_START_DELTA_TICKS_ID");
-        DATA_INTERPOLATION_DURATION_ID = Mappings.findAccessor("Display", "DATA_INTERPOLATION_DURATION_ID");
+        if (Version.VERSION.olderThan(Version.V1_20_4)) {
+            DATA_TRANSFORMATION_INTERPOLATION_START_DELTA_TICKS_ID = Mappings.findAccessor("Display", "DATA_INTERPOLATION_START_DELTA_TICKS_ID");
+            DATA_TRANSFORMATION_INTERPOLATION_DURATION_ID = Mappings.findAccessor("Display", "DATA_INTERPOLATION_DURATION_ID");
+            DATA_POS_ROT_INTERPOLATION_DURATION_ID = null;
+        } else {
+            DATA_TRANSFORMATION_INTERPOLATION_START_DELTA_TICKS_ID = Mappings.findAccessor("Display", "DATA_TRANSFORMATION_INTERPOLATION_START_DELTA_TICKS_ID");
+            DATA_TRANSFORMATION_INTERPOLATION_DURATION_ID = Mappings.findAccessor("Display", "DATA_TRANSFORMATION_INTERPOLATION_DURATION_ID");
+            DATA_POS_ROT_INTERPOLATION_DURATION_ID = Mappings.findAccessor("Display", "DATA_POS_ROT_INTERPOLATION_DURATION_ID");
+        }
         DATA_TRANSLATION_ID = Mappings.findAccessor("Display", "DATA_TRANSLATION_ID");
         DATA_SCALE_ID = Mappings.findAccessor("Display", "DATA_SCALE_ID");
         DATA_LEFT_ROTATION_ID = Mappings.findAccessor("Display", "DATA_LEFT_ROTATION_ID");

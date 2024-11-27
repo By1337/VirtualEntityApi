@@ -24,4 +24,12 @@ public class AnimatePacket extends Packet {
         ByteBuffUtil.writeVarInt(id, byteBuf);
         byteBuf.writeByte(animation.getId());
     }
+
+    @Override
+    public String toString() {
+        return "AnimatePacket{" +
+                "id=" + id +
+                ", animation=" + animation +
+                '}';
+    }
 }

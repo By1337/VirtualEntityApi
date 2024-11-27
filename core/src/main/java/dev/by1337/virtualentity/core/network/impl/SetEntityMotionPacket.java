@@ -34,4 +34,12 @@ public class SetEntityMotionPacket extends Packet {
     public static double clamp(double source, double min, double max) {
         return source < min ? min : Math.min(source, max);
     }
+
+    @Override
+    public String toString() {
+        return "SetEntityMotionPacket{" +
+                "id=" + id +
+                ", motion=" + motion +
+                '}';
+    }
 }

@@ -22,4 +22,12 @@ public class EntityEventPacket extends Packet {
         ByteBuffUtil.writeVarInt(id, byteBuf);
         byteBuf.writeByte(event.getId());
     }
+
+    @Override
+    public String toString() {
+        return "EntityEventPacket{" +
+                "id=" + id +
+                ", event=" + event +
+                '}';
+    }
 }

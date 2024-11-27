@@ -6,10 +6,7 @@ import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
 import dev.by1337.virtualentity.core.virtual.VirtualEntityImpl;
 
-public class VirtualBoatImpl extends VirtualEntityImpl implements dev.by1337.virtualentity.api.virtual.vehicle.VirtualBoat {
-    private static final EntityDataAccessor<Integer> DATA_ID_HURT;
-    private static final EntityDataAccessor<Integer> DATA_ID_HURTDIR;
-    private static final EntityDataAccessor<Float> DATA_ID_DAMAGE;
+public class VirtualBoatImpl extends VirtualVehicleEntityImpl implements dev.by1337.virtualentity.api.virtual.vehicle.VirtualBoat {
     private static final EntityDataAccessor<Integer> DATA_ID_TYPE;
     private static final EntityDataAccessor<Boolean> DATA_ID_PADDLE_LEFT;
     private static final EntityDataAccessor<Boolean> DATA_ID_PADDLE_RIGHT;
@@ -25,74 +22,10 @@ public class VirtualBoatImpl extends VirtualEntityImpl implements dev.by1337.vir
 
     protected void defineSynchedData() {
         super.defineSynchedData();
-        this.entityData.define(DATA_ID_HURT, 0);
-        this.entityData.define(DATA_ID_HURTDIR, 1);
-        this.entityData.define(DATA_ID_DAMAGE, 0.0F);
         this.entityData.define(DATA_ID_TYPE, BoatType.OAK.getId());
         this.entityData.define(DATA_ID_PADDLE_LEFT, false);
         this.entityData.define(DATA_ID_PADDLE_RIGHT, false);
         this.entityData.define(DATA_ID_BUBBLE_TIME, 0);
-    }
-
-    /**
-     * Получает количество повреждений, которое получила лодка.
-     *
-     * @return количество повреждений лодки.
-     */
-    @Override
-    public int getHurt() {
-        return this.entityData.get(DATA_ID_HURT);
-    }
-
-    /**
-     * Устанавливает количество повреждений для лодки.
-     *
-     * @param hurt количество повреждений для установки.
-     */
-    @Override
-    public void setHurt(int hurt) {
-        this.entityData.set(DATA_ID_HURT, hurt);
-    }
-
-    /**
-     * Получает направление урона для лодки.
-     * Направление урона может использоваться для определения источника повреждений.
-     *
-     * @return направление урона.
-     */
-    @Override
-    public int getHurtDirection() {
-        return this.entityData.get(DATA_ID_HURTDIR);
-    }
-
-    /**
-     * Устанавливает новое направление урона для лодки.
-     *
-     * @param hurtDir направление урона для установки.
-     */
-    @Override
-    public void setHurtDirection(int hurtDir) {
-        this.entityData.set(DATA_ID_HURTDIR, hurtDir);
-    }
-
-    /**
-     * Получает текущий уровень повреждений лодки.
-     *
-     * @return текущий уровень повреждений лодки.
-     */
-    @Override
-    public float getDamage() {
-        return this.entityData.get(DATA_ID_DAMAGE);
-    }
-
-    /**
-     * Устанавливает новый уровень повреждений для лодки.
-     *
-     * @param damage новый уровень повреждений.
-     */
-    @Override
-    public void setDamage(float damage) {
-        this.entityData.set(DATA_ID_DAMAGE, damage);
     }
 
     /**
@@ -177,9 +110,6 @@ public class VirtualBoatImpl extends VirtualEntityImpl implements dev.by1337.vir
     }
 
     static {
-        DATA_ID_HURT = Mappings.findAccessor("Boat", "DATA_ID_HURT");
-        DATA_ID_HURTDIR = Mappings.findAccessor("Boat", "DATA_ID_HURTDIR");
-        DATA_ID_DAMAGE = Mappings.findAccessor("Boat", "DATA_ID_DAMAGE");
         DATA_ID_TYPE = Mappings.findAccessor("Boat", "DATA_ID_TYPE");
         DATA_ID_PADDLE_LEFT = Mappings.findAccessor("Boat", "DATA_ID_PADDLE_LEFT");
         DATA_ID_PADDLE_RIGHT = Mappings.findAccessor("Boat", "DATA_ID_PADDLE_RIGHT");

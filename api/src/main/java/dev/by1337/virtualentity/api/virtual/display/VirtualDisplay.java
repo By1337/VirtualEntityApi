@@ -9,15 +9,34 @@ import org.jetbrains.annotations.Nullable;
 
 @SinceMinecraftVersion("1.19.4")
 public interface VirtualDisplay extends VirtualEntity {
+
+    @SinceMinecraftVersion("1.20.4")
+    void setPosRotInterpolationDuration(int i);
+
+    @SinceMinecraftVersion("1.20.4")
+    int getPosRotInterpolationDuration();
+
     void setTransformation(Transformation transformation);
 
+    // in 1.20.4 renamed to setTransformationInterpolationDuration
     void setInterpolationDuration(int i);
 
+    void setTransformationInterpolationDuration(int i);
+
+    // in 1.20.4 renamed to getTransformationInterpolationDuration
     int getInterpolationDuration();
 
+    int getTransformationInterpolationDuration();
+
+    // in 1.20.4 renamed to setTransformationInterpolationDelay
     void setInterpolationDelay(int i);
 
+    void setTransformationInterpolationDelay(int i);
+
+    // in 1.20.4 renamed to getTransformationInterpolationDelay
     int getInterpolationDelay();
+
+    int getTransformationInterpolationDelay();
 
     void setBillboardConstraints(BillboardConstraints billboardConstraints);
 

@@ -24,6 +24,7 @@ import dev.by1337.virtualentity.core.virtual.item.VirtualFallingBlockEntityImpl;
 import dev.by1337.virtualentity.core.virtual.item.VirtualItemImpl;
 import dev.by1337.virtualentity.core.virtual.item.VirtualPrimedTntImpl;
 import dev.by1337.virtualentity.core.virtual.monster.*;
+import dev.by1337.virtualentity.core.virtual.monster.breeze.VirtualBreezeImpl;
 import dev.by1337.virtualentity.core.virtual.monster.hoglin.VirtualHoglinImpl;
 import dev.by1337.virtualentity.core.virtual.monster.piglin.VirtualPiglinBruteImpl;
 import dev.by1337.virtualentity.core.virtual.monster.piglin.VirtualPiglinImpl;
@@ -164,5 +165,8 @@ public class VirtualEntityRegistrar {
         factory.register(VirtualEntityType.ALLAY, VirtualAllayImpl::new, Version.V1_19_4);
         factory.register(VirtualEntityType.WARDEN, VirtualWardenImpl::new, Version.V1_19_4);
         factory.register(VirtualEntityType.CHEST_BOAT, VirtualChestBoatImpl::new, Version.V1_19_4);
+
+        factory.register(VirtualEntityType.WIND_CHARGE, VirtualWindChargeImpl::new, Version.V1_20_4);
+        factory.register(VirtualEntityType.BREEZE, VirtualBreezeImpl::new, Version.V1_20_4);
     }
 }

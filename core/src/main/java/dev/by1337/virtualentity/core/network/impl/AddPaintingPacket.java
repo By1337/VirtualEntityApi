@@ -34,4 +34,9 @@ public class AddPaintingPacket extends Packet {
                 }
         );
     }
+
+    @Override
+    public String toString() {
+        return "AddPaintingPacket{}";
+    }
 }

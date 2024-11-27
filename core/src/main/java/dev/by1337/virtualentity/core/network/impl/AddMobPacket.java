@@ -34,4 +34,8 @@ public class AddMobPacket extends Packet {
         byteBuf.writeShort(0);
         byteBuf.writeShort(0);
     }
+    @Override
+    public String toString() {
+        return "AddMobPacket{" + virtualEntity.getType() + "}";
+    }
 }

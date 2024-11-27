@@ -27,4 +27,9 @@ public class AddPlayerPacket extends Packet {
         byteBuf.writeByte(virtualEntity.yaw());
         byteBuf.writeByte(virtualEntity.pitch());
     }
+
+    @Override
+    public String toString() {
+        return "AddPlayerPacket{}";
+    }
 }

@@ -22,4 +22,12 @@ public class RotateHeadPacket extends Packet {
         ByteBuffUtil.writeVarInt(id, byteBuf);
         byteBuf.writeByte(yHeadRot);
     }
+
+    @Override
+    public String toString() {
+        return "RotateHeadPacket{" +
+                "id=" + id +
+                ", yHeadRot=" + yHeadRot +
+                '}';
+    }
 }

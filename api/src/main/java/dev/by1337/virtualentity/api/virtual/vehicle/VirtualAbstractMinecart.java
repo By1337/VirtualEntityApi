@@ -1,20 +1,8 @@
 package dev.by1337.virtualentity.api.virtual.vehicle;
 
-import dev.by1337.virtualentity.api.virtual.VirtualEntity;
 import org.bukkit.block.data.BlockData;
 
-public interface VirtualAbstractMinecart extends VirtualEntity {
-    float getDamage();
-
-    void setDamage(float damage);
-
-    int getHurt();
-
-    void setHurt(int hurt);
-
-    int getHurtDirection();
-
-    void setHurtDirection(int hurtDir);
+public interface VirtualAbstractMinecart extends VirtualVehicleEntity {
 
     int getDisplayBlock();
 
