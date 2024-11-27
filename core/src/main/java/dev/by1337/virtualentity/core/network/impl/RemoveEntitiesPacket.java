@@ -20,4 +20,11 @@ public class RemoveEntitiesPacket extends Packet {
         ByteBuffUtil.writeVarInt(1, byteBuf);
         ByteBuffUtil.writeVarInt(id, byteBuf);
     }
+
+    @Override
+    public String toString() {
+        return "RemoveEntitiesPacket{" +
+                "id=" + id +
+                '}';
+    }
 }

@@ -145,10 +145,11 @@ public enum VirtualEntityType {
     ALLAY(Version.V1_19_4),
     @SinceMinecraftVersion("1.19.4")
     TADPOLE(Version.V1_19_4),
+
     @SinceMinecraftVersion("1.20.4")
-    WIND_CHARGE(Version.V1_20_4),
+    WIND_CHARGE(Version.V1_20_4), // cannot be created on 1.20.4
     @SinceMinecraftVersion("1.20.4")
-    BREEZE(Version.V1_20_4),
+    BREEZE(Version.V1_20_4), // cannot be created on 1.20.4
     ;
     public static final Codec<VirtualEntityType> CODEC = DefaultCodecs.createEnumCodec(VirtualEntityType.class);
 

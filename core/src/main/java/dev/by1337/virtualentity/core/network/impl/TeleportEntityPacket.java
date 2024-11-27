@@ -26,4 +26,8 @@ public class TeleportEntityPacket extends Packet {
         byteBuf.writeByte(virtualEntity.pitch());
         byteBuf.writeBoolean(virtualEntity.isOnGround());
     }
+    @Override
+    public String toString() {
+        return "TeleportEntityPacket{" + virtualEntity.getType() + "}";
+    }
 }

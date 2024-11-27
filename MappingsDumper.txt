@@ -1,32 +1,32 @@
-// com.github.oshi:oshi-core:6.2.2	com/github/oshi/oshi-core/6.2.2/oshi-core-6.2.2.jar
-// com.google.code.gson:gson:2.10	com/google/code/gson/gson/2.10/gson-2.10.jar
+// com.github.oshi:oshi-core:6.4.5	com/github/oshi/oshi-core/6.4.5/oshi-core-6.4.5.jar
+// com.google.code.gson:gson:2.10.1	com/google/code/gson/gson/2.10.1/gson-2.10.1.jar
 // com.google.guava:failureaccess:1.0.1	com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1.jar
-// com.google.guava:guava:31.1-jre	com/google/guava/guava/31.1-jre/guava-31.1-jre.jar
-// com.mojang:authlib:3.18.38	com/mojang/authlib/3.18.38/authlib-3.18.38.jar
-// com.mojang:brigadier:1.0.18	com/mojang/brigadier/1.0.18/brigadier-1.0.18.jar
-// com.mojang:datafixerupper:6.0.6	com/mojang/datafixerupper/6.0.6/datafixerupper-6.0.6.jar
+// com.google.guava:guava:32.1.2-jre	com/google/guava/guava/32.1.2-jre/guava-32.1.2-jre.jar
+// com.mojang:authlib:6.0.52	com/mojang/authlib/6.0.52/authlib-6.0.52.jar
+// com.mojang:brigadier:1.2.9	com/mojang/brigadier/1.2.9/brigadier-1.2.9.jar
+// com.mojang:datafixerupper:6.0.8	com/mojang/datafixerupper/6.0.8/datafixerupper-6.0.8.jar
 // com.mojang:logging:1.1.1	com/mojang/logging/1.1.1/logging-1.1.1.jar
-// commons-io:commons-io:2.11.0	commons-io/commons-io/2.11.0/commons-io-2.11.0.jar
-// io.netty:netty-buffer:4.1.82.Final	io/netty/netty-buffer/4.1.82.Final/netty-buffer-4.1.82.Final.jar
-// io.netty:netty-codec:4.1.82.Final	io/netty/netty-codec/4.1.82.Final/netty-codec-4.1.82.Final.jar
-// io.netty:netty-common:4.1.82.Final	io/netty/netty-common/4.1.82.Final/netty-common-4.1.82.Final.jar
-// io.netty:netty-handler:4.1.82.Final	io/netty/netty-handler/4.1.82.Final/netty-handler-4.1.82.Final.jar
-// io.netty:netty-resolver:4.1.82.Final	io/netty/netty-resolver/4.1.82.Final/netty-resolver-4.1.82.Final.jar
-// io.netty:netty-transport:4.1.82.Final	io/netty/netty-transport/4.1.82.Final/netty-transport-4.1.82.Final.jar
-// io.netty:netty-transport-classes-epoll:4.1.82.Final	io/netty/netty-transport-classes-epoll/4.1.82.Final/netty-transport-classes-epoll-4.1.82.Final.jar
-// io.netty:netty-transport-native-epoll:4.1.82.Final:linux-x86_64	io/netty/netty-transport-native-epoll/4.1.82.Final/netty-transport-native-epoll-4.1.82.Final-linux-x86_64.jar
-// io.netty:netty-transport-native-epoll:4.1.82.Final:linux-aarch_64	io/netty/netty-transport-native-epoll/4.1.82.Final/netty-transport-native-epoll-4.1.82.Final-linux-aarch_64.jar
-// io.netty:netty-transport-native-unix-common:4.1.82.Final	io/netty/netty-transport-native-unix-common/4.1.82.Final/netty-transport-native-unix-common-4.1.82.Final.jar
-// it.unimi.dsi:fastutil:8.5.9	it/unimi/dsi/fastutil/8.5.9/fastutil-8.5.9.jar
-// net.java.dev.jna:jna:5.12.1	net/java/dev/jna/jna/5.12.1/jna-5.12.1.jar
-// net.java.dev.jna:jna-platform:5.12.1	net/java/dev/jna/jna-platform/5.12.1/jna-platform-5.12.1.jar
+// commons-io:commons-io:2.13.0	commons-io/commons-io/2.13.0/commons-io-2.13.0.jar
+// io.netty:netty-buffer:4.1.97.Final	io/netty/netty-buffer/4.1.97.Final/netty-buffer-4.1.97.Final.jar
+// io.netty:netty-codec:4.1.97.Final	io/netty/netty-codec/4.1.97.Final/netty-codec-4.1.97.Final.jar
+// io.netty:netty-common:4.1.97.Final	io/netty/netty-common/4.1.97.Final/netty-common-4.1.97.Final.jar
+// io.netty:netty-handler:4.1.97.Final	io/netty/netty-handler/4.1.97.Final/netty-handler-4.1.97.Final.jar
+// io.netty:netty-resolver:4.1.97.Final	io/netty/netty-resolver/4.1.97.Final/netty-resolver-4.1.97.Final.jar
+// io.netty:netty-transport:4.1.97.Final	io/netty/netty-transport/4.1.97.Final/netty-transport-4.1.97.Final.jar
+// io.netty:netty-transport-classes-epoll:4.1.97.Final	io/netty/netty-transport-classes-epoll/4.1.97.Final/netty-transport-classes-epoll-4.1.97.Final.jar
+// io.netty:netty-transport-native-epoll:4.1.97.Final:linux-x86_64	io/netty/netty-transport-native-epoll/4.1.97.Final/netty-transport-native-epoll-4.1.97.Final-linux-x86_64.jar
+// io.netty:netty-transport-native-epoll:4.1.97.Final:linux-aarch_64	io/netty/netty-transport-native-epoll/4.1.97.Final/netty-transport-native-epoll-4.1.97.Final-linux-aarch_64.jar
+// io.netty:netty-transport-native-unix-common:4.1.97.Final	io/netty/netty-transport-native-unix-common/4.1.97.Final/netty-transport-native-unix-common-4.1.97.Final.jar
+// it.unimi.dsi:fastutil:8.5.12	it/unimi/dsi/fastutil/8.5.12/fastutil-8.5.12.jar
+// net.java.dev.jna:jna:5.13.0	net/java/dev/jna/jna/5.13.0/jna-5.13.0.jar
+// net.java.dev.jna:jna-platform:5.13.0	net/java/dev/jna/jna-platform/5.13.0/jna-platform-5.13.0.jar
 // net.sf.jopt-simple:jopt-simple:5.0.4	net/sf/jopt-simple/jopt-simple/5.0.4/jopt-simple-5.0.4.jar
-// org.apache.commons:commons-lang3:3.12.0	org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar
+// org.apache.commons:commons-lang3:3.13.0	org/apache/commons/commons-lang3/3.13.0/commons-lang3-3.13.0.jar
 // org.apache.logging.log4j:log4j-api:2.19.0	org/apache/logging/log4j/log4j-api/2.19.0/log4j-api-2.19.0.jar
 // org.apache.logging.log4j:log4j-core:2.19.0	org/apache/logging/log4j/log4j-core/2.19.0/log4j-core-2.19.0.jar
 // org.apache.logging.log4j:log4j-slf4j2-impl:2.19.0	org/apache/logging/log4j/log4j-slf4j2-impl/2.19.0/log4j-slf4j2-impl-2.19.0.jar
 // org.joml:joml:1.10.5	org/joml/joml/1.10.5/joml-1.10.5.jar
-// org.slf4j:slf4j-api:2.0.1	org/slf4j/slf4j-api/2.0.1/slf4j-api-2.0.1.jar
+// org.slf4j:slf4j-api:2.0.7	org/slf4j/slf4j-api/2.0.7/slf4j-api-2.0.7.jar
 //  org.by1337.blib.nbt:Blib-nbt: 1.3.1-beta
 
 package net.minecraft.world.entity.monster; // req
@@ -68,12 +68,8 @@ import sun.misc.Unsafe;
 
 import java.io.File;
 import java.io.PrintStream;
-import java.lang.invoke.MethodHandles;
-import java.lang.invoke.MethodType;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -83,14 +79,13 @@ public class MappingsDumper {
     private static PrintStream printStream;
 
     public static void main(String[] args) throws Throwable {
-        addMinecraftClasses();
         printStream = System.out;
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
                 Map<EntityDataSerializer<?>, String> serializers = getEntityDataSerializers();
                 createMappings(serializers);
-                //    EazyEntityDumper.main(args);
+                //  EazyEntityDumper.main(args);
                 System.setOut(printStream);
             } catch (Throwable e) {
                 printStream.println("Error dumping entities");
@@ -187,9 +182,9 @@ public class MappingsDumper {
                     info.putString("spawnPacket", "ADD_ENTITY_PACKET");
                 } /*else if (spawnPacket == ClientboundAddMobPacket.class) { // removed in 1.19.4
                 info.putString("spawnPacket", "ADD_MOB_PACKET");
-            }*/ else if (spawnPacket == ClientboundAddPlayerPacket.class) {
+            }*/ /*else if (spawnPacket == ClientboundAddPlayerPacket.class) { // removed in 1.20.4
                     info.putString("spawnPacket", "ADD_PLAYER_PACKET");
-                } else if (spawnPacket == ClientboundAddExperienceOrbPacket.class) {
+                }*/ else if (spawnPacket == ClientboundAddExperienceOrbPacket.class) {
                     info.putString("spawnPacket", "ADD_EXPERIENCE_ORB_PACKET");
                 }/* else if (spawnPacket == ClientboundAddPaintingPacket.class) { // removed in 1.19.4
                 info.putString("spawnPacket", "ADD_PAINTING_PACKET");
@@ -343,25 +338,25 @@ public class MappingsDumper {
 
         { // PacketType
             CompoundTag packets = new CompoundTag();
-            packets.putInt("PLAYER_INFO_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundPlayerInfoRemovePacket.class))); // new 1.19.4
-            packets.putInt("PLAYER_INFO_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundPlayerInfoUpdatePacket.class)));
-            packets.putInt("SET_PLAYER_TEAM_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundSetPlayerTeamPacket.class)));
-            packets.putInt("SET_ENTITY_DATA_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundSetEntityDataPacket.class)));
-            packets.putInt("ANIMATE_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundAnimatePacket.class)));
-            packets.putInt("ROTATE_HEAD_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundRotateHeadPacket.class)));
-            packets.putInt("TELEPORT_ENTITY_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundTeleportEntityPacket.class)));
-            packets.putInt("ADD_ENTITY_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundAddEntityPacket.class)));
-            //packets.putInt("ADD_MOB_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundAddMobPacket.class))); // removed in 1.19.4
-            packets.putInt("ADD_PLAYER_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundAddPlayerPacket.class)));
-            packets.putInt("ADD_EXPERIENCE_ORB_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundAddExperienceOrbPacket.class)));
-            //packets.putInt("ADD_PAINTING_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundAddPaintingPacket.class))); // removed in 1.19.4
-            packets.putInt("REMOVE_ENTITIES_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundRemoveEntitiesPacket.class)));
-            packets.putInt("SET_EQUIPMENT_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundSetEquipmentPacket.class)));
-            packets.putInt("MOVE_ENTITY_PACKET_POS", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundMoveEntityPacket.Pos.class)));
-            packets.putInt("MOVE_ENTITY_PACKET_POS_ROT", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundMoveEntityPacket.PosRot.class)));
-            packets.putInt("MOVE_ENTITY_PACKET_ROT", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundMoveEntityPacket.Rot.class)));
-            packets.putInt("SET_ENTITY_MOTION_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundSetEntityMotionPacket.class)));
-            packets.putInt("ENTITY_EVENT_PACKET", ConnectionProtocol.PLAY.getPacketId(PacketFlow.CLIENTBOUND, (Packet<?>) unsafe.allocateInstance(ClientboundEntityEventPacket.class)));
+            packets.putInt("PLAYER_INFO_PACKET", ConnectionProtocol.PLAY.codec(PacketFlow.CLIENTBOUND).packetId((Packet<?>) unsafe.allocateInstance(ClientboundPlayerInfoRemovePacket.class))); // new 1.19.4
+            packets.putInt("PLAYER_INFO_PACKET", ConnectionProtocol.PLAY.codec(PacketFlow.CLIENTBOUND).packetId((Packet<?>) unsafe.allocateInstance(ClientboundPlayerInfoUpdatePacket.class)));
+            packets.putInt("SET_PLAYER_TEAM_PACKET", ConnectionProtocol.PLAY.codec(PacketFlow.CLIENTBOUND).packetId((Packet<?>) unsafe.allocateInstance(ClientboundSetPlayerTeamPacket.class)));
+            packets.putInt("SET_ENTITY_DATA_PACKET", ConnectionProtocol.PLAY.codec(PacketFlow.CLIENTBOUND).packetId((Packet<?>) unsafe.allocateInstance(ClientboundSetEntityDataPacket.class)));
+            packets.putInt("ANIMATE_PACKET", ConnectionProtocol.PLAY.codec(PacketFlow.CLIENTBOUND).packetId((Packet<?>) unsafe.allocateInstance(ClientboundAnimatePacket.class)));
+            packets.putInt("ROTATE_HEAD_PACKET", ConnectionProtocol.PLAY.codec(PacketFlow.CLIENTBOUND).packetId((Packet<?>) unsafe.allocateInstance(ClientboundRotateHeadPacket.class)));
+            packets.putInt("TELEPORT_ENTITY_PACKET", ConnectionProtocol.PLAY.codec(PacketFlow.CLIENTBOUND).packetId((Packet<?>) unsafe.allocateInstance(ClientboundTeleportEntityPacket.class)));
+            packets.putInt("ADD_ENTITY_PACKET", ConnectionProtocol.PLAY.codec(PacketFlow.CLIENTBOUND).packetId((Packet<?>) unsafe.allocateInstance(ClientboundAddEntityPacket.class)));
+            //packets.putInt("ADD_MOB_PACKET", ConnectionProtocol.PLAY.codec(PacketFlow.CLIENTBOUND).packetId((Packet<?>) unsafe.allocateInstance(ClientboundAddMobPacket.class))); // removed in 1.19.4
+            //packets.putInt("ADD_PLAYER_PACKET", ConnectionProtocol.PLAY.codec(PacketFlow.CLIENTBOUND).packetId((Packet<?>) unsafe.allocateInstance(ClientboundAddPlayerPacket.class))); // removed in 1.20.4
+            packets.putInt("ADD_EXPERIENCE_ORB_PACKET", ConnectionProtocol.PLAY.codec(PacketFlow.CLIENTBOUND).packetId((Packet<?>) unsafe.allocateInstance(ClientboundAddExperienceOrbPacket.class)));
+            //packets.putInt("ADD_PAINTING_PACKET", ConnectionProtocol.PLAY.codec(PacketFlow.CLIENTBOUND).packetId((Packet<?>) unsafe.allocateInstance(ClientboundAddPaintingPacket.class))); // removed in 1.19.4
+            packets.putInt("REMOVE_ENTITIES_PACKET", ConnectionProtocol.PLAY.codec(PacketFlow.CLIENTBOUND).packetId((Packet<?>) unsafe.allocateInstance(ClientboundRemoveEntitiesPacket.class)));
+            packets.putInt("SET_EQUIPMENT_PACKET", ConnectionProtocol.PLAY.codec(PacketFlow.CLIENTBOUND).packetId((Packet<?>) unsafe.allocateInstance(ClientboundSetEquipmentPacket.class)));
+            packets.putInt("MOVE_ENTITY_PACKET_POS", ConnectionProtocol.PLAY.codec(PacketFlow.CLIENTBOUND).packetId((Packet<?>) unsafe.allocateInstance(ClientboundMoveEntityPacket.Pos.class)));
+            packets.putInt("MOVE_ENTITY_PACKET_POS_ROT", ConnectionProtocol.PLAY.codec(PacketFlow.CLIENTBOUND).packetId((Packet<?>) unsafe.allocateInstance(ClientboundMoveEntityPacket.PosRot.class)));
+            packets.putInt("MOVE_ENTITY_PACKET_ROT", ConnectionProtocol.PLAY.codec(PacketFlow.CLIENTBOUND).packetId((Packet<?>) unsafe.allocateInstance(ClientboundMoveEntityPacket.Rot.class)));
+            packets.putInt("SET_ENTITY_MOTION_PACKET", ConnectionProtocol.PLAY.codec(PacketFlow.CLIENTBOUND).packetId((Packet<?>) unsafe.allocateInstance(ClientboundSetEntityMotionPacket.class)));
+            packets.putInt("ENTITY_EVENT_PACKET", ConnectionProtocol.PLAY.codec(PacketFlow.CLIENTBOUND).packetId((Packet<?>) unsafe.allocateInstance(ClientboundEntityEventPacket.class)));
             enums.putTag("dev.by1337.virtualentity.core.network.PacketType", packets);
         }
         { // PaintingMotive
@@ -417,24 +412,5 @@ public class MappingsDumper {
             map.put((EntityDataSerializer<?>) field.get(null), field.getName());
         }
         return map;
-    }
-
-
-    private static void addMinecraftClasses() throws Throwable {
-        File file = new File("./lib/minecraft_server_1.19.4.jar");
-
-        URLClassLoader urlClassLoader = new URLClassLoader(new URL[]{file.toURI().toURL()});
-
-        Field theUnsafe = Unsafe.class.getDeclaredField("theUnsafe");
-        theUnsafe.setAccessible(true);
-        Unsafe unsafe = (Unsafe) theUnsafe.get(null);
-        Field implLookup = MethodHandles.Lookup.class.getDeclaredField("IMPL_LOOKUP");
-
-        MethodHandles.Lookup lookup = (MethodHandles.Lookup) unsafe.getObject(unsafe.staticFieldBase(implLookup), unsafe.staticFieldOffset(implLookup));
-
-        lookup
-                .findVirtual(Class.forName("java.net.URLClassLoader"), "addURL", MethodType.methodType(Void.TYPE, URL.class))
-                .invoke((URLClassLoader) urlClassLoader, file.toPath().toUri().toURL());
-
     }
 }

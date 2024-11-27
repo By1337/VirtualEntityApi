@@ -26,4 +26,9 @@ public class AddExperienceOrbPacket extends Packet {
         byteBuf.writeDouble(virtualEntity.getPos().z);
         byteBuf.writeShort(virtualEntity.value());
     }
+
+    @Override
+    public String toString() {
+        return "AddExperienceOrbPacket{}";
+    }
 }

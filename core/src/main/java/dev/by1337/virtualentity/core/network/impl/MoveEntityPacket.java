@@ -43,6 +43,11 @@ public abstract class MoveEntityPacket extends Packet {
         protected int getPacketId() {
             return PACKET_ID;
         }
+
+        @Override
+        public String toString() {
+            return "MoveEntityPacket$Rot{}";
+        }
     }
 
     public static class Pos extends MoveEntityPacket {
@@ -68,6 +73,10 @@ public abstract class MoveEntityPacket extends Packet {
         @Override
         protected int getPacketId() {
             return PACKET_ID;
+        }
+        @Override
+        public String toString() {
+            return "MoveEntityPacket$Pos{}";
         }
     }
 
@@ -96,6 +105,10 @@ public abstract class MoveEntityPacket extends Packet {
         @Override
         protected int getPacketId() {
             return PACKET_ID;
+        }
+        @Override
+        public String toString() {
+            return "MoveEntityPacket$PosRot{}";
         }
     }
 }

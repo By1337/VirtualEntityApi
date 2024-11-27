@@ -4,18 +4,16 @@ import dev.by1337.virtualentity.api.entity.MappedEnum;
 import dev.by1337.virtualentity.api.particles.ParticleOptions;
 import dev.by1337.virtualentity.core.nms.NmsUtil;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufOutputStream;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.inventory.ItemStack;
 import org.by1337.blib.geom.Vec3f;
 import org.by1337.blib.geom.Vec3i;
-import org.by1337.blib.nbt.MojangNbtReader;
-import org.by1337.blib.nbt.NBT;
+import org.by1337.blib.nbt.impl.CompoundTag;
+import org.by1337.blib.util.Version;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 import java.util.function.BiConsumer;
@@ -23,8 +21,10 @@ import java.util.function.BiConsumer;
 public class ByteBuffUtil {
     private static final int SEGMENT_BITS = 0x7F;
     private static final int CONTINUE_BIT = 0x80;
+    private static final boolean IS_1_20_4_OR_NEWER = Version.VERSION.newerThanOrEqual(Version.V1_20_4);
 
     public static int readVarInt(ByteBuf byteBuf) {
+
         int value = 0;
         int position = 0;
         byte currentByte;
@@ -100,10 +100,15 @@ public class ByteBuffUtil {
         byteBuf.writeBytes(bytes);
     }
 
+
     public static void writeComponent(Component c, ByteBuf byteBuf) {
-        byte[] bytes = GsonComponentSerializer.gson().serializer().toJson(c).getBytes(StandardCharsets.UTF_8);
-        writeVarInt(bytes.length, byteBuf);
-        byteBuf.writeBytes(bytes);
+        if (IS_1_20_4_OR_NEWER) {
+            NmsUtil.writeComponent(c, byteBuf);
+        } else {
+            byte[] bytes = GsonComponentSerializer.gson().serializer().toJson(c).getBytes(StandardCharsets.UTF_8);
+            writeVarInt(bytes.length, byteBuf);
+            byteBuf.writeBytes(bytes);
+        }
     }
 
     public static <T> void writeOptional(ByteBuf buf, @Nullable T value, BiConsumer<T, ByteBuf> codec) {
@@ -142,16 +147,8 @@ public class ByteBuffUtil {
         }
     }
 
-    public static void writeNbt(@Nullable NBT nbt, ByteBuf byteBuf) {
-        if (nbt == null) {
-            byteBuf.writeByte(0);
-        } else {
-            try {
-                MojangNbtReader.write(nbt, new ByteBufOutputStream(byteBuf));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
+    public static void writeNbt(@Nullable CompoundTag nbt, ByteBuf byteBuf) {
+        NmsUtil.writeCompoundTag(nbt, byteBuf);
     }
 
     public static void writeItemStack(ItemStack itemStack, ByteBuf byteBuf) {

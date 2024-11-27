@@ -18,9 +18,13 @@ public abstract class Packet {
         ByteBuf byteBuf = channel.alloc().buffer();
         write(byteBuf);
         if (debug){
-            LOGGER.info("Send {} {} bytes to player {}", this.getClass(), byteBuf.readableBytes(), player.getName());
+            LOGGER.info("Send {} {} bytes to player {} data: {}", this.getClass(), byteBuf.readableBytes(), player.getName(), this);
         }
         channel.write(byteBuf);
     }
 
+    @Override
+    public String toString() {
+        return "Packet{NO_DATA}";
+    }
 }

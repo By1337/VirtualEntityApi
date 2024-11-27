@@ -140,7 +140,7 @@ public class Mappings {
             }
         }
 
-        try {
+        try (in){
             CompoundTag nbt = MojangNbtReader.readCompressed(in);
             instance = CODEC.decode(NbtOps.INSTANCE, nbt).getOrThrow().getFirst();
             instance.applyEnumMappings();

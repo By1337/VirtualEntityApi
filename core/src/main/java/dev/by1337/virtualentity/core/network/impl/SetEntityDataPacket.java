@@ -39,4 +39,11 @@ public class SetEntityDataPacket extends Packet {
         ByteBuffUtil.writeVarInt(serializerId, byteBuf);
         accessor.serializer().write(dataItem.getValue(), byteBuf);
     }
+
+    @Override
+    public String toString() {
+        return "SetEntityDataPacket{" + "id=" + id +
+                ", dataItems=" + dataItems +
+                '}';
+    }
 }
