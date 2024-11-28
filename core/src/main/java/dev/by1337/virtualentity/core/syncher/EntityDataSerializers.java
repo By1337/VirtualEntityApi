@@ -90,7 +90,7 @@ public class EntityDataSerializers {
     public static final EntityDataSerializer<CatVariant> CAT_VARIANT = register(ByteBuffUtil::writeEnum, "CAT_VARIANT");
     public static final EntityDataSerializer<FrogVariant> FROG_VARIANT = register(ByteBuffUtil::writeEnum, "FROG_VARIANT");
     public static final EntityDataSerializer<PaintingMotive> PAINTING_VARIANT = register(ByteBuffUtil::writeEnum, "PAINTING_VARIANT");
-    //public static final EntityDataSerializer<Wol> WOLF_VARIANT = register(ByteBuffUtil::writeEnum, "WOLF_VARIANT"); // todo
+    public static final EntityDataSerializer<WolfVariant> WOLF_VARIANT = register(ByteBuffUtil::writeEnum, "WOLF_VARIANT");
     public static final EntityDataSerializer<Long> LONG = register(ByteBuffUtil::writeVarLong, "LONG");
     public static final EntityDataSerializer<Optional<BlockData>> OPTIONAL_BLOCK_STATE = register((val, buff) -> {
         if (val.isPresent()) {

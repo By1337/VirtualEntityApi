@@ -4,7 +4,9 @@ import com.mojang.authlib.GameProfile;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.ProtocolInfo;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.IdDispatchCodec;
@@ -19,6 +21,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Fox;
 import net.minecraft.world.entity.animal.Panda;
+import net.minecraft.world.entity.animal.WolfVariant;
 import net.minecraft.world.entity.animal.armadillo.Armadillo;
 import net.minecraft.world.entity.animal.axolotl.Axolotl;
 import net.minecraft.world.entity.animal.sniffer.Sniffer;
@@ -348,6 +351,15 @@ public class MappingsCreator {
                 frog.putInt(val.getPath().toUpperCase(Locale.ENGLISH), BuiltInRegistries.FROG_VARIANT.getId(catVariant));
             }
             enums.putTag("dev.by1337.virtualentity.api.entity.FrogVariant", frog);
+        }
+
+        { // WolfVariant
+            var idMap = MinecraftServer.getDefaultRegistryAccess().registryOrThrow(Registries.WOLF_VARIANT).asHolderIdMap();
+            CompoundTag wolf = new CompoundTag();
+            for (Holder<WolfVariant> holder : idMap) {
+                wolf.putInt(holder.unwrapKey().map(v -> v.location().getPath()).get().toUpperCase(Locale.ENGLISH), idMap.getIdOrThrow(holder));
+            }
+            enums.putTag("dev.by1337.virtualentity.api.entity.WolfVariant", wolf);
         }
         { // BillboardConstraints
             CompoundTag billboardConstraints = new CompoundTag();
