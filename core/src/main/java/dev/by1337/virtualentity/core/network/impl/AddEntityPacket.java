@@ -5,6 +5,7 @@ import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.network.ByteBuffUtil;
 import dev.by1337.virtualentity.core.network.Packet;
 import dev.by1337.virtualentity.core.network.PacketType;
+import dev.by1337.virtualentity.core.virtual.VirtualHangingEntityImpl;
 import io.netty.buffer.ByteBuf;
 import org.by1337.blib.util.Version;
 

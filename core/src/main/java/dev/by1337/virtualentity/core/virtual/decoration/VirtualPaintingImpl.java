@@ -6,18 +6,15 @@ import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
 import dev.by1337.virtualentity.core.virtual.VirtualEntityImpl;
+import dev.by1337.virtualentity.core.virtual.VirtualHangingEntityImpl;
 import org.by1337.blib.util.Direction;
 import org.by1337.blib.util.Version;
 
-public class VirtualPaintingImpl extends VirtualEntityImpl implements dev.by1337.virtualentity.api.virtual.decoration.VirtualPainting {
+public class VirtualPaintingImpl extends VirtualHangingEntityImpl implements dev.by1337.virtualentity.api.virtual.decoration.VirtualPainting {
     private static final EntityDataAccessor<PaintingMotive> DATA_PAINTING_VARIANT_ID;
 
     @RemovedInMinecraftVersion("1.19.4")
-    @Deprecated
     private PaintingMotive motive = PaintingMotive.ALBAN;
-    @RemovedInMinecraftVersion("1.19.4")
-    @Deprecated
-    private Direction direction = Direction.EAST;
 
     public VirtualPaintingImpl() {
         super(VirtualEntityType.PAINTING);
@@ -42,20 +39,6 @@ public class VirtualPaintingImpl extends VirtualEntityImpl implements dev.by1337
         if (DATA_PAINTING_VARIANT_ID != null) {
             entityData.define(DATA_PAINTING_VARIANT_ID, motive);
         }
-    }
-
-    @Override
-    @RemovedInMinecraftVersion("1.19.4")
-    @Deprecated
-    public Direction direction() {
-        return direction;
-    }
-
-    @Override
-    @RemovedInMinecraftVersion("1.19.4")
-    @Deprecated
-    public void setDirection(Direction direction) {
-        this.direction = direction;
     }
 
     static {

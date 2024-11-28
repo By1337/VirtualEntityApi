@@ -8,11 +8,13 @@ import dev.by1337.virtualentity.api.tracker.PlayerTracker;
 import dev.by1337.virtualentity.api.virtual.VirtualAreaEffectCloud;
 import dev.by1337.virtualentity.api.virtual.VirtualEntity;
 import dev.by1337.virtualentity.api.virtual.decoration.VirtualArmorStand;
+import dev.by1337.virtualentity.api.virtual.decoration.VirtualGlowItemFrame;
 import dev.by1337.virtualentity.api.virtual.item.VirtualItem;
 import dev.by1337.virtualentity.api.virtual.monster.VirtualCreeper;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.mappings.VirtualEntityRegistrar;
 import dev.by1337.virtualentity.core.network.Packet;
+import dev.by1337.virtualentity.core.virtual.decoration.VirtualGlowItemFrameImpl;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -28,6 +30,7 @@ import org.by1337.blib.command.CommandWrapper;
 import org.by1337.blib.command.argument.ArgumentEnumValue;
 import org.by1337.blib.command.requires.RequiresPermission;
 import org.by1337.blib.geom.Vec3d;
+import org.by1337.blib.util.Direction;
 import org.by1337.blib.util.Version;
 
 import java.util.Random;
@@ -160,6 +163,30 @@ public class Main extends JavaPlugin {
                             }
                             tracker.tick();
                             Bukkit.getServer().getScheduler().runTaskLater(plugin, tracker::removeAll, 2000);
+                        }))
+                )
+                .addSubCommand(new Command<CommandSender>("frameTest")
+                        .requires(sender -> sender instanceof Player)
+                        .executor(((sender, args) -> {
+                            Player player = (Player) sender;
+                            VirtualGlowItemFrame frame = new VirtualGlowItemFrameImpl();
+                            frame.setPos(new Vec3d(player.getLocation()));
+                            frame.setItem(new ItemStack(Material.RED_SHULKER_BOX));
+                            frame.tick(Set.of(player));
+                            new BukkitRunnable() {
+                                Direction[] arr = Direction.values();
+                                int pos = 0;
+                                @Override
+                                public void run() {
+                                    if (pos == arr.length) {
+                                        frame.tick(Set.of());
+                                        cancel();
+                                        return;
+                                    }
+                                    frame.setDirection(arr[pos++]);
+                                    frame.tick(Set.of(player));
+                                }
+                            }.runTaskTimerAsynchronously(plugin, 0, 15);
                         }))
                 );
     }

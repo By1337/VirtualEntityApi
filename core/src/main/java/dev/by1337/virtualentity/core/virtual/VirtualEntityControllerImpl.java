@@ -128,7 +128,7 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
             position.sync();
             Packet packet = new TeleportEntityPacket(virtualEntity);
             broadcast(packet);
-        } else if (position.needPosUpdate() && position.needRotUpdate()) {
+        } else if (position.needPosUpdate() && (position.needRotUpdate())) {
             Packet packet = new MoveEntityPacket.PosRot(virtualEntity);
             broadcast(packet);
             if (this instanceof VirtualLivingEntity) {

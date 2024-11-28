@@ -16,7 +16,7 @@ public abstract class VirtualThrowableItemProjectileImpl extends VirtualEntityIm
 
     protected void defineSynchedData() {
         super.defineSynchedData();
-        this.entityData.define(DATA_ITEM_STACK, new ItemStack(Material.AIR));
+        this.entityData.define(DATA_ITEM_STACK, getDefaultItem());
     }
 
     /**
@@ -36,6 +36,8 @@ public abstract class VirtualThrowableItemProjectileImpl extends VirtualEntityIm
     public void setItemStack(ItemStack itemStack) {
         this.entityData.set(DATA_ITEM_STACK, itemStack);
     }
+
+    protected abstract ItemStack getDefaultItem();
 
     static {
         DATA_ITEM_STACK = Mappings.findAccessor("ThrowableItemProjectile", "DATA_ITEM_STACK");

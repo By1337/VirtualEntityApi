@@ -67,7 +67,7 @@ public class VirtualLlamaImpl extends VirtualAbstractChestedHorseImpl implements
         if (OLDER_THAN_1_20_6) {
             this.entityData.set(DATA_SWAG_ID, color == null ? -1 : color.getId());
         } else {
-            setEquipment(EquipmentSlot.BODY, new ItemStack(COLOR_TO_MATERIAL.get(color)));
+            setEquipment(EquipmentSlot.BODY, new ItemStack(COLOR_TO_MATERIAL.getOrDefault(color, Material.WHITE_CARPET)));
         }
     }
 
