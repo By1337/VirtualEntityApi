@@ -10,9 +10,14 @@ import org.bukkit.Particle;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.by1337.blib.BLib;
 import org.by1337.blib.nbt.impl.CompoundTag;
 import org.by1337.blib.util.Version;
 import org.jetbrains.annotations.Nullable;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.List;
 
 public class NmsUtil {
     private static final NmsAccessor accessor;
@@ -42,6 +47,11 @@ public class NmsUtil {
         accessor.writeComponent(component, b);
     }
 
+    @SinceMinecraftVersion("1.20.6")
+    public static void writeParticles(List<ParticleOptions<?>> list, ByteBuf b) {
+        accessor.writeParticles(list, b);
+    }
+
     static {
         accessor = switch (Version.VERSION) {
             case V1_16_5 -> new NmsAccessorV1_16_5();
@@ -49,6 +59,7 @@ public class NmsUtil {
             case V1_18_2 -> new NmsAccessorV1_18_2();
             case V1_19_4 -> new NmsAccessorV1_19_4();
             case V1_20_4 -> new NmsAccessorV1_20_4();
+            case V1_20_6 -> new NmsAccessorV1_20_6();
             default -> throw new UnsupportedOperationException("Unsupported version " + Version.VERSION);
         };
     }
@@ -70,6 +81,10 @@ public class NmsUtil {
         void writeCompoundTag(CompoundTag compoundTag, ByteBuf b);
 
         default void writeComponent(Component component, ByteBuf b) {
+            throw new UnsupportedOperationException("Unsupported version " + Version.VERSION);
+        }
+
+        default void writeParticles(List<ParticleOptions<?>> list, ByteBuf b) {
             throw new UnsupportedOperationException("Unsupported version " + Version.VERSION);
         }
     }
@@ -704,6 +719,154 @@ public class NmsUtil {
             throw new IllegalStateException("ASM did not apply!");
         }
     }
+
+    private static class NmsAccessorV1_20_6 implements NmsAccessor {
+        private static final Object PARTICLE_CODEC = getCodec("PARTICLE");
+        private static final Object PARTICLES_CODEC = getCodec("PARTICLES");
+        private static final Object COMPOUND_TAG_CODEC = getCodec("COMPOUND_TAG");
+        private static final Object ITEM_STACK_CODEC = getCodec("ITEM_STACK");
+        private static final Object COMPONENT_CODEC = getCodec("COMPONENT");
+
+
+        @ASM
+        private void write(Object codec, ByteBuf byteBuf, Object value) {
+            String asm = """
+                    A:
+                        aload 1
+                        checkcast net/minecraft/network/codec/StreamEncoder
+                        new net/minecraft/network/RegistryFriendlyByteBuf
+                        dup
+                        aload 2
+                        invokestatic net/minecraft/server/MinecraftServer getServer ()Lnet/minecraft/server/MinecraftServer;
+                        invokevirtual net/minecraft/server/MinecraftServer registryAccess ()Lnet/minecraft/core/RegistryAccess$Frozen;
+                        invokespecial net/minecraft/network/RegistryFriendlyByteBuf <init> (Lio/netty/buffer/ByteBuf;Lnet/minecraft/core/RegistryAccess;)V
+                        aload 3
+                        invokeinterface net/minecraft/network/codec/StreamEncoder encode (Ljava/lang/Object;Ljava/lang/Object;)V
+                    B:
+                        return
+                    C:
+                    """;
+            System.out.println(asm);
+            throw new IllegalStateException("ASM did not apply!");
+        }
+
+        @ASM
+        private Object toNMSParticle(Particle particle, Object val) {
+            String asm = """
+                    A:
+                        aload 1
+                        aload 2
+                        invokestatic org/bukkit/craftbukkit/CraftParticle createParticleParam (Lorg/bukkit/Particle;Ljava/lang/Object;)Lnet/minecraft/core/particles/ParticleOptions;
+                        areturn
+                    B:
+                    """;
+            System.out.println(asm);
+            throw new IllegalStateException("ASM did not apply!");
+        }
+
+        @ASM
+        private Object toNMSItemsStack(ItemStack itemStack) {
+            String asm = """
+                    A:
+                        aload 1
+                        invokestatic org/bukkit/craftbukkit/inventory/CraftItemStack unwrap (Lorg/bukkit/inventory/ItemStack;)Lnet/minecraft/world/item/ItemStack;
+                        areturn
+                    B:
+                    """;
+            System.out.println(asm);
+            throw new IllegalStateException("ASM did not apply!");
+        }
+
+        @ASM
+        private Object toNMSComponent(Component component) {
+            String asm = """
+                    A:
+                        aload 1
+                        invokestatic io/papermc/paper/adventure/PaperAdventure asVanilla (Lnet/kyori/adventure/text/Component;)Lnet/minecraft/network/chat/Component;
+                        areturn
+                    B:
+                    """;
+            System.out.println(asm);
+            throw new IllegalStateException("ASM did not apply!");
+        }
+
+        private static Object getCodec(String entityDataSerializer) {
+            try {
+                Class<?> cl = Class.forName("net.minecraft.network.syncher.EntityDataSerializers");
+                Field field = cl.getDeclaredField(entityDataSerializer);
+                field.setAccessible(true);
+                Object val = field.get(null);
+
+                Class<?> cl2 = Class.forName("net.minecraft.network.syncher.EntityDataSerializer");
+                Method method = cl2.getDeclaredMethod("codec");
+                method.setAccessible(true);
+                return method.invoke(val);
+            } catch (Throwable t) {
+                throw new RuntimeException(t);
+            }
+
+        }
+
+        @ASM
+        @Override
+        public int getBlockId(BlockData blockData) {
+            String asm = """
+                    A:
+                        aload 1
+                        checkcast org/bukkit/craftbukkit/block/data/CraftBlockData
+                        invokevirtual org/bukkit/craftbukkit/block/data/CraftBlockData getState ()Lnet/minecraft/world/level/block/state/BlockState;
+                        invokestatic net/minecraft/world/level/block/Block getId (Lnet/minecraft/world/level/block/state/BlockState;)I
+                        ireturn
+                    B:
+                    """;
+            System.out.println(asm);
+            throw new IllegalStateException("ASM did not apply!");
+        }
+
+        @Override
+        public void writeParticle(Particle particle, @Nullable Object value, ByteBuf b) {
+            write(PARTICLE_CODEC, b, toNMSParticle(particle, value));
+        }
+
+        @Override
+        public void writeItemStack(ItemStack itemStack, ByteBuf b) {
+            write(ITEM_STACK_CODEC, b, toNMSItemsStack(itemStack));
+        }
+
+        @Override
+        public void writeParticles(List<ParticleOptions<?>> list, ByteBuf b) {
+            write(PARTICLES_CODEC, b, list.stream().map(p -> toNMSParticle(p.particle(), p.value())).toList());
+        }
+
+        @Override
+        public void writeComponent(Component component, ByteBuf b) {
+            write(COMPONENT_CODEC, b, toNMSComponent(component));
+        }
+
+        @ASM
+        @Override
+        public Channel getChannel(Player player) {
+            String asm = """
+                    A:
+                        aload 1
+                        checkcast org/bukkit/craftbukkit/entity/CraftPlayer
+                        invokevirtual org/bukkit/craftbukkit/entity/CraftPlayer getHandle ()Lnet/minecraft/server/level/ServerPlayer;
+                        getfield net/minecraft/server/level/ServerPlayer connection Lnet/minecraft/server/network/ServerGamePacketListenerImpl;
+                        getfield net/minecraft/server/network/ServerGamePacketListenerImpl connection Lnet/minecraft/network/Connection;
+                        getfield net/minecraft/network/Connection channel Lio/netty/channel/Channel;
+                        areturn
+                    B:
+                    """;
+            System.out.println(asm);
+            throw new IllegalStateException("ASM did not apply!");
+        }
+
+        @Override
+        public void writeCompoundTag(CompoundTag compoundTag, ByteBuf b) {
+            write(COMPOUND_TAG_CODEC, b, BLib.getApi().getParseCompoundTag().toNMS(compoundTag));
+        }
+    }
+
     //    private static Color fromARGB0(int argb) {
     //        return Color.fromARGB(argb);
     //    }

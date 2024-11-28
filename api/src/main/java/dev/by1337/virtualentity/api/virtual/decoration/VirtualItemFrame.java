@@ -1,9 +1,9 @@
 package dev.by1337.virtualentity.api.virtual.decoration;
 
-import dev.by1337.virtualentity.api.virtual.VirtualEntity;
+import dev.by1337.virtualentity.api.virtual.VirtualHangingEntity;
 import org.bukkit.inventory.ItemStack;
 
-public interface VirtualItemFrame extends VirtualEntity {
+public interface VirtualItemFrame extends VirtualHangingEntity {
     ItemStack getItem();
 
     void setItem(ItemStack param0);

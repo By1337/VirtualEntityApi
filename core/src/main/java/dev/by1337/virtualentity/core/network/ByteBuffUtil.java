@@ -1,5 +1,6 @@
 package dev.by1337.virtualentity.core.network;
 
+import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 import dev.by1337.virtualentity.api.entity.MappedEnum;
 import dev.by1337.virtualentity.api.particles.ParticleOptions;
 import dev.by1337.virtualentity.core.nms.NmsUtil;
@@ -15,6 +16,7 @@ import org.by1337.blib.util.Version;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.UUID;
 import java.util.function.BiConsumer;
 
@@ -126,6 +128,11 @@ public class ByteBuffUtil {
 
     public static void writeParticle(ParticleOptions<?> particleOptions, ByteBuf byteBuf) {
         NmsUtil.writeParticleOptions(particleOptions, byteBuf);
+    }
+
+    @SinceMinecraftVersion("1.20.6")
+    public static void writeParticles(List<ParticleOptions<?>> particleOptions, ByteBuf byteBuf) {
+        NmsUtil.writeParticles(particleOptions, byteBuf);
     }
 
     public static void writeVec3f(Vec3f vec3f, ByteBuf byteBuf) {

@@ -4,7 +4,9 @@ import com.mojang.authlib.GameProfile;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.ProtocolInfo;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.IdDispatchCodec;
@@ -19,6 +21,8 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Fox;
 import net.minecraft.world.entity.animal.Panda;
+import net.minecraft.world.entity.animal.WolfVariant;
+import net.minecraft.world.entity.animal.armadillo.Armadillo;
 import net.minecraft.world.entity.animal.axolotl.Axolotl;
 import net.minecraft.world.entity.animal.sniffer.Sniffer;
 import net.minecraft.world.entity.boss.enderdragon.phases.EnderDragonPhase;
@@ -192,7 +196,7 @@ public class MappingsCreator {
         { // animationToId
             CompoundTag animationToId = new CompoundTag();
             animationToId.putInt("SWING_MAIN_ARM", ClientboundAnimatePacket.SWING_MAIN_HAND);
-            animationToId.putInt("TAKE_DAMAGE", 1); // todo
+            //animationToId.putInt("TAKE_DAMAGE", 1); // removed
             animationToId.putInt("LEAVE_BED", ClientboundAnimatePacket.WAKE_UP);
             animationToId.putInt("SWING_OFFHAND", ClientboundAnimatePacket.SWING_OFF_HAND);
             animationToId.putInt("CRITICAL_EFFECT", ClientboundAnimatePacket.CRITICAL_HIT);
@@ -348,12 +352,28 @@ public class MappingsCreator {
             }
             enums.putTag("dev.by1337.virtualentity.api.entity.FrogVariant", frog);
         }
+
+        { // WolfVariant
+            var idMap = MinecraftServer.getDefaultRegistryAccess().registryOrThrow(Registries.WOLF_VARIANT).asHolderIdMap();
+            CompoundTag wolf = new CompoundTag();
+            for (Holder<WolfVariant> holder : idMap) {
+                wolf.putInt(holder.unwrapKey().map(v -> v.location().getPath()).get().toUpperCase(Locale.ENGLISH), idMap.getIdOrThrow(holder));
+            }
+            enums.putTag("dev.by1337.virtualentity.api.entity.WolfVariant", wolf);
+        }
         { // BillboardConstraints
             CompoundTag billboardConstraints = new CompoundTag();
             for (var value : Display.BillboardConstraints.values()) {
                 billboardConstraints.putInt(value.name(), value.ordinal());
             }
             enums.putTag("dev.by1337.virtualentity.api.entity.BillboardConstraints", billboardConstraints);
+        }
+        { // ArmadilloState
+            CompoundTag billboardConstraints = new CompoundTag();
+            for (var value : Armadillo.ArmadilloState.values()) {
+                billboardConstraints.putInt(value.name(), value.ordinal());
+            }
+            enums.putTag("dev.by1337.virtualentity.api.entity.ArmadilloState", billboardConstraints);
         }
         { // EntityEvent
             CompoundTag entityEvents = new CompoundTag();

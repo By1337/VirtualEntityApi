@@ -1,5 +1,6 @@
 package dev.by1337.virtualentity.core.syncher;
 
+import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 import dev.by1337.virtualentity.api.entity.*;
 import dev.by1337.virtualentity.api.entity.npc.VillagerData;
 import dev.by1337.virtualentity.api.particles.ParticleOptions;
@@ -50,6 +51,9 @@ public class EntityDataSerializers {
 
     public static final EntityDataSerializer<ParticleOptions<?>> PARTICLE = register(ByteBuffUtil::writeParticle, "PARTICLE");
 
+    @SinceMinecraftVersion("1.20.6")
+    public static final EntityDataSerializer<List<ParticleOptions<?>>> PARTICLES = register(ByteBuffUtil::writeParticles, "PARTICLES");
+
     public static final EntityDataSerializer<Vec3f> ROTATIONS = register(ByteBuffUtil::writeVec3f, "ROTATIONS");
 
     public static final EntityDataSerializer<Vec3i> BLOCK_POS = register(ByteBuffUtil::writeBlockPos, "BLOCK_POS");
@@ -89,6 +93,8 @@ public class EntityDataSerializers {
     public static final EntityDataSerializer<CatVariant> CAT_VARIANT = register(ByteBuffUtil::writeEnum, "CAT_VARIANT");
     public static final EntityDataSerializer<FrogVariant> FROG_VARIANT = register(ByteBuffUtil::writeEnum, "FROG_VARIANT");
     public static final EntityDataSerializer<PaintingMotive> PAINTING_VARIANT = register(ByteBuffUtil::writeEnum, "PAINTING_VARIANT");
+    public static final EntityDataSerializer<WolfVariant> WOLF_VARIANT = register(ByteBuffUtil::writeEnum, "WOLF_VARIANT");
+    public static final EntityDataSerializer<ArmadilloState> ARMADILLO_STATE = register(ByteBuffUtil::writeEnum, "ARMADILLO_STATE");
     public static final EntityDataSerializer<Long> LONG = register(ByteBuffUtil::writeVarLong, "LONG");
     public static final EntityDataSerializer<Optional<BlockData>> OPTIONAL_BLOCK_STATE = register((val, buff) -> {
         if (val.isPresent()) {

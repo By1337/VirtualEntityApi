@@ -89,4 +89,14 @@ public class EntityPosition {
     public Vec3f getRotationOld() {
         return rotationOld;
     }
+
+    @Override
+    public String toString() {
+        return "EntityPosition{" +
+                "pos=" + pos +
+                ", rotation=" + rotation +
+                ", posOld=" + posOld +
+                ", rotationOld=" + rotationOld +
+                '}';
+    }
 }

@@ -7,6 +7,7 @@ import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.by1337.blib.geom.Vec3d;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 import java.util.UUID;
@@ -15,6 +16,9 @@ public interface VirtualEntityController {
     void clearEquipment();
 
     void setEquipment(EquipmentSlot slot, ItemStack item);
+
+    @Nullable
+    ItemStack getEquipment(EquipmentSlot slot);
 
     void setPos(Vec3d pos);
 
@@ -54,10 +58,13 @@ public interface VirtualEntityController {
     int getId();
 
     void playAnimation(EntityAnimation animation);
+
     void tick(Set<Player> viewers);
+
     void lookAt(Vec3d at);
 
-    default void onTick(){
+    default void onTick() {
     }
+
     void broadcastEntityEvent(EntityEvent event);
 }

@@ -6,6 +6,7 @@ import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.core.virtual.*;
 import dev.by1337.virtualentity.core.virtual.animal.*;
 import dev.by1337.virtualentity.core.virtual.animal.allay.VirtualAllayImpl;
+import dev.by1337.virtualentity.core.virtual.animal.armadillo.VirtualArmadilloImpl;
 import dev.by1337.virtualentity.core.virtual.animal.axolotl.VirtualAxolotlImpl;
 import dev.by1337.virtualentity.core.virtual.animal.camel.VirtualCamelImpl;
 import dev.by1337.virtualentity.core.virtual.animal.frog.VirtualFrogImpl;
@@ -32,6 +33,7 @@ import dev.by1337.virtualentity.core.virtual.npc.VirtualVillagerImpl;
 import dev.by1337.virtualentity.core.virtual.npc.VirtualWanderingTraderImpl;
 import dev.by1337.virtualentity.core.virtual.player.VirtualPlayerImpl;
 import dev.by1337.virtualentity.core.virtual.projectile.*;
+import dev.by1337.virtualentity.core.virtual.projectile.windcharge.*;
 import dev.by1337.virtualentity.core.virtual.vehicle.*;
 import org.by1337.blib.util.Version;
 
@@ -168,5 +170,10 @@ public class VirtualEntityRegistrar {
 
         factory.register(VirtualEntityType.WIND_CHARGE, VirtualWindChargeImpl::new, Version.V1_20_4);
         factory.register(VirtualEntityType.BREEZE, VirtualBreezeImpl::new, Version.V1_20_4);
+
+        factory.register(VirtualEntityType.OMINOUS_ITEM_SPAWNER, VirtualOminousItemSpawnerImpl::new, Version.V1_20_6);
+        factory.register(VirtualEntityType.BREEZE_WIND_CHARGE, VirtualBreezeWindChargeImpl::new, Version.V1_20_6);
+        factory.register(VirtualEntityType.BOGGED, VirtualBoggedImpl::new, Version.V1_20_6);
+        factory.register(VirtualEntityType.ARMADILLO, VirtualArmadilloImpl::new, Version.V1_20_6);
     }
 }
