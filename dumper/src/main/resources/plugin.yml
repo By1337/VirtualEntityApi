@@ -1,0 +1,12 @@
+name: VeaDumper
+main: dev.by1337.virtualentity.dumper.Main
+version: 1.0
+api-version: '1.20.6'
+author: By1337
+depend:
+  - BLib
+
+commands:
+  vea_dump:
+    aliases:
+      - dump
