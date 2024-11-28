@@ -10,6 +10,7 @@
         <module>core</module>
         <module>api</module>
         <module>asm</module>
+        <module>dumper</module>
     </modules>
 
     <distributionManagement>
