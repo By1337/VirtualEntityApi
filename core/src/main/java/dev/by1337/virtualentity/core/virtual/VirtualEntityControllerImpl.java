@@ -20,6 +20,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.by1337.blib.geom.Vec3d;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -194,8 +195,19 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
 
     @Override
     public void setEquipment(EquipmentSlot slot, ItemStack item) {
-        equipment.put(slot, item);
+        if (item != null && item.getType().isAir()) {
+            if (equipment.remove(slot) == null) return;
+        } else {
+            if (item == null) equipment.remove(slot);
+            else equipment.put(slot, item);
+        }
         hasEquipmentChanges = true;
+    }
+
+    @Nullable
+    @Override
+    public ItemStack getEquipment(EquipmentSlot slot) {
+        return equipment.get(slot);
     }
 
     @Override
