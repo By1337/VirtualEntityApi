@@ -32,6 +32,7 @@ import dev.by1337.virtualentity.core.virtual.npc.VirtualVillagerImpl;
 import dev.by1337.virtualentity.core.virtual.npc.VirtualWanderingTraderImpl;
 import dev.by1337.virtualentity.core.virtual.player.VirtualPlayerImpl;
 import dev.by1337.virtualentity.core.virtual.projectile.*;
+import dev.by1337.virtualentity.core.virtual.projectile.windcharge.*;
 import dev.by1337.virtualentity.core.virtual.vehicle.*;
 import org.by1337.blib.util.Version;
 
@@ -170,5 +171,6 @@ public class VirtualEntityRegistrar {
         factory.register(VirtualEntityType.BREEZE, VirtualBreezeImpl::new, Version.V1_20_4);
 
         factory.register(VirtualEntityType.OMINOUS_ITEM_SPAWNER, VirtualOminousItemSpawnerImpl::new, Version.V1_20_6);
+        factory.register(VirtualEntityType.BREEZE_WIND_CHARGE, VirtualBreezeWindChargeImpl::new, Version.V1_20_6);
     }
 }

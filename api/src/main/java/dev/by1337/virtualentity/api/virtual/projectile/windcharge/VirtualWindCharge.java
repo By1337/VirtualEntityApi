@@ -1,4 +1,4 @@
-package dev.by1337.virtualentity.api.virtual.projectile;
+package dev.by1337.virtualentity.api.virtual.projectile.windcharge;
 
 import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 import dev.by1337.virtualentity.api.virtual.VirtualEntity;
