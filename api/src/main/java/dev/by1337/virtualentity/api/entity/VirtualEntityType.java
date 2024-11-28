@@ -157,6 +157,8 @@ public enum VirtualEntityType {
     BOGGED(Version.V1_20_6), // может быть создан только с 1.21
     @SinceMinecraftVersion("1.20.6")
     BREEZE_WIND_CHARGE(Version.V1_20_6), // может быть создан только с 1.21
+    @SinceMinecraftVersion("1.20.6")
+    ARMADILLO(Version.V1_20_6),
 
     ;
     public static final Codec<VirtualEntityType> CODEC = DefaultCodecs.createEnumCodec(VirtualEntityType.class);

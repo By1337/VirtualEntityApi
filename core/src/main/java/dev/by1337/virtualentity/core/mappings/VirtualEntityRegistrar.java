@@ -168,5 +168,7 @@ public class VirtualEntityRegistrar {
 
         factory.register(VirtualEntityType.WIND_CHARGE, VirtualWindChargeImpl::new, Version.V1_20_4);
         factory.register(VirtualEntityType.BREEZE, VirtualBreezeImpl::new, Version.V1_20_4);
+
+        factory.register(VirtualEntityType.OMINOUS_ITEM_SPAWNER, VirtualOminousItemSpawnerImpl::new, Version.V1_20_6);
     }
 }

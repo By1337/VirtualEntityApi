@@ -7,12 +7,11 @@ import org.by1337.blib.configuration.serialization.DefaultCodecs;
 import java.util.EnumMap;
 
 @SinceMinecraftVersion("1.20.6")
-public enum ArmadilloState implements MappedEnum{
+public enum ArmadilloState implements MappedEnum {
     IDLE,
     ROLLING,
     SCARED,
-    UNROLLING
-    ;
+    UNROLLING;
     public static final Codec<ArmadilloState> CODEC = DefaultCodecs.createEnumCodec(ArmadilloState.class);
     private static final EnumMap<ArmadilloState, Integer> TO_ID = new EnumMap<>(ArmadilloState.class);
 
