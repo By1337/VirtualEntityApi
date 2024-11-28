@@ -11,7 +11,6 @@ public class Main extends JavaPlugin {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-
         try {
             if (args.length == 0) {
                 getDataFolder().mkdirs();

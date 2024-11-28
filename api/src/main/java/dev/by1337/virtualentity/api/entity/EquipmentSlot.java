@@ -1,6 +1,7 @@
 package dev.by1337.virtualentity.api.entity;
 
 import blib.com.mojang.serialization.Codec;
+import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 import org.by1337.blib.configuration.serialization.DefaultCodecs;
 
 import java.util.EnumMap;
@@ -11,7 +12,10 @@ public enum EquipmentSlot implements MappedEnum {
     FEET,
     LEGS,
     CHEST,
-    HEAD;
+    HEAD,
+    @SinceMinecraftVersion("1.20.6")
+    BODY
+    ;
     public static final Codec<EquipmentSlot> CODEC = DefaultCodecs.createEnumCodec(EquipmentSlot.class);
     private static final EnumMap<EquipmentSlot, Integer> TO_ID = new EnumMap<>(EquipmentSlot.class);
 

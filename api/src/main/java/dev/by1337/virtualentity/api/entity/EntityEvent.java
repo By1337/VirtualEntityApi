@@ -1,6 +1,7 @@
 package dev.by1337.virtualentity.api.entity;
 
 import blib.com.mojang.serialization.Codec;
+import dev.by1337.virtualentity.api.annotations.RemovedInMinecraftVersion;
 import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 import org.by1337.blib.configuration.serialization.DefaultCodecs;
 
@@ -48,6 +49,7 @@ public enum EntityEvent implements MappedEnum {
     TRUSTING_FAILED,
     TRUSTING_SUCCEEDED,
     VILLAGER_SWEAT,
+    @RemovedInMinecraftVersion("1.20.6")
     BAD_OMEN_TRIGGERED,
     FOX_EAT,
     TELEPORT,
@@ -76,6 +78,10 @@ public enum EntityEvent implements MappedEnum {
     SONIC_CHARGE,
     @SinceMinecraftVersion("1.19.4")
     SNIFFER_DIGGING_SOUND,
+    @SinceMinecraftVersion("1.20.6")
+    ARMADILLO_PEEK,
+    @SinceMinecraftVersion("1.20.6")
+    BODY_BREAK,
     ;
     public static final Codec<EntityEvent> CODEC = DefaultCodecs.createEnumCodec(EntityEvent.class);
     private static final EnumMap<EntityEvent, Integer> TO_ID = new EnumMap<>(EntityEvent.class);

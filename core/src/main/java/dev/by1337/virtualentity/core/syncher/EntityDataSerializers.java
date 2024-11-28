@@ -103,6 +103,7 @@ public class EntityDataSerializers {
         buff.writeFloat(val.z);
     }, "VECTOR3");
 
+    // WOLF_VARIANT todo
     // OPTIONAL_GLOBAL_POS unused
 
     private static <T> EntityDataSerializer<T> register(EntityDataSerializer<T> serializer, String name) {

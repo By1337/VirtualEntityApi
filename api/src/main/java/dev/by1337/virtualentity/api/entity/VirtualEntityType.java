@@ -147,9 +147,17 @@ public enum VirtualEntityType {
     TADPOLE(Version.V1_19_4),
 
     @SinceMinecraftVersion("1.20.4")
-    WIND_CHARGE(Version.V1_20_4), // cannot be created on 1.20.4
+    WIND_CHARGE(Version.V1_20_4), // может быть создан только с 1.21
     @SinceMinecraftVersion("1.20.4")
-    BREEZE(Version.V1_20_4), // cannot be created on 1.20.4
+    BREEZE(Version.V1_20_4), // может быть создан только с 1.21
+
+    @SinceMinecraftVersion("1.20.6")
+    OMINOUS_ITEM_SPAWNER(Version.V1_20_6), // может быть создан только с 1.21
+    @SinceMinecraftVersion("1.20.6")
+    BOGGED(Version.V1_20_6), // может быть создан только с 1.21
+    @SinceMinecraftVersion("1.20.6")
+    BREEZE_WIND_CHARGE(Version.V1_20_6), // может быть создан только с 1.21
+
     ;
     public static final Codec<VirtualEntityType> CODEC = DefaultCodecs.createEnumCodec(VirtualEntityType.class);
 
