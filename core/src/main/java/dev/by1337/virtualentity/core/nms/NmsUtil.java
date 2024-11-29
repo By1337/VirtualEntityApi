@@ -104,8 +104,7 @@ public class NmsUtil {
                         invokestatic net/minecraft/server/v1_16_R3/Block getCombinedId (Lnet/minecraft/server/v1_16_R3/IBlockData;)I
                         ireturn
                     """;
-            System.out.println(asm);
-            throw new IllegalStateException("ASM did not apply!");
+            throw new IllegalStateException("ASM did not apply! " + asm);
         }
 
         @Override
@@ -141,8 +140,7 @@ public class NmsUtil {
                         return
                     E:
                     """;
-            System.out.println(asm);
-            throw new IllegalStateException("ASM did not apply!");
+            throw new IllegalStateException("ASM did not apply! " + asm);
         }
 
         @Override
@@ -168,8 +166,7 @@ public class NmsUtil {
                     C:
                         return
                     """;
-            System.out.println(asm);
-            throw new IllegalStateException("ASM did not apply!");
+            throw new IllegalStateException("ASM did not apply! " + asm);
         }
 
         @Override
@@ -187,8 +184,7 @@ public class NmsUtil {
                         getfield net/minecraft/server/v1_16_R3/NetworkManager channel Lio/netty/channel/Channel;
                         areturn
                     """;
-            System.out.println(asm);
-            throw new IllegalStateException("ASM did not apply!");
+            throw new IllegalStateException("ASM did not apply! " + asm);
         }
 
         @Override
@@ -213,8 +209,7 @@ public class NmsUtil {
                         return
                     C:
                     """;
-            System.out.println(asm);
-            throw new IllegalStateException("ASM did not apply!");
+            throw new IllegalStateException("ASM did not apply! " + asm);
         }
 
     }
@@ -234,8 +229,7 @@ public class NmsUtil {
                         ireturn
                     B:
                     """;
-            System.out.println(asm);
-            throw new IllegalStateException("ASM did not apply!");
+            throw new IllegalStateException("ASM did not apply! " + asm);
         }
 
         @Override
@@ -272,8 +266,7 @@ public class NmsUtil {
                         return
                     F:
                     """;
-            System.out.println(asm);
-            throw new IllegalStateException("ASM did not apply!");
+            throw new IllegalStateException("ASM did not apply! " + asm);
         }
 
         @Override
@@ -294,8 +287,7 @@ public class NmsUtil {
                         return
                     C:
                     """;
-            System.out.println(asm);
-            throw new IllegalStateException("ASM did not apply!");
+            throw new IllegalStateException("ASM did not apply! " + asm);
         }
 
         @Override
@@ -313,8 +305,7 @@ public class NmsUtil {
                         areturn
                     B:
                     """;
-            System.out.println(asm);
-            throw new IllegalStateException("ASM did not apply!");
+            throw new IllegalStateException("ASM did not apply! " + asm);
         }
 
         @Override
@@ -339,8 +330,7 @@ public class NmsUtil {
                         return
                     C:
                     """;
-            System.out.println(asm);
-            throw new IllegalStateException("ASM did not apply!");
+            throw new IllegalStateException("ASM did not apply! " + asm);
         }
     }
 
@@ -358,8 +348,7 @@ public class NmsUtil {
                         ireturn
                     B:
                     """;
-            System.out.println(asm);
-            throw new IllegalStateException("ASM did not apply!");
+            throw new IllegalStateException("ASM did not apply! " + asm);
         }
 
         @Override
@@ -392,8 +381,7 @@ public class NmsUtil {
                         return
                     F:
                     """;
-            System.out.println(asm);
-            throw new IllegalStateException("ASM did not apply!");
+            throw new IllegalStateException("ASM did not apply! " + asm);
         }
 
         @Override
@@ -413,8 +401,7 @@ public class NmsUtil {
                         return
                     C:
                     """;
-            System.out.println(asm);
-            throw new IllegalStateException("ASM did not apply!");
+            throw new IllegalStateException("ASM did not apply! " + asm);
         }
 
         @Override
@@ -431,8 +418,7 @@ public class NmsUtil {
                         areturn
                     B:
                     """;
-            System.out.println(asm);
-            throw new IllegalStateException("ASM did not apply!");
+            throw new IllegalStateException("ASM did not apply! " + asm);
         }
 
         @Override
@@ -457,8 +443,7 @@ public class NmsUtil {
                         return
                     C:
                     """;
-            System.out.println(asm);
-            throw new IllegalStateException("ASM did not apply!");
+            throw new IllegalStateException("ASM did not apply! " + asm);
         }
     }
 
@@ -476,8 +461,7 @@ public class NmsUtil {
                         ireturn
                     B:
                     """;
-            System.out.println(asm);
-            throw new IllegalStateException("ASM did not apply!");
+            throw new IllegalStateException("ASM did not apply! " + asm);
         }
 
         @Override
@@ -510,8 +494,7 @@ public class NmsUtil {
                         return
                     F:
                     """;
-            System.out.println(asm);
-            throw new IllegalStateException("ASM did not apply!");
+            throw new IllegalStateException("ASM did not apply! " + asm);
         }
 
         @Override
@@ -531,8 +514,7 @@ public class NmsUtil {
                         return
                     C:
                     """;
-            System.out.println(asm);
-            throw new IllegalStateException("ASM did not apply!");
+            throw new IllegalStateException("ASM did not apply! " + asm);
         }
 
         @Override
@@ -549,8 +531,7 @@ public class NmsUtil {
                         areturn
                     B:
                     """;
-            System.out.println(asm);
-            throw new IllegalStateException("ASM did not apply!");
+            throw new IllegalStateException("ASM did not apply! " + asm);
         }
 
         @Override
@@ -575,8 +556,7 @@ public class NmsUtil {
                         return
                     C:
                     """;
-            System.out.println(asm);
-            throw new IllegalStateException("ASM did not apply!");
+            throw new IllegalStateException("ASM did not apply! " + asm);
         }
     }
 
@@ -594,8 +574,7 @@ public class NmsUtil {
                         ireturn
                     B:
                     """;
-            System.out.println(asm);
-            throw new IllegalStateException("ASM did not apply!");
+            throw new IllegalStateException("ASM did not apply! " + asm);
         }
 
         @Override
@@ -630,8 +609,7 @@ public class NmsUtil {
                         return
                     F:
                     """;
-            System.out.println(asm);
-            throw new IllegalStateException("ASM did not apply!");
+            throw new IllegalStateException("ASM did not apply! " + asm);
         }
 
         @Override
@@ -650,8 +628,7 @@ public class NmsUtil {
                     B:
                         return
                     """;
-            System.out.println(asm);
-            throw new IllegalStateException("ASM did not apply!");
+            throw new IllegalStateException("ASM did not apply! " + asm);
         }
 
         @Override
@@ -668,8 +645,7 @@ public class NmsUtil {
                         areturn
                     B:
                     """;
-            System.out.println(asm);
-            throw new IllegalStateException("ASM did not apply!");
+            throw new IllegalStateException("ASM did not apply! " + asm);
         }
 
         @Override
@@ -694,8 +670,7 @@ public class NmsUtil {
                         return
                     C:
                     """;
-            System.out.println(asm);
-            throw new IllegalStateException("ASM did not apply!");
+            throw new IllegalStateException("ASM did not apply! " + asm);
         }
 
         @Override
@@ -715,8 +690,7 @@ public class NmsUtil {
                     B:
                         return
                     """;
-            System.out.println(asm);
-            throw new IllegalStateException("ASM did not apply!");
+            throw new IllegalStateException("ASM did not apply! " + asm);
         }
     }
 
@@ -746,8 +720,7 @@ public class NmsUtil {
                         return
                     C:
                     """;
-            System.out.println(asm);
-            throw new IllegalStateException("ASM did not apply!");
+            throw new IllegalStateException("ASM did not apply! " + asm);
         }
 
         @ASM
@@ -760,8 +733,7 @@ public class NmsUtil {
                         areturn
                     B:
                     """;
-            System.out.println(asm);
-            throw new IllegalStateException("ASM did not apply!");
+            throw new IllegalStateException("ASM did not apply! " + asm);
         }
 
         @ASM
@@ -773,8 +745,7 @@ public class NmsUtil {
                         areturn
                     B:
                     """;
-            System.out.println(asm);
-            throw new IllegalStateException("ASM did not apply!");
+            throw new IllegalStateException("ASM did not apply! " + asm);
         }
 
         @ASM
@@ -786,8 +757,7 @@ public class NmsUtil {
                         areturn
                     B:
                     """;
-            System.out.println(asm);
-            throw new IllegalStateException("ASM did not apply!");
+            throw new IllegalStateException("ASM did not apply! " + asm);
         }
 
         private static Object getCodec(String entityDataSerializer) {
@@ -819,8 +789,7 @@ public class NmsUtil {
                         ireturn
                     B:
                     """;
-            System.out.println(asm);
-            throw new IllegalStateException("ASM did not apply!");
+            throw new IllegalStateException("ASM did not apply! " + asm);
         }
 
         @Override
@@ -857,8 +826,7 @@ public class NmsUtil {
                         areturn
                     B:
                     """;
-            System.out.println(asm);
-            throw new IllegalStateException("ASM did not apply!");
+            throw new IllegalStateException("ASM did not apply! " + asm);
         }
 
         @Override

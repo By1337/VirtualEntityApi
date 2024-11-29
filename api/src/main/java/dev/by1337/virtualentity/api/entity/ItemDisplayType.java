@@ -1,10 +1,10 @@
 package dev.by1337.virtualentity.api.entity;
 
-import dev.by1337.virtualentity.api.annotations.RemovedInMinecraftVersion;
+import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 
 import java.util.EnumMap;
 
-@RemovedInMinecraftVersion("1.19.4")
+@SinceMinecraftVersion("1.19.4")
 public enum ItemDisplayType implements MappedEnum {
     NONE,
     THIRD_PERSON_LEFT_HAND,

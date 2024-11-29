@@ -8,13 +8,13 @@ import dev.by1337.virtualentity.api.tracker.PlayerTracker;
 import dev.by1337.virtualentity.api.virtual.VirtualAreaEffectCloud;
 import dev.by1337.virtualentity.api.virtual.VirtualEntity;
 import dev.by1337.virtualentity.api.virtual.decoration.VirtualArmorStand;
-import dev.by1337.virtualentity.api.virtual.decoration.VirtualGlowItemFrame;
+import dev.by1337.virtualentity.api.virtual.decoration.VirtualItemFrame;
 import dev.by1337.virtualentity.api.virtual.item.VirtualItem;
 import dev.by1337.virtualentity.api.virtual.monster.VirtualCreeper;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.mappings.VirtualEntityRegistrar;
 import dev.by1337.virtualentity.core.network.Packet;
-import dev.by1337.virtualentity.core.virtual.decoration.VirtualGlowItemFrameImpl;
+import dev.by1337.virtualentity.core.virtual.decoration.VirtualItemFrameImpl;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -169,13 +169,14 @@ public class Main extends JavaPlugin {
                         .requires(sender -> sender instanceof Player)
                         .executor(((sender, args) -> {
                             Player player = (Player) sender;
-                            VirtualGlowItemFrame frame = new VirtualGlowItemFrameImpl();
+                            VirtualItemFrame frame = new VirtualItemFrameImpl();
                             frame.setPos(new Vec3d(player.getLocation()));
                             frame.setItem(new ItemStack(Material.RED_SHULKER_BOX));
                             frame.tick(Set.of(player));
                             new BukkitRunnable() {
                                 Direction[] arr = Direction.values();
                                 int pos = 0;
+
                                 @Override
                                 public void run() {
                                     if (pos == arr.length) {
