@@ -12,10 +12,9 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.IdDispatchCodec;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.*;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializer;
-import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.*;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerEntity;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.*;
@@ -45,6 +44,7 @@ import org.by1337.blib.nbt.impl.CompoundTag;
 import org.by1337.blib.nbt.impl.ListNBT;
 import sun.misc.Unsafe;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
@@ -104,6 +104,7 @@ public class MappingsCreator {
         Unsafe unsafe = (Unsafe) theUnsafe.get(null);
 
         CompoundTag typeToData = new CompoundTag();
+
         for (Field field : EntityType.class.getDeclaredFields()) {
             field.setAccessible(true);
             if (field.getType() != EntityType.class) continue;
@@ -130,6 +131,10 @@ public class MappingsCreator {
                         f.set(entity, Direction.SOUTH);
                     } else if (f.getType() == GameProfile.class) {
                         f.set(entity, new GameProfile(UUID.randomUUID(), "name"));
+                    } else if (f.getType() == SynchedEntityData.class) {
+                        Constructor<SynchedEntityData> constructor = SynchedEntityData.class.getDeclaredConstructor(SyncedDataHolder.class, SynchedEntityData.DataItem[].class);
+                        constructor.setAccessible(true);
+                        f.set(entity, constructor.newInstance(entity, new SynchedEntityData.DataItem[]{}));
                     }
                 }
                 c = c.getSuperclass();
@@ -137,7 +142,9 @@ public class MappingsCreator {
             if (entity.getClass() == Warden.class) {
                 info.putString("spawnPacket", "ADD_ENTITY_PACKET");
             } else {
-                Class<?> spawnPacket = entity.getAddEntityPacket().getClass();
+                ServerEntity serverEntity = new ServerEntity(null, entity, 0, false, p -> {
+                }, Set.of());
+                Class<?> spawnPacket = entity.getAddEntityPacket(serverEntity).getClass();
                 if (spawnPacket == ClientboundAddEntityPacket.class) {
                     info.putString("spawnPacket", "ADD_ENTITY_PACKET");
                 } /*else if (spawnPacket == ClientboundAddMobPacket.class) { // removed in 1.19.4
@@ -232,14 +239,6 @@ public class MappingsCreator {
             }
             enums.putTag("dev.by1337.virtualentity.api.entity.InteractionHand", hand);
         }
-//        { // MushroomType
-//            CompoundTag hand = new CompoundTag();
-//            for (var value : MushroomCow.MushroomType.values()) {
-//                hand.putInt(value.name(), value.ordinal());
-//            }
-//            enums.putTag("dev.by1337.virtualentity.api.entity.MushroomType", hand);
-//        }
-
         { // PandaGene
             CompoundTag pandaGeneToId = new CompoundTag();
             for (var value : Panda.Gene.values()) {
@@ -300,7 +299,7 @@ public class MappingsCreator {
 
 
             MinecraftServer server = ((CraftServer) Bukkit.getServer()).getServer();
-            ProtocolInfo<?> protocolInfo = GameProtocols.CLIENTBOUND.bind(RegistryFriendlyByteBuf.decorator(server.registryAccess()));
+            ProtocolInfo<?> protocolInfo = GameProtocols.CLIENTBOUND_TEMPLATE.bind(RegistryFriendlyByteBuf.decorator(server.registryAccess()));
             IdDispatchCodec idDispatchCodec = (IdDispatchCodec) protocolInfo.codec();
             Field field = IdDispatchCodec.class.getDeclaredField("toId");
             field.setAccessible(true);
@@ -329,10 +328,10 @@ public class MappingsCreator {
             enums.putTag("dev.by1337.virtualentity.core.network.PacketType", packets);
         }
         { // PaintingMotive
+            var idMap = MinecraftServer.getServer().registryAccess().registryOrThrow(Registries.PAINTING_VARIANT).asHolderIdMap();
             CompoundTag paiting = new CompoundTag();
-            for (PaintingVariant paintingVariant : BuiltInRegistries.PAINTING_VARIANT) {
-                var val = BuiltInRegistries.PAINTING_VARIANT.getKey(paintingVariant);
-                paiting.putInt(val.getPath().toUpperCase(Locale.ENGLISH), BuiltInRegistries.PAINTING_VARIANT.getId(paintingVariant));
+            for (Holder<PaintingVariant> holder : idMap) {
+                paiting.putInt(holder.unwrapKey().map(v -> v.location().getPath()).get().toUpperCase(Locale.ENGLISH), idMap.getIdOrThrow(holder));
             }
             enums.putTag("dev.by1337.virtualentity.api.entity.PaintingMotive", paiting);
         }

@@ -12,7 +12,6 @@
     <properties>
         <java.version>21</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <server.version>1.20.6-R0.1-SNAPSHOT</server.version>
     </properties>
 
     <pluginRepositories>
@@ -97,7 +96,7 @@
         <dependency>
             <groupId>ca.bkaw</groupId>
             <artifactId>paper-nms</artifactId>
-            <version>1.20.6-SNAPSHOT</version>
+            <version>1.21-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

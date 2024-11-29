@@ -38,12 +38,56 @@ public enum PaintingMotive implements MappedEnum {
     @SinceMinecraftVersion("1.19.4")
     WATER,
     @SinceMinecraftVersion("1.19.4")
-    WIND
+    WIND,
+
+    @SinceMinecraftVersion("1.21")
+    BACKYARD,
+    @SinceMinecraftVersion("1.21")
+    BAROQUE,
+    @SinceMinecraftVersion("1.21")
+    BOUQUET,
+    @SinceMinecraftVersion("1.21")
+    CAVEBIRD,
+    @SinceMinecraftVersion("1.21")
+    CHANGING,
+    @SinceMinecraftVersion("1.21")
+    COTAN,
+    @SinceMinecraftVersion("1.21")
+    ENDBOSS,
+    @SinceMinecraftVersion("1.21")
+    FERN,
+    @SinceMinecraftVersion("1.21")
+    FINDING,
+    @SinceMinecraftVersion("1.21")
+    HUMBLE,
+    @SinceMinecraftVersion("1.21")
+    LOWMIST,
+    @SinceMinecraftVersion("1.21")
+    MEDITATIVE,
+    @SinceMinecraftVersion("1.21")
+    ORB,
+    @SinceMinecraftVersion("1.21")
+    OWLEMONS,
+    @SinceMinecraftVersion("1.21")
+    PASSAGE,
+    @SinceMinecraftVersion("1.21")
+    POND,
+    @SinceMinecraftVersion("1.21")
+    PRAIRIE_RIDE,
+    @SinceMinecraftVersion("1.21")
+    SUNFLOWERS,
+    @SinceMinecraftVersion("1.21")
+    TIDES,
+    @SinceMinecraftVersion("1.21")
+    UNPACKED,
     ;
+
     private static final EnumMap<PaintingMotive, Integer> TO_ID = new EnumMap<>(PaintingMotive.class);
 
     @Override
     public int getId() {
         return MappedEnumUtils.getId(this, TO_ID);
     }
+
+
 }
