@@ -43,6 +43,7 @@ public enum EntityEvent implements MappedEnum {
     FISHING_ROD_REEL_IN,
     ARMORSTAND_WOBBLE,
     STOP_OFFER_FLOWER,
+    @RemovedInMinecraftVersion("1.21.3")
     TALISMAN_ACTIVATE,
     DOLPHIN_LOOKING_FOR_TREASURE,
     RAVAGER_STUNNED,
@@ -82,6 +83,10 @@ public enum EntityEvent implements MappedEnum {
     ARMADILLO_PEEK,
     @SinceMinecraftVersion("1.20.6")
     BODY_BREAK,
+    @SinceMinecraftVersion("1.21.3")
+    PROTECTED_FROM_DEATH,
+    @SinceMinecraftVersion("1.21.3")
+    SHAKE,
     ;
     public static final Codec<EntityEvent> CODEC = DefaultCodecs.createEnumCodec(EntityEvent.class);
     private static final EnumMap<EntityEvent, Integer> TO_ID = new EnumMap<>(EntityEvent.class);

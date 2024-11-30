@@ -2,21 +2,8 @@ package dev.by1337.virtualentity.api.virtual.animal;
 
 import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 import dev.by1337.virtualentity.api.virtual.VirtualAgeableMob;
-import org.by1337.blib.geom.Vec3i;
 
-public interface VirtualDolphin extends VirtualAgeableMob {
-    void setTreasurePos(Vec3i pos);
-
-    Vec3i getTreasurePos();
-
-    boolean gotFish();
-
-    void setGotFish(boolean flag);
-
-    int getMoistnessLevel();
-
-    void setMoisntessLevel(int level);
-
+public interface VirtualSquid extends VirtualAgeableMob {
     @Override
     @SinceMinecraftVersion("1.21.3")
     boolean isBaby();
