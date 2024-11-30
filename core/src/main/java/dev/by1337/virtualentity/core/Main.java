@@ -189,7 +189,8 @@ public class Main extends JavaPlugin {
                                 }
                             }.runTaskTimerAsynchronously(plugin, 0, 15);
                         }))
-                );
+                )
+                ;
     }
 
 }
