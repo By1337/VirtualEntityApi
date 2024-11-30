@@ -25,6 +25,7 @@ import dev.by1337.virtualentity.core.virtual.item.VirtualFallingBlockEntityImpl;
 import dev.by1337.virtualentity.core.virtual.item.VirtualItemImpl;
 import dev.by1337.virtualentity.core.virtual.item.VirtualPrimedTntImpl;
 import dev.by1337.virtualentity.core.virtual.monster.*;
+import dev.by1337.virtualentity.core.virtual.monster.creaking.*;
 import dev.by1337.virtualentity.core.virtual.monster.breeze.VirtualBreezeImpl;
 import dev.by1337.virtualentity.core.virtual.monster.hoglin.VirtualHoglinImpl;
 import dev.by1337.virtualentity.core.virtual.monster.piglin.VirtualPiglinBruteImpl;
@@ -33,9 +34,12 @@ import dev.by1337.virtualentity.core.virtual.npc.VirtualVillagerImpl;
 import dev.by1337.virtualentity.core.virtual.npc.VirtualWanderingTraderImpl;
 import dev.by1337.virtualentity.core.virtual.player.VirtualPlayerImpl;
 import dev.by1337.virtualentity.core.virtual.projectile.*;
-import dev.by1337.virtualentity.core.virtual.projectile.windcharge.*;
+import dev.by1337.virtualentity.core.virtual.projectile.windcharge.VirtualBreezeWindChargeImpl;
+import dev.by1337.virtualentity.core.virtual.projectile.windcharge.VirtualWindChargeImpl;
 import dev.by1337.virtualentity.core.virtual.vehicle.*;
 import org.by1337.blib.util.Version;
+
+import java.util.Set;
 
 public class VirtualEntityRegistrar {
 
@@ -135,7 +139,6 @@ public class VirtualEntityRegistrar {
         factory.register(VirtualEntityType.POTION, VirtualThrownPotionImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.TRIDENT, VirtualThrownTridentImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.WITHER_SKULL, VirtualWitherSkullImpl::new, Version.V1_16_5);
-        factory.register(VirtualEntityType.BOAT, VirtualBoatImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.CHEST_MINECART, VirtualMinecartChestImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.COMMAND_BLOCK_MINECART, VirtualMinecartCommandBlockImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.FURNACE_MINECART, VirtualMinecartFurnaceImpl::new, Version.V1_16_5);
@@ -166,7 +169,7 @@ public class VirtualEntityRegistrar {
         factory.register(VirtualEntityType.CAMEL, VirtualCamelImpl::new, Version.V1_19_4);
         factory.register(VirtualEntityType.ALLAY, VirtualAllayImpl::new, Version.V1_19_4);
         factory.register(VirtualEntityType.WARDEN, VirtualWardenImpl::new, Version.V1_19_4);
-        factory.register(VirtualEntityType.CHEST_BOAT, VirtualChestBoatImpl::new, Version.V1_19_4);
+
 
         factory.register(VirtualEntityType.WIND_CHARGE, VirtualWindChargeImpl::new, Version.V1_20_4);
         factory.register(VirtualEntityType.BREEZE, VirtualBreezeImpl::new, Version.V1_20_4);
@@ -175,5 +178,53 @@ public class VirtualEntityRegistrar {
         factory.register(VirtualEntityType.BREEZE_WIND_CHARGE, VirtualBreezeWindChargeImpl::new, Version.V1_20_6);
         factory.register(VirtualEntityType.BOGGED, VirtualBoggedImpl::new, Version.V1_20_6);
         factory.register(VirtualEntityType.ARMADILLO, VirtualArmadilloImpl::new, Version.V1_20_6);
+
+
+        factory.register(VirtualEntityType.BAMBOO_CHEST_RAFT, VirtualChestRaftImpl::new, Version.V1_21_3);
+        factory.register(VirtualEntityType.BAMBOO_RAFT, VirtualRaftImpl::new, Version.V1_21_3);
+
+        if (Version.VERSION.newerThanOrEqual(Version.V1_21_3)) {
+            factory.register(VirtualEntityType.CHEST_BOAT, () -> new VirtualChestBoatImpl(VirtualEntityType.OAK_CHEST_BOAT), Version.V1_19_4);
+            factory.register(VirtualEntityType.BOAT, () -> new VirtualBoatImpl(VirtualEntityType.OAK_BOAT), Version.V1_16_5);
+        } else {
+            factory.register(VirtualEntityType.CHEST_BOAT, () -> new VirtualChestBoatImpl(VirtualEntityType.CHEST_BOAT), Version.V1_19_4);
+            factory.register(VirtualEntityType.BOAT, () -> new VirtualBoatImpl(VirtualEntityType.BOAT), Version.V1_16_5);
+        }
+        registerBoats();
+        factory.register(VirtualEntityType.CREAKING, VirtualCreakingImpl::new, Version.V1_21_3);
+        factory.register(VirtualEntityType.CREAKING_TRANSIENT, VirtualCreakingTransientImpl::new, Version.V1_21_3);
+
+    }
+
+    private static void registerBoats() {
+        Set<VirtualEntityType> boats = Set.of(
+                VirtualEntityType.ACACIA_BOAT,
+                VirtualEntityType.BIRCH_BOAT,
+                VirtualEntityType.CHERRY_BOAT,
+                VirtualEntityType.DARK_OAK_BOAT,
+                VirtualEntityType.JUNGLE_BOAT,
+                VirtualEntityType.MANGROVE_BOAT,
+                VirtualEntityType.OAK_BOAT,
+                VirtualEntityType.PALE_OAK_BOAT,
+                VirtualEntityType.SPRUCE_BOAT
+        );
+        Set<VirtualEntityType> chestBoats = Set.of(
+                VirtualEntityType.ACACIA_CHEST_BOAT,
+                VirtualEntityType.BIRCH_CHEST_BOAT,
+                VirtualEntityType.CHERRY_CHEST_BOAT,
+                VirtualEntityType.DARK_OAK_CHEST_BOAT,
+                VirtualEntityType.JUNGLE_CHEST_BOAT,
+                VirtualEntityType.MANGROVE_CHEST_BOAT,
+                VirtualEntityType.OAK_CHEST_BOAT,
+                VirtualEntityType.PALE_OAK_CHEST_BOAT,
+                VirtualEntityType.SPRUCE_CHEST_BOAT
+        );
+        VirtualEntityFactory factory = VirtualEntityApi.getFactory();
+        for (VirtualEntityType boat : boats) {
+            factory.register(boat, () -> new VirtualBoatImpl(boat), Version.V1_21_3);
+        }
+        for (VirtualEntityType chestBoat : chestBoats) {
+            factory.register(chestBoat, () -> new VirtualChestBoatImpl(chestBoat), Version.V1_21_3);
+        }
     }
 }

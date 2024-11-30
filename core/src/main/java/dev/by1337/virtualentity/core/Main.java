@@ -186,6 +186,9 @@ public class Main extends JavaPlugin {
                                     }
                                     frame.setDirection(arr[pos++]);
                                     frame.tick(Set.of(player));
+                                    if (Version.VERSION.newerThanOrEqual(Version.V1_21_3)) {
+                                        frame.respawn();
+                                    }
                                 }
                             }.runTaskTimerAsynchronously(plugin, 0, 15);
                         }))

@@ -1,6 +1,7 @@
 package dev.by1337.virtualentity.api.entity;
 
 import blib.com.mojang.serialization.Codec;
+import dev.by1337.virtualentity.api.annotations.RemovedInMinecraftVersion;
 import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 import org.by1337.blib.configuration.serialization.DefaultCodecs;
 import org.by1337.blib.util.Version;
@@ -12,6 +13,7 @@ public enum VirtualEntityType {
     BAT(Version.V1_16_5),
     BEE(Version.V1_16_5),
     BLAZE(Version.V1_16_5),
+    @RemovedInMinecraftVersion("1.20.3")
     BOAT(Version.V1_16_5),
     CAT(Version.V1_16_5),
     CAVE_SPIDER(Version.V1_16_5),
@@ -138,6 +140,7 @@ public enum VirtualEntityType {
     @SinceMinecraftVersion("1.19.4")
     BLOCK_DISPLAY(Version.V1_19_4),
     @SinceMinecraftVersion("1.19.4")
+    @RemovedInMinecraftVersion("1.20.3")
     CHEST_BOAT(Version.V1_19_4),
     @SinceMinecraftVersion("1.19.4")
     INTERACTION(Version.V1_19_4),
@@ -147,16 +150,16 @@ public enum VirtualEntityType {
     TADPOLE(Version.V1_19_4),
 
     @SinceMinecraftVersion("1.20.4")
-    WIND_CHARGE(Version.V1_20_4), // может быть создан только с 1.21
+    WIND_CHARGE(Version.V1_20_4), // can only be created with 1.21
     @SinceMinecraftVersion("1.20.4")
-    BREEZE(Version.V1_20_4), // может быть создан только с 1.21
+    BREEZE(Version.V1_20_4), // can only be created with 1.21
 
     @SinceMinecraftVersion("1.20.6")
-    OMINOUS_ITEM_SPAWNER(Version.V1_20_6), // может быть создан только с 1.21
+    OMINOUS_ITEM_SPAWNER(Version.V1_20_6), // can only be created with 1.21
     @SinceMinecraftVersion("1.20.6")
-    BOGGED(Version.V1_20_6), // может быть создан только с 1.21
+    BOGGED(Version.V1_20_6), // can only be created with 1.21
     @SinceMinecraftVersion("1.20.6")
-    BREEZE_WIND_CHARGE(Version.V1_20_6), // может быть создан только с 1.21
+    BREEZE_WIND_CHARGE(Version.V1_20_6), // can only be created with 1.21
     @SinceMinecraftVersion("1.20.6")
     ARMADILLO(Version.V1_20_6),
 

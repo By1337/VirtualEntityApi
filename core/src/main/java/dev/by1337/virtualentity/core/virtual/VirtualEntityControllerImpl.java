@@ -116,6 +116,17 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
         lastViewers.addAll(viewers);
     }
 
+    @Override
+    public void respawn() {
+        if (lastViewers.isEmpty()) return;
+        broadcast(removePacket);
+        broadcast(spawnPacket);
+        broadcast(allEntityData);
+        if (equipmentPacket != null && !equipment.isEmpty()) {
+            broadcast(allEntityData);
+        }
+    }
+
     private void updateLocation() {
         if (!position.needPosUpdate() && !position.needRotUpdate()) return;
 

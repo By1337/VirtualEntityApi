@@ -67,4 +67,5 @@ public interface VirtualEntityController {
     }
 
     void broadcastEntityEvent(EntityEvent event);
+    void respawn();
 }
