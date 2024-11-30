@@ -1,11 +1,13 @@
 package dev.by1337.virtualentity.api.entity;
 
 import blib.com.mojang.serialization.Codec;
+import dev.by1337.virtualentity.api.annotations.RemovedInMinecraftVersion;
 import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 import org.by1337.blib.configuration.serialization.DefaultCodecs;
 
 import java.util.EnumMap;
 
+@RemovedInMinecraftVersion("1.21.3")
 public enum BoatType implements MappedEnum {
     OAK,
     SPRUCE,

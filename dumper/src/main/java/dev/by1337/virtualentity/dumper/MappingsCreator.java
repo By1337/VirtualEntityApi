@@ -25,6 +25,7 @@ import net.minecraft.world.entity.animal.armadillo.Armadillo;
 import net.minecraft.world.entity.animal.axolotl.Axolotl;
 import net.minecraft.world.entity.animal.sniffer.Sniffer;
 import net.minecraft.world.entity.boss.enderdragon.phases.EnderDragonPhase;
+import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.entity.decoration.PaintingVariant;
 import net.minecraft.world.entity.monster.SpellcasterIllager;
 import net.minecraft.world.entity.monster.warden.Warden;
@@ -164,7 +165,6 @@ public class MappingsCreator {
         }
         data.putTag("typeToData", typeToData);
 
-
         CompoundTag serializerToId = new CompoundTag();
         for (Field field : EntityDataSerializers.class.getDeclaredFields()) {
             field.setAccessible(true);
@@ -175,13 +175,13 @@ public class MappingsCreator {
 
         CompoundTag enums = new CompoundTag();
 
-        { // BoatType
-            CompoundTag boatType = new CompoundTag();
-            for (Boat.Type value : Boat.Type.values()) {
-                boatType.putInt(value.name(), value.ordinal());
-            }
-            enums.putTag("dev.by1337.virtualentity.api.entity.BoatType", boatType);
-        }
+//        { // BoatType replaced in 1.20.3 by the specific types ACACIA_BOAT, BIRCH_BOAT, CHERRY_BOAT...
+//            CompoundTag boatType = new CompoundTag();
+//            for (Boat.Type value : Boat.Type.values()) {
+//                boatType.putInt(value.name(), value.ordinal());
+//            }
+//            enums.putTag("dev.by1337.virtualentity.api.entity.BoatType", boatType);
+//        }
         { // DyeColor
             CompoundTag dyeColor = new CompoundTag();
             for (var value : DyeColor.values()) {
@@ -220,7 +220,7 @@ public class MappingsCreator {
         }
         { // FoxType
             CompoundTag foxTypeToId = new CompoundTag();
-            for (var value : Fox.Type.values()) {
+            for (var value : Fox.Variant.values()) {
                 foxTypeToId.putInt(value.name(), value.getId());
             }
             enums.putTag("dev.by1337.virtualentity.api.entity.FoxType", foxTypeToId);
@@ -328,7 +328,7 @@ public class MappingsCreator {
             enums.putTag("dev.by1337.virtualentity.core.network.PacketType", packets);
         }
         { // PaintingMotive
-            var idMap = MinecraftServer.getServer().registryAccess().registryOrThrow(Registries.PAINTING_VARIANT).asHolderIdMap();
+            var idMap = MinecraftServer.getServer().registryAccess().lookupOrThrow(Registries.PAINTING_VARIANT).asHolderIdMap();
             CompoundTag paiting = new CompoundTag();
             for (Holder<PaintingVariant> holder : idMap) {
                 paiting.putInt(holder.unwrapKey().map(v -> v.location().getPath()).get().toUpperCase(Locale.ENGLISH), idMap.getIdOrThrow(holder));
@@ -353,7 +353,7 @@ public class MappingsCreator {
         }
 
         { // WolfVariant
-            var idMap = MinecraftServer.getDefaultRegistryAccess().registryOrThrow(Registries.WOLF_VARIANT).asHolderIdMap();
+            var idMap = MinecraftServer.getServer().registryAccess().lookupOrThrow(Registries.WOLF_VARIANT).asHolderIdMap();
             CompoundTag wolf = new CompoundTag();
             for (Holder<WolfVariant> holder : idMap) {
                 wolf.putInt(holder.unwrapKey().map(v -> v.location().getPath()).get().toUpperCase(Locale.ENGLISH), idMap.getIdOrThrow(holder));

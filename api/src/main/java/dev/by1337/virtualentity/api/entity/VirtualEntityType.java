@@ -160,6 +160,51 @@ public enum VirtualEntityType {
     @SinceMinecraftVersion("1.20.6")
     ARMADILLO(Version.V1_20_6),
 
+    @SinceMinecraftVersion("1.21.3")
+    ACACIA_BOAT(Version.V1_21_3),
+    @SinceMinecraftVersion("1.21.3")
+    ACACIA_CHEST_BOAT(Version.V1_21_3),
+    @SinceMinecraftVersion("1.21.3")
+    BAMBOO_CHEST_RAFT(Version.V1_21_3),
+    @SinceMinecraftVersion("1.21.3")
+    BAMBOO_RAFT(Version.V1_21_3),
+    @SinceMinecraftVersion("1.21.3")
+    BIRCH_BOAT(Version.V1_21_3),
+    @SinceMinecraftVersion("1.21.3")
+    BIRCH_CHEST_BOAT(Version.V1_21_3),
+    @SinceMinecraftVersion("1.21.3")
+    CHERRY_BOAT(Version.V1_21_3),
+    @SinceMinecraftVersion("1.21.3")
+    CHERRY_CHEST_BOAT(Version.V1_21_3),
+    @SinceMinecraftVersion("1.21.3")
+    CREAKING(Version.V1_21_3),
+    @SinceMinecraftVersion("1.21.3")
+    CREAKING_TRANSIENT(Version.V1_21_3),
+    @SinceMinecraftVersion("1.21.3")
+    DARK_OAK_BOAT(Version.V1_21_3),
+    @SinceMinecraftVersion("1.21.3")
+    DARK_OAK_CHEST_BOAT(Version.V1_21_3),
+    @SinceMinecraftVersion("1.21.3")
+    JUNGLE_BOAT(Version.V1_21_3),
+    @SinceMinecraftVersion("1.21.3")
+    JUNGLE_CHEST_BOAT(Version.V1_21_3),
+    @SinceMinecraftVersion("1.21.3")
+    MANGROVE_BOAT(Version.V1_21_3),
+    @SinceMinecraftVersion("1.21.3")
+    MANGROVE_CHEST_BOAT(Version.V1_21_3),
+    @SinceMinecraftVersion("1.21.3")
+    OAK_BOAT(Version.V1_21_3),
+    @SinceMinecraftVersion("1.21.3")
+    OAK_CHEST_BOAT(Version.V1_21_3),
+    @SinceMinecraftVersion("1.21.3")
+    PALE_OAK_BOAT(Version.V1_21_3),
+    @SinceMinecraftVersion("1.21.3")
+    PALE_OAK_CHEST_BOAT(Version.V1_21_3),
+    @SinceMinecraftVersion("1.21.3")
+    SPRUCE_BOAT(Version.V1_21_3),
+    @SinceMinecraftVersion("1.21.3")
+    SPRUCE_CHEST_BOAT(Version.V1_21_3),
+
     ;
     public static final Codec<VirtualEntityType> CODEC = DefaultCodecs.createEnumCodec(VirtualEntityType.class);
 
