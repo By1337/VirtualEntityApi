@@ -13,23 +13,23 @@ public abstract class VirtualAgeableMobImpl extends VirtualMobImpl implements Vi
     private final boolean doDefineDataFlag;
 
     public VirtualAgeableMobImpl(VirtualEntityType type) {
-        super(type);
-        this.doDefineDataFlag = true;
+        this(type, true);
     }
 
     @ASM
     public VirtualAgeableMobImpl(VirtualEntityType type, boolean doDefineDataFlag) {
         super(type);
         this.doDefineDataFlag = doDefineDataFlag;
+        // invoke super after setting doDefineDataFlag
         String asm = """
                 A:
                     aload 0
-                    aload 1
-                    invokespecial dev/by1337/virtualentity/core/virtual/VirtualMobImpl <init> (Ldev/by1337/virtualentity/api/entity/VirtualEntityType;)V
-                B:
-                    aload 0
                     iload 2
                     putfield dev/by1337/virtualentity/core/virtual/VirtualAgeableMobImpl doDefineDataFlag Z
+                B:
+                    aload 0
+                    aload 1
+                    invokespecial dev/by1337/virtualentity/core/virtual/VirtualMobImpl <init> (Ldev/by1337/virtualentity/api/entity/VirtualEntityType;)V
                 C:
                     return
                 D:
