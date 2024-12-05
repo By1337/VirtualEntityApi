@@ -1,7 +1,7 @@
 package dev.by1337.virtualentity.core.network.impl;
 
 import dev.by1337.virtualentity.api.entity.EntityEvent;
-import dev.by1337.virtualentity.core.network.ByteBuffUtil;
+import dev.by1337.virtualentity.core.network.ByteBufUtil;
 import dev.by1337.virtualentity.core.network.Packet;
 import dev.by1337.virtualentity.core.network.PacketType;
 import io.netty.buffer.ByteBuf;
@@ -18,8 +18,8 @@ public class EntityEventPacket extends Packet {
 
     @Override
     public void write(ByteBuf byteBuf) {
-        ByteBuffUtil.writeVarInt(PACKET_ID, byteBuf);
-        ByteBuffUtil.writeVarInt(id, byteBuf);
+        ByteBufUtil.writeVarInt(PACKET_ID, byteBuf);
+        byteBuf.writeInt(id);
         byteBuf.writeByte(event.getId());
     }
 
