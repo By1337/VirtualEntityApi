@@ -13,4 +13,11 @@ public class MappedEnumUtils {
         }
         return id;
     }
+    public static <T extends Enum<T>> int getIdOr(T value, Map<T, Integer> map, int def) {
+        Integer id = map.get(value);
+        if (id == null){
+            return def;
+        }
+        return id;
+    }
 }

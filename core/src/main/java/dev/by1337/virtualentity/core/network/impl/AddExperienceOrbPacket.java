@@ -2,8 +2,7 @@ package dev.by1337.virtualentity.core.network.impl;
 
 import dev.by1337.virtualentity.api.virtual.VirtualEntity;
 import dev.by1337.virtualentity.api.virtual.VirtualExperienceOrb;
-import dev.by1337.virtualentity.core.mappings.Mappings;
-import dev.by1337.virtualentity.core.network.ByteBuffUtil;
+import dev.by1337.virtualentity.core.network.ByteBufUtil;
 import dev.by1337.virtualentity.core.network.Packet;
 import dev.by1337.virtualentity.core.network.PacketType;
 import io.netty.buffer.ByteBuf;
@@ -18,9 +17,8 @@ public class AddExperienceOrbPacket extends Packet {
 
     @Override
     public void write(ByteBuf byteBuf) {
-        // https://wiki.vg/index.php?title=Protocol&oldid=16681#Spawn_Experience_Orb
-        ByteBuffUtil.writeVarInt(PACKET_ID, byteBuf);
-        ByteBuffUtil.writeVarInt(virtualEntity.getId(), byteBuf);
+        ByteBufUtil.writeVarInt(PACKET_ID, byteBuf);
+        ByteBufUtil.writeVarInt(virtualEntity.getId(), byteBuf);
         byteBuf.writeDouble(virtualEntity.getPos().x);
         byteBuf.writeDouble(virtualEntity.getPos().y);
         byteBuf.writeDouble(virtualEntity.getPos().z);

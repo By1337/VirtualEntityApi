@@ -16,11 +16,13 @@ import org.by1337.blib.util.Version;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.BitSet;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.BiConsumer;
 
-public class ByteBuffUtil {
+public class ByteBufUtil {
     private static final int SEGMENT_BITS = 0x7F;
     private static final int CONTINUE_BIT = 0x80;
     private static final boolean IS_1_20_4_OR_NEWER = Version.VERSION.newerThanOrEqual(Version.V1_20_4);
@@ -142,7 +144,6 @@ public class ByteBuffUtil {
     }
 
     public static void writeBlockPos(Vec3i pos, ByteBuf byteBuf) {
-        // https://wiki.vg/Data_types#Position
         byteBuf.writeLong(((pos.x & 0x3FFFFFFL) << 38) | ((pos.z & 0x3FFFFFFL) << 12) | (pos.y & 0xFFFL));
     }
 

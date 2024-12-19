@@ -68,4 +68,5 @@ public interface VirtualEntityController {
 
     void broadcastEntityEvent(EntityEvent event);
     void respawn();
+    Set<Player> getLastViewers();
 }

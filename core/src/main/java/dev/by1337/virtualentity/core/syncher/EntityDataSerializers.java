@@ -5,7 +5,7 @@ import dev.by1337.virtualentity.api.entity.*;
 import dev.by1337.virtualentity.api.entity.npc.VillagerData;
 import dev.by1337.virtualentity.api.particles.ParticleOptions;
 import dev.by1337.virtualentity.core.mappings.Mappings;
-import dev.by1337.virtualentity.core.network.ByteBuffUtil;
+import dev.by1337.virtualentity.core.network.ByteBufUtil;
 import net.kyori.adventure.text.Component;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.inventory.ItemStack;
@@ -28,19 +28,19 @@ public class EntityDataSerializers {
         byteBuf.writeByte(val);
     }, "BYTE");
 
-    public static final EntityDataSerializer<Integer> INT = register(ByteBuffUtil::writeVarInt, "INT");
+    public static final EntityDataSerializer<Integer> INT = register(ByteBufUtil::writeVarInt, "INT");
 
     public static final EntityDataSerializer<Float> FLOAT = register((val, byteBuf) -> byteBuf.writeFloat(val), "FLOAT");
 
-    public static final EntityDataSerializer<String> STRING = register(ByteBuffUtil::writeUtf, "STRING");
+    public static final EntityDataSerializer<String> STRING = register(ByteBufUtil::writeUtf, "STRING");
 
-    public static final EntityDataSerializer<Component> COMPONENT = register(ByteBuffUtil::writeComponent, "COMPONENT");
+    public static final EntityDataSerializer<Component> COMPONENT = register(ByteBufUtil::writeComponent, "COMPONENT");
 
     public static final EntityDataSerializer<Optional<Component>> OPTIONAL_COMPONENT = register((val, byteBuf) -> {
-        ByteBuffUtil.writeOptional(byteBuf, val.orElse(null), ByteBuffUtil::writeComponent);
+        ByteBufUtil.writeOptional(byteBuf, val.orElse(null), ByteBufUtil::writeComponent);
     }, "OPTIONAL_COMPONENT");
 
-    public static final EntityDataSerializer<ItemStack> ITEM_STACK = register(ByteBuffUtil::writeItemStack, "ITEM_STACK");
+    public static final EntityDataSerializer<ItemStack> ITEM_STACK = register(ByteBufUtil::writeItemStack, "ITEM_STACK");
 
     @SuppressWarnings("rawtypes")
     public static final EntityDataSerializer BLOCK_STATE; // 1.19.4< is Optional<BlockData> 1.19.4>= is BlockData
@@ -49,26 +49,26 @@ public class EntityDataSerializers {
         byteBuf.writeBoolean(val);
     }, "BOOLEAN");
 
-    public static final EntityDataSerializer<ParticleOptions<?>> PARTICLE = register(ByteBuffUtil::writeParticle, "PARTICLE");
+    public static final EntityDataSerializer<ParticleOptions<?>> PARTICLE = register(ByteBufUtil::writeParticle, "PARTICLE");
 
     @SinceMinecraftVersion("1.20.6")
-    public static final EntityDataSerializer<List<ParticleOptions<?>>> PARTICLES = register(ByteBuffUtil::writeParticles, "PARTICLES");
+    public static final EntityDataSerializer<List<ParticleOptions<?>>> PARTICLES = register(ByteBufUtil::writeParticles, "PARTICLES");
 
-    public static final EntityDataSerializer<Vec3f> ROTATIONS = register(ByteBuffUtil::writeVec3f, "ROTATIONS");
+    public static final EntityDataSerializer<Vec3f> ROTATIONS = register(ByteBufUtil::writeVec3f, "ROTATIONS");
 
-    public static final EntityDataSerializer<Vec3i> BLOCK_POS = register(ByteBuffUtil::writeBlockPos, "BLOCK_POS");
+    public static final EntityDataSerializer<Vec3i> BLOCK_POS = register(ByteBufUtil::writeBlockPos, "BLOCK_POS");
 
     public static final EntityDataSerializer<Optional<Vec3i>> OPTIONAL_BLOCK_POS = register((val, byteBuf) -> {
-        ByteBuffUtil.writeOptional(byteBuf, val.orElse(null), ByteBuffUtil::writeBlockPos);
+        ByteBufUtil.writeOptional(byteBuf, val.orElse(null), ByteBufUtil::writeBlockPos);
     }, "OPTIONAL_BLOCK_POS");
 
-    public static final EntityDataSerializer<Direction> DIRECTION = register(ByteBuffUtil::writeEnum, "DIRECTION");
+    public static final EntityDataSerializer<Direction> DIRECTION = register(ByteBufUtil::writeEnum, "DIRECTION");
 
     public static final EntityDataSerializer<Optional<UUID>> OPTIONAL_UUID = register((val, byteBuf) -> {
-        ByteBuffUtil.writeOptional(byteBuf, val.orElse(null), ByteBuffUtil::writeUUID);
+        ByteBufUtil.writeOptional(byteBuf, val.orElse(null), ByteBufUtil::writeUUID);
     }, "OPTIONAL_UUID");
 
-    public static final EntityDataSerializer<CompoundTag> COMPOUND_TAG = register(ByteBuffUtil::writeNbt, "COMPOUND_TAG");
+    public static final EntityDataSerializer<CompoundTag> COMPOUND_TAG = register(ByteBufUtil::writeNbt, "COMPOUND_TAG");
 
     public static final EntityDataSerializer<VillagerData> VILLAGER_DATA = register((val, byteBuf) -> {
         INT.write(val.type().getId(), byteBuf);
@@ -80,7 +80,7 @@ public class EntityDataSerializers {
         INT.write(val.orElse(-1) + 1, byteBuf);
     }, "OPTIONAL_UNSIGNED_INT");
 
-    public static final EntityDataSerializer<Pose> POSE = register(ByteBuffUtil::writeEnum, "POSE");
+    public static final EntityDataSerializer<Pose> POSE = register(ByteBufUtil::writeEnum, "POSE");
 
     public static final EntityDataSerializer<Quaternionf> QUATERNION = register((val, byteBuf) -> {
         byteBuf.writeFloat(val.x);
@@ -89,18 +89,18 @@ public class EntityDataSerializers {
         byteBuf.writeFloat(val.w);
     }, "QUATERNION");
 
-    public static final EntityDataSerializer<SnifferState> SNIFFER_STATE = register(ByteBuffUtil::writeEnum, "SNIFFER_STATE");
-    public static final EntityDataSerializer<CatVariant> CAT_VARIANT = register(ByteBuffUtil::writeEnum, "CAT_VARIANT");
-    public static final EntityDataSerializer<FrogVariant> FROG_VARIANT = register(ByteBuffUtil::writeEnum, "FROG_VARIANT");
-    public static final EntityDataSerializer<PaintingMotive> PAINTING_VARIANT = register(ByteBuffUtil::writeEnum, "PAINTING_VARIANT");
-    public static final EntityDataSerializer<WolfVariant> WOLF_VARIANT = register(ByteBuffUtil::writeEnum, "WOLF_VARIANT");
-    public static final EntityDataSerializer<ArmadilloState> ARMADILLO_STATE = register(ByteBuffUtil::writeEnum, "ARMADILLO_STATE");
-    public static final EntityDataSerializer<Long> LONG = register(ByteBuffUtil::writeVarLong, "LONG");
+    public static final EntityDataSerializer<SnifferState> SNIFFER_STATE = register(ByteBufUtil::writeEnum, "SNIFFER_STATE");
+    public static final EntityDataSerializer<CatVariant> CAT_VARIANT = register(ByteBufUtil::writeEnum, "CAT_VARIANT");
+    public static final EntityDataSerializer<FrogVariant> FROG_VARIANT = register(ByteBufUtil::writeEnum, "FROG_VARIANT");
+    public static final EntityDataSerializer<PaintingMotive> PAINTING_VARIANT = register(ByteBufUtil::writeEnum, "PAINTING_VARIANT");
+    public static final EntityDataSerializer<WolfVariant> WOLF_VARIANT = register(ByteBufUtil::writeEnum, "WOLF_VARIANT");
+    public static final EntityDataSerializer<ArmadilloState> ARMADILLO_STATE = register(ByteBufUtil::writeEnum, "ARMADILLO_STATE");
+    public static final EntityDataSerializer<Long> LONG = register(ByteBufUtil::writeVarLong, "LONG");
     public static final EntityDataSerializer<Optional<BlockData>> OPTIONAL_BLOCK_STATE = register((val, buff) -> {
         if (val.isPresent()) {
-            ByteBuffUtil.writeBlockState(val.get(), buff);
+            ByteBufUtil.writeBlockState(val.get(), buff);
         } else {
-            ByteBuffUtil.writeVarInt(0, buff);
+            ByteBufUtil.writeVarInt(0, buff);
         }
     }, "OPTIONAL_BLOCK_STATE");
     public static final EntityDataSerializer<Vector3f> VECTOR3 = register((val, buff) -> {
@@ -139,13 +139,13 @@ public class EntityDataSerializers {
         if (Version.VERSION.newerThanOrEqual(Version.V1_19_4)) {
             BLOCK_STATE = register((val, byteBuf) -> {
                 BlockData blockData = (BlockData) val;
-                ByteBuffUtil.writeBlockState(blockData, byteBuf);
+                ByteBufUtil.writeBlockState(blockData, byteBuf);
             }, "BLOCK_STATE");
         } else {
             BLOCK_STATE = register((val, byteBuf) -> {
                 @SuppressWarnings("unchecked")
                 Optional<BlockData> opt = (Optional<BlockData>) val;
-                ByteBuffUtil.writeOptional(byteBuf, opt.orElse(null), ByteBuffUtil::writeBlockState);
+                ByteBufUtil.writeOptional(byteBuf, opt.orElse(null), ByteBufUtil::writeBlockState);
             }, "BLOCK_STATE");
         }
     }

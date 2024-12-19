@@ -1,6 +1,6 @@
 package dev.by1337.virtualentity.core.network.impl;
 
-import dev.by1337.virtualentity.core.network.ByteBuffUtil;
+import dev.by1337.virtualentity.core.network.ByteBufUtil;
 import dev.by1337.virtualentity.core.virtual.decoration.VirtualArmorStandImpl;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -29,9 +29,9 @@ public class TeleportEntityPacketTest {
         ByteBuf byteBuf = Unpooled.buffer();
         teleportEntityPacket.write(byteBuf);
 
-        ByteBuffUtil.readVarInt(byteBuf); // skip packet id
+        ByteBufUtil.readVarInt(byteBuf); // skip packet id
 
-        assertEquals(armorStand.getId(), ByteBuffUtil.readVarInt(byteBuf)); // Entity ID
+        assertEquals(armorStand.getId(), ByteBufUtil.readVarInt(byteBuf)); // Entity ID
         assertEquals(armorStand.getPos().x, byteBuf.readDouble(), 0);
         assertEquals(armorStand.getPos().y, byteBuf.readDouble(), 0);
         assertEquals(armorStand.getPos().z, byteBuf.readDouble(), 0);

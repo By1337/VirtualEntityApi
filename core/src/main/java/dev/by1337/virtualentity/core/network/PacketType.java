@@ -28,10 +28,14 @@ public enum PacketType implements MappedEnum {
     MOVE_ENTITY_PACKET_POS_ROT,
     MOVE_ENTITY_PACKET_ROT,
     SET_ENTITY_MOTION_PACKET,
-    @SinceMinecraftVersion("1.19.4")
+    @RemovedInMinecraftVersion("1.19.4")
     PLAYER_INFO_PACKET,
     SET_PLAYER_TEAM_PACKET,
     ENTITY_EVENT_PACKET,
+    @SinceMinecraftVersion("1.19.4")
+    REMOVE_PLAYER_PACKET,
+    @SinceMinecraftVersion("1.19.4")
+    UPDATE_PLAYER_INFO_PACKET,
     ;
     public static final Codec<PacketType> CODEC = DefaultCodecs.createEnumCodec(PacketType.class);
     private static final EnumMap<PacketType, Integer> TO_ID = new EnumMap<>(PacketType.class);
@@ -39,5 +43,8 @@ public enum PacketType implements MappedEnum {
     @Override
     public int getId() {
         return MappedEnumUtils.getId(this, TO_ID);
+    }
+    public int getId(int def) {
+        return MappedEnumUtils.getIdOr(this, TO_ID, def);
     }
 }

@@ -58,6 +58,7 @@ public class PlayerTracker {
     }
 
     public void removeEntity(final VirtualEntity entity) {
+        entity.tick(Collections.emptySet());
         entities.remove(entity);
     }
 }

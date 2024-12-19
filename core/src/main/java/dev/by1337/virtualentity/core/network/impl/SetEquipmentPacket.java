@@ -1,8 +1,7 @@
 package dev.by1337.virtualentity.core.network.impl;
 
 import dev.by1337.virtualentity.api.entity.EquipmentSlot;
-import dev.by1337.virtualentity.core.mappings.Mappings;
-import dev.by1337.virtualentity.core.network.ByteBuffUtil;
+import dev.by1337.virtualentity.core.network.ByteBufUtil;
 import dev.by1337.virtualentity.core.network.Packet;
 import dev.by1337.virtualentity.core.network.PacketType;
 import io.netty.buffer.ByteBuf;
@@ -22,8 +21,8 @@ public class SetEquipmentPacket extends Packet {
 
     @Override
     public void write(ByteBuf byteBuf) {
-        ByteBuffUtil.writeVarInt(PACKET_ID, byteBuf);
-        ByteBuffUtil.writeVarInt(id, byteBuf);
+        ByteBufUtil.writeVarInt(PACKET_ID, byteBuf);
+        ByteBufUtil.writeVarInt(id, byteBuf);
 
         var iterator = items.entrySet().iterator();
 
@@ -35,7 +34,7 @@ public class SetEquipmentPacket extends Packet {
             int slotId = slot.getId();
 
             byteBuf.writeByte(iterator.hasNext() ? slotId | -128 : slotId);
-            ByteBuffUtil.writeItemStack(itemStack, byteBuf);
+            ByteBufUtil.writeItemStack(itemStack, byteBuf);
         }
     }
 

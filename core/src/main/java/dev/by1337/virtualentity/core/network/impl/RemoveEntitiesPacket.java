@@ -1,7 +1,6 @@
 package dev.by1337.virtualentity.core.network.impl;
 
-import dev.by1337.virtualentity.core.mappings.Mappings;
-import dev.by1337.virtualentity.core.network.ByteBuffUtil;
+import dev.by1337.virtualentity.core.network.ByteBufUtil;
 import dev.by1337.virtualentity.core.network.Packet;
 import dev.by1337.virtualentity.core.network.PacketType;
 import io.netty.buffer.ByteBuf;
@@ -16,9 +15,9 @@ public class RemoveEntitiesPacket extends Packet {
 
     @Override
     public void write(ByteBuf byteBuf) {
-        ByteBuffUtil.writeVarInt(PACKET_ID, byteBuf);
-        ByteBuffUtil.writeVarInt(1, byteBuf);
-        ByteBuffUtil.writeVarInt(id, byteBuf);
+        ByteBufUtil.writeVarInt(PACKET_ID, byteBuf);
+        ByteBufUtil.writeVarInt(1, byteBuf);
+        ByteBufUtil.writeVarInt(id, byteBuf);
     }
 
     @Override

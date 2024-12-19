@@ -1,8 +1,7 @@
 package dev.by1337.virtualentity.core.network.impl;
 
 import dev.by1337.virtualentity.api.virtual.VirtualEntity;
-import dev.by1337.virtualentity.core.mappings.Mappings;
-import dev.by1337.virtualentity.core.network.ByteBuffUtil;
+import dev.by1337.virtualentity.core.network.ByteBufUtil;
 import dev.by1337.virtualentity.core.network.Packet;
 import dev.by1337.virtualentity.core.network.PacketType;
 import io.netty.buffer.ByteBuf;
@@ -18,8 +17,8 @@ public abstract class MoveEntityPacket extends Packet {
 
     @Override
     public void write(ByteBuf byteBuf) {
-        ByteBuffUtil.writeVarInt(getPacketId(), byteBuf);
-        ByteBuffUtil.writeVarInt(entity.getId(), byteBuf);
+        ByteBufUtil.writeVarInt(getPacketId(), byteBuf);
+        ByteBufUtil.writeVarInt(entity.getId(), byteBuf);
     }
 
     protected abstract int getPacketId();
@@ -61,7 +60,6 @@ public abstract class MoveEntityPacket extends Packet {
         @Override
         public void write(ByteBuf byteBuf) {
             super.write(byteBuf);
-            // https://wiki.vg/Protocol#Update_Entity_Position
             Vec3d deltaD = entity.getPos().mul(4096).sub(entity.getOldPos().mul(4096));
             Vec3s delta = new Vec3s(deltaD.x, deltaD.y, deltaD.z);
             byteBuf.writeShort(delta.x);
@@ -91,7 +89,6 @@ public abstract class MoveEntityPacket extends Packet {
         @Override
         public void write(ByteBuf byteBuf) {
             super.write(byteBuf);
-            // https://wiki.vg/index.php?title=Protocol&oldid=16681#Entity_Position_and_Rotation
             Vec3d deltaD = entity.getPos().mul(4096).sub(entity.getOldPos().mul(4096));
             Vec3s delta = new Vec3s(deltaD.x, deltaD.y, deltaD.z);
             byteBuf.writeShort(delta.x);

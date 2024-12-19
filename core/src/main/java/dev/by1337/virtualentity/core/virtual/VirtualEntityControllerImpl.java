@@ -26,6 +26,7 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 
 public abstract class VirtualEntityControllerImpl implements VirtualEntityController {
@@ -39,7 +40,7 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
 
     protected final SynchedEntityData entityData;
     private final VirtualEntityType type;
-    private final Set<Player> lastViewers = new ConcurrentPlayerHashSet();
+    protected final Set<Player> lastViewers = new ConcurrentPlayerHashSet();
     private final Packet removePacket;
     private Packet allEntityData;
     private Packet equipmentPacket;
@@ -75,7 +76,7 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
     @Override
     public void tick(Set<Player> viewers) {
         if (viewers.isEmpty()) {
-            broadcast(removePacket);
+            broadcast(removePacket, this::preRemove, this::postRemove);
             lastViewers.clear();
             return;
         }
@@ -103,15 +104,17 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
                     equipmentPacket.send(player);
                 }
             } else {
+                preSpawn(player);
                 spawnPacket.send(player);
                 allEntityData.send(player);
                 if (equipmentPacket != null && !equipment.isEmpty()) {
                     equipmentPacket.send(player);
                 }
+                postSpawn(player);
             }
             lastViewers.remove(player);
         }
-        lastViewers.forEach(removePacket::send);
+        broadcast(removePacket, this::preRemove, this::postRemove);
         lastViewers.clear();
         lastViewers.addAll(viewers);
     }
@@ -119,8 +122,8 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
     @Override
     public void respawn() {
         if (lastViewers.isEmpty()) return;
-        broadcast(removePacket);
-        broadcast(spawnPacket);
+        broadcast(removePacket, this::preRemove, this::postRemove);
+        broadcast(spawnPacket, this::preSpawn, this::postSpawn);
         broadcast(allEntityData);
         if (equipmentPacket != null && !equipment.isEmpty()) {
             broadcast(allEntityData);
@@ -166,6 +169,14 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
         broadcast(new EntityEventPacket(id, event));
     }
 
+    protected void broadcast(Packet packet, Consumer<Player> pre, Consumer<Player> post) {
+        lastViewers.forEach(p -> {
+            pre.accept(p);
+            packet.send(p);
+            post.accept(p);
+        });
+    }
+
     protected void broadcast(Packet packet) {
         lastViewers.forEach(packet::send);
     }
@@ -176,11 +187,16 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
 
     }
 
-    protected void onNewViewer(Player player) {
-
+    protected void postSpawn(Player player) {
     }
 
-    protected void onRemoveViewer(Player player) {
+    protected void preSpawn(Player player) {
+    }
+
+    protected void postRemove(Player player) {
+    }
+
+    protected void preRemove(Player player) {
 
     }
 
@@ -313,5 +329,9 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
 
     public SynchedEntityData entityData() {
         return entityData;
+    }
+
+    public Set<Player> getLastViewers() {
+        return lastViewers;
     }
 }

@@ -2,7 +2,7 @@ package dev.by1337.virtualentity.core.network.impl;
 
 import dev.by1337.virtualentity.api.annotations.RemovedInMinecraftVersion;
 import dev.by1337.virtualentity.api.virtual.decoration.VirtualPainting;
-import dev.by1337.virtualentity.core.network.ByteBuffUtil;
+import dev.by1337.virtualentity.core.network.ByteBufUtil;
 import dev.by1337.virtualentity.core.network.Packet;
 import dev.by1337.virtualentity.core.network.PacketType;
 import io.netty.buffer.ByteBuf;
@@ -18,12 +18,11 @@ public class AddPaintingPacket extends Packet {
 
     @Override
     public void write(ByteBuf byteBuf) {
-        //https://wiki.vg/index.php?title=Protocol&oldid=16866#Spawn_Painting
-        ByteBuffUtil.writeVarInt(PACKET_ID, byteBuf);
-        ByteBuffUtil.writeVarInt(painting.getId(), byteBuf);
-        ByteBuffUtil.writeUUID(painting.getUuid(), byteBuf);
-        ByteBuffUtil.writeVarInt(painting.motive().getId(), byteBuf);
-        ByteBuffUtil.writeBlockPos(painting.getPos().toBlockPos(), byteBuf);
+        ByteBufUtil.writeVarInt(PACKET_ID, byteBuf);
+        ByteBufUtil.writeVarInt(painting.getId(), byteBuf);
+        ByteBufUtil.writeUUID(painting.getUuid(), byteBuf);
+        ByteBufUtil.writeVarInt(painting.motive().getId(), byteBuf);
+        ByteBufUtil.writeBlockPos(painting.getPos().toBlockPos(), byteBuf);
         byteBuf.writeByte(
                 switch (painting.direction()) {
                     case DOWN, UP -> -1;

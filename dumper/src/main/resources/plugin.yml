@@ -10,3 +10,24 @@ commands:
   vea_dump:
     aliases:
       - dump
+
+
+# <gradient:#F4C4F3:#FC67FA>
+
+#message.log(message.componentBuilder("<gradient:#F4C4F3:#FC67FA> ⠀⢸⠂⠀⠀⠀⠘⣧⠀⠀⣟⠛⠲⢤⡀⠀⠀⣰⠏⠀⠀⠀⠀⠀⢹⡀"));
+#message.log(message.componentBuilder("<gradient:#F4C4F3:#FC67FA> ⠀⡿⠀⠀⠀⠀⠀⠈⢷⡀⢻⡀⠀⠀⠙⢦⣰⠏⠀⠀⠀⠀⠀⠀⢸⠀"));
+#message.log(message.componentBuilder("<gradient:#F4C4F3:#FC67FA> ⠀⡇⠀⠀⠀⠀⠀⠀⢀⣻⠞⠛⠀⠀⠀⠀⠻⠀⠀⠀⠀⠀⠀⠀⢸⠀"));
+#message.log(message.componentBuilder("<gradient:#F4C4F3:#FC67FA> ⠀⡇⠀⠀⠀⠀⠀⠀⠛⠓⠒⠓⠓⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠀"));
+#message.log(message.componentBuilder("<gradient:#F4C4F3:#FC67FA> ⠀⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⠀"));
+#message.log(message.componentBuilder("<gradient:#F4C4F3:#FC67FA> ⠀⢿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣀⠀⠀⢀⡟⠀"));
+#message.log(message.componentBuilder("<gradient:#F4C4F3:#FC67FA> ⠀⠘⣇⠀⠘⣿⠋⢹⠛⣿⡇⠀⠀⠀⠀⣿⣿⡇⠀⢳⠉⠀⣠⡾⠁⠀"));
+#message.log(message.componentBuilder("<gradient:#F4C4F3:#FC67FA> ⣦⣤⣽⣆⢀⡇⠀⢸⡇⣾⡇⠀⠀⠀⠀⣿⣿⡷⠀⢸⡇⠐⠛⠛⣿⠀"));
+#message.log(message.componentBuilder("<gradient:#F4C4F3:#FC67FA> ⠹⣦⠀⠀⠸⡇⠀⠸⣿⡿⠁⢀⡀⠀⠀⠿⠿⠃⠀⢸⠇⠀⢀⡾⠁⠀"));
+#message.log(message.componentBuilder("<gradient:#F4C4F3:#FC67FA> ⠀⠈⡿⢠⢶⣡⡄⠀⠀⠀⠀⠉⠁⠀⠀⠀⠀⠀⣴⣧⠆⠀⢻⡄⠀⠀"));
+#message.log(message.componentBuilder("<gradient:#F4C4F3:#FC67FA> ⠀⢸⠃⠀⠘⠉⠀⠀⠀⠠⣄⡴⠲⠶⠴⠃⠀⠀⠀⠉⡀⠀⠀⢻⡄⠀"));
+#message.log(message.componentBuilder("<gradient:#F4C4F3:#FC67FA> ⠀⠘⠒⠒⠻⢦⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣤⠞⠛⠒⠛⠋⠁⠀"));
+#message.log(message.componentBuilder("<gradient:#F4C4F3:#FC67FA> ⠀⠀⠀⠀⠀⠀⠸⣟⠓⠒⠂⠀⠀⠀⠀⠀⠈⢷⡀⠀⠀⠀⠀⠀⠀⠀"));
+#message.log(message.componentBuilder("<gradient:#F4C4F3:#FC67FA> ⠀⠀⠀⠀⠀⠀⠀⠙⣦⠀⠀⠀⠀⠀⠀⠀⠀⠈⢷⠀⠀⠀⠀⠀⠀⠀"));
+#message.log(message.componentBuilder("<gradient:#F4C4F3:#FC67FA> ⠀⠀⠀⠀⠀⠀⠀⣼⣃⡀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣆⠀⠀⠀⠀⠀⠀"));
+#message.log(message.componentBuilder("<gradient:#F4C4F3:#FC67FA> ⠀⠀⠀⠀⠀⠀⠀⠉⣹⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⠀⠀⠀⠀⠀⠀"));
+#message.log(message.componentBuilder("<gradient:#F4C4F3:#FC67FA> ⠀⠀⠀⠀⠀⠀⠀⠀⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡆⠀⠀⠀⠀⠀"));

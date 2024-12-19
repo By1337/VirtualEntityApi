@@ -28,8 +28,8 @@ public class VirtualItemImpl extends VirtualEntityImpl implements VirtualItem {
     }
 
     @Override
-    protected void onNewViewer(Player player) {
-        super.onNewViewer(player);
+    protected void postSpawn(Player player) {
+        super.postSpawn(player);
         if (motion != null) {
             motion.send(player);
         }

@@ -11,6 +11,7 @@ import dev.by1337.virtualentity.api.virtual.decoration.VirtualArmorStand;
 import dev.by1337.virtualentity.api.virtual.decoration.VirtualItemFrame;
 import dev.by1337.virtualentity.api.virtual.item.VirtualItem;
 import dev.by1337.virtualentity.api.virtual.monster.VirtualCreeper;
+import dev.by1337.virtualentity.api.virtual.player.VirtualPlayer;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.mappings.VirtualEntityRegistrar;
 import dev.by1337.virtualentity.core.network.Packet;
@@ -21,6 +22,7 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -36,7 +38,7 @@ import org.by1337.blib.util.Version;
 import java.util.Random;
 import java.util.Set;
 
-public class Main extends JavaPlugin {
+public class Main extends JavaPlugin implements Listener {
 
     private CommandWrapper commandWrapper;
 
@@ -51,6 +53,7 @@ public class Main extends JavaPlugin {
         commandWrapper = new CommandWrapper(createCommand(this), this);
         commandWrapper.setPermission("virtualentityapi.admin");
         commandWrapper.register();
+        getServer().getPluginManager().registerEvents(this, this);
     }
 
     @Override
@@ -73,6 +76,10 @@ public class Main extends JavaPlugin {
                             VirtualEntity virtualEntity = VirtualEntityApi.getFactory().create(type);
                             virtualEntity.setPos(new Vec3d(player.getLocation()));
                             virtualEntity.tick(Set.of(player));
+
+                            if (virtualEntity instanceof VirtualPlayer vp) {
+                                Bukkit.getScheduler().runTaskLater(plugin, () -> vp.sendRemovePlayerPacket(player), 60);
+                            }
                         }))
                 )
                 .addSubCommand(new Command<CommandSender>("packetLogs")

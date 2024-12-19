@@ -306,8 +306,9 @@ public class MappingsCreator {
             Object2IntMap map = (Object2IntMap) field.get(idDispatchCodec);
 
             CompoundTag packets = new CompoundTag();
-            packets.putInt("PLAYER_INFO_PACKET", map.getInt(((Packet<?>) unsafe.allocateInstance(ClientboundPlayerInfoRemovePacket.class)).type())); // new 1.19.4
-            packets.putInt("PLAYER_INFO_PACKET", map.getInt(((Packet<?>) unsafe.allocateInstance(ClientboundPlayerInfoUpdatePacket.class)).type()));
+            // PLAYER_INFO_PACKET removed in 1.19.4
+            packets.putInt("REMOVE_PLAYER_PACKET", map.getInt(((Packet<?>) unsafe.allocateInstance(ClientboundPlayerInfoRemovePacket.class)).type())); // new 1.19.4
+            packets.putInt("UPDATE_PLAYER_INFO_PACKET", map.getInt(((Packet<?>) unsafe.allocateInstance(ClientboundPlayerInfoUpdatePacket.class)).type()));
             packets.putInt("SET_PLAYER_TEAM_PACKET", map.getInt(((Packet<?>) unsafe.allocateInstance(ClientboundSetPlayerTeamPacket.class)).type()));
             packets.putInt("SET_ENTITY_DATA_PACKET", map.getInt(((Packet<?>) unsafe.allocateInstance(ClientboundSetEntityDataPacket.class)).type()));
             packets.putInt("ANIMATE_PACKET", map.getInt(((Packet<?>) unsafe.allocateInstance(ClientboundAnimatePacket.class)).type()));

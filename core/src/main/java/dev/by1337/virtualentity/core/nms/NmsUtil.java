@@ -112,7 +112,7 @@ public class NmsUtil {
         public void writeParticleOptions(ParticleOptions<?> particleOptions, ByteBuf b) {
             // source
             // var nms = CraftParticle.toNMS(particleOptions.particle(), particleOptions.value());
-            // ByteBuffUtil.writeVarInt(Registry.PARTICLE_TYPE.getId(nms.getParticle()), b);
+            // ByteBufUtil.writeVarInt(Registry.PARTICLE_TYPE.getId(nms.getParticle()), b);
             // nms.writeToNetwork(new FriendlyByteBuf(b));
             String asm = """
                     A:
@@ -128,7 +128,7 @@ public class NmsUtil {
                         invokeinterface net/minecraft/server/v1_16_R3/ParticleParam getParticle ()Lnet/minecraft/server/v1_16_R3/Particle;
                         invokevirtual net/minecraft/server/v1_16_R3/IRegistry a (Ljava/lang/Object;)I
                         aload 2
-                        invokestatic dev/by1337/virtualentity/core/network/ByteBuffUtil writeVarInt (ILio/netty/buffer/ByteBuf;)V
+                        invokestatic dev/by1337/virtualentity/core/network/ByteBufUtil writeVarInt (ILio/netty/buffer/ByteBuf;)V
                     C:
                         aload 3
                         new net/minecraft/server/v1_16_R3/PacketDataSerializer

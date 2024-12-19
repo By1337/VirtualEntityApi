@@ -1,7 +1,6 @@
 package dev.by1337.virtualentity.core.network.impl;
 
-import dev.by1337.virtualentity.core.mappings.Mappings;
-import dev.by1337.virtualentity.core.network.ByteBuffUtil;
+import dev.by1337.virtualentity.core.network.ByteBufUtil;
 import dev.by1337.virtualentity.core.network.Packet;
 import dev.by1337.virtualentity.core.network.PacketType;
 import io.netty.buffer.ByteBuf;
@@ -20,8 +19,8 @@ public class SetEntityMotionPacket extends Packet {
 
     @Override
     public void write(ByteBuf byteBuf) {
-        ByteBuffUtil.writeVarInt(PACKET_ID, byteBuf);
-        ByteBuffUtil.writeVarInt(id, byteBuf);
+        ByteBufUtil.writeVarInt(PACKET_ID, byteBuf);
+        ByteBufUtil.writeVarInt(id, byteBuf);
         byteBuf.writeShort(toUnit(clamp(motion.x, -3.9, 3.9)));
         byteBuf.writeShort(toUnit(clamp(motion.y, -3.9, 3.9)));
         byteBuf.writeShort(toUnit(clamp(motion.z, -3.9, 3.9)));
