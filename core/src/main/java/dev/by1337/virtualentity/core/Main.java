@@ -69,7 +69,11 @@ public class Main extends JavaPlugin implements Listener {
                 .aliases("entityapi")
                 .addSubCommand(new Command<CommandSender>("spawn")
                         .requires(sender -> sender instanceof Player)
-                        .argument(new ArgumentEnumValue<>("type", VirtualEntityType.class, v -> Version.VERSION.newerThanOrEqual(v.availableSinceVersion())))
+                        .argument(new ArgumentEnumValue<>("type", VirtualEntityType.class,
+                                v -> Version.VERSION.newerThanOrEqual(v.availableSinceVersion()) &&
+                                        (v.removedIn() == null || Version.VERSION.olderThan(v.removedIn()))
+                                )
+                        )
                         .executor(((sender, args) -> {
                             Player player = (Player) sender;
                             VirtualEntityType type = (VirtualEntityType) args.getOrThrow("type", "Use: /vea spawn <type>");
@@ -155,6 +159,7 @@ public class Main extends JavaPlugin implements Listener {
                             Vec3d pos = new Vec3d(player.getLocation());
                             for (VirtualEntityType value : VirtualEntityType.values()) {
                                 if (Version.VERSION.olderThan(value.availableSinceVersion())) continue;
+                                if (value.removedIn() != null && Version.VERSION.newerThanOrEqual(value.removedIn())) continue;
                                 try {
                                     VirtualEntity entity = VirtualEntityApi.getFactory().create(value);
                                     entity.setCustomNameVisible(true);

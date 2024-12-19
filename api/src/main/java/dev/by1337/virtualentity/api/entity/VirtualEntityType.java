@@ -5,6 +5,7 @@ import dev.by1337.virtualentity.api.annotations.RemovedInMinecraftVersion;
 import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 import org.by1337.blib.configuration.serialization.DefaultCodecs;
 import org.by1337.blib.util.Version;
+import org.jetbrains.annotations.Nullable;
 
 public enum VirtualEntityType {
     AREA_EFFECT_CLOUD(Version.V1_16_5),
@@ -14,7 +15,7 @@ public enum VirtualEntityType {
     BEE(Version.V1_16_5),
     BLAZE(Version.V1_16_5),
     @RemovedInMinecraftVersion("1.20.3")
-    BOAT(Version.V1_16_5),
+    BOAT(Version.V1_16_5, Version.V1_21_3),
     CAT(Version.V1_16_5),
     CAVE_SPIDER(Version.V1_16_5),
     CHICKEN(Version.V1_16_5),
@@ -141,7 +142,7 @@ public enum VirtualEntityType {
     BLOCK_DISPLAY(Version.V1_19_4),
     @SinceMinecraftVersion("1.19.4")
     @RemovedInMinecraftVersion("1.20.3")
-    CHEST_BOAT(Version.V1_19_4),
+    CHEST_BOAT(Version.V1_19_4, Version.V1_21_3),
     @SinceMinecraftVersion("1.19.4")
     INTERACTION(Version.V1_19_4),
     @SinceMinecraftVersion("1.19.4")
@@ -182,7 +183,8 @@ public enum VirtualEntityType {
     @SinceMinecraftVersion("1.21.3")
     CREAKING(Version.V1_21_3),
     @SinceMinecraftVersion("1.21.3")
-    CREAKING_TRANSIENT(Version.V1_21_3),
+    @RemovedInMinecraftVersion("1.21.4")
+    CREAKING_TRANSIENT(Version.V1_21_3, Version.V1_21_4),
     @SinceMinecraftVersion("1.21.3")
     DARK_OAK_BOAT(Version.V1_21_3),
     @SinceMinecraftVersion("1.21.3")
@@ -212,12 +214,24 @@ public enum VirtualEntityType {
     public static final Codec<VirtualEntityType> CODEC = DefaultCodecs.createEnumCodec(VirtualEntityType.class);
 
     private final Version availableSinceVersion;
+    private final Version removedIn;
 
     VirtualEntityType(Version availableSinceVersion) {
         this.availableSinceVersion = availableSinceVersion;
+        removedIn = null;
+    }
+
+    VirtualEntityType(Version availableSinceVersion, Version removedIn) {
+        this.availableSinceVersion = availableSinceVersion;
+        this.removedIn = removedIn;
     }
 
     public Version availableSinceVersion() {
         return availableSinceVersion;
+    }
+
+    @Nullable
+    public Version removedIn() {
+        return removedIn;
     }
 }
