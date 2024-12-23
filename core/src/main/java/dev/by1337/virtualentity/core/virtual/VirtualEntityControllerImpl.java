@@ -134,9 +134,8 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
         if (!position.needPosUpdate() && !position.needRotUpdate()) return;
 
         Vec3d deltaPos = position.deltaPos();
-        boolean shouldUseEntityTeleport = Math.abs(deltaPos.x) > 8 ||
-                Math.abs(deltaPos.y) > 8 ||
-                Math.abs(deltaPos.z) > 8;
+        Vec3d abs = deltaPos.abs();
+        boolean shouldUseEntityTeleport = abs.x > 8 || abs.y > 8 || abs.z > 8;
 
         if (shouldUseEntityTeleport) {
             position.sync();

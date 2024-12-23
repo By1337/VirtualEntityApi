@@ -6,7 +6,7 @@
 - **Minimal use of NMS**.
 - **Maximum ease of use**.
 
-Supported versions: 1.16.5, 1.17.1, 1.18.2, 1.19.4, 1.20.4, 1.20.6, 1.21, 1.21.1, 1.21.3
+Supported versions: 1.16.5, 1.17.1, 1.18.2, 1.19.4, 1.20.4, 1.20.6, 1.21, 1.21.1, 1.21.3, 1.21.4
 
 ---
 
@@ -70,7 +70,7 @@ private void spawn(Location location, Plugin plugin) {
 <dependency>
     <groupId>dev.by1337.virtualentity.api</groupId>
     <artifactId>VirtualEntityApi-api</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
     <scope>provided</scope>
 </dependency>
 </dependencies>
@@ -86,7 +86,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'dev.by1337.virtualentity.api:VirtualEntityApi-api:1.0'
+    compileOnly 'dev.by1337.virtualentity.api:VirtualEntityApi-api:1.1'
 }
 ```
 
