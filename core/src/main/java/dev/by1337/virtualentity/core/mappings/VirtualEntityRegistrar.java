@@ -192,7 +192,7 @@ public class VirtualEntityRegistrar {
         }
         registerBoats();
         factory.register(VirtualEntityType.CREAKING, VirtualCreakingImpl::new, Version.V1_21_3);
-        factory.register(VirtualEntityType.CREAKING_TRANSIENT, VirtualCreakingTransientImpl::new, Version.V1_21_3);
+        factory.register(VirtualEntityType.CREAKING_TRANSIENT, VirtualCreakingTransientImpl::new, Version.V1_21_3); // removed in 1.21.4
 
     }
 

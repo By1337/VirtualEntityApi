@@ -1,6 +1,8 @@
 package dev.by1337.virtualentity.api.virtual.animal;
 
+import dev.by1337.virtualentity.api.VirtualEntityApi;
 import dev.by1337.virtualentity.api.entity.PandaGene;
+import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.api.virtual.VirtualAgeableMob;
 
 public interface VirtualPanda extends VirtualAgeableMob {
@@ -37,4 +39,8 @@ public interface VirtualPanda extends VirtualAgeableMob {
     PandaGene getHiddenGene();
 
     void setHiddenGene(PandaGene pandaGene);
+
+    static VirtualPanda create() {
+        return VirtualEntityApi.getFactory().create(VirtualEntityType.PANDA, VirtualPanda.class);
+    }
 }

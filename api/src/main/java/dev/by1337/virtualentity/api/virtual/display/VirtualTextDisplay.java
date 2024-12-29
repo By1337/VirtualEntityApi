@@ -1,6 +1,8 @@
 package dev.by1337.virtualentity.api.virtual.display;
 
+import dev.by1337.virtualentity.api.VirtualEntityApi;
 import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
+import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Color;
 
@@ -49,4 +51,8 @@ public interface VirtualTextDisplay extends VirtualDisplay {
     boolean isAlignRight();
 
     void setAlignRight(boolean alignRight);
+
+    static VirtualTextDisplay create() {
+        return VirtualEntityApi.getFactory().create(VirtualEntityType.TEXT_DISPLAY, VirtualTextDisplay.class);
+    }
 }

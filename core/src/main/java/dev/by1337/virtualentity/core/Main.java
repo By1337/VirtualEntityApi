@@ -15,7 +15,6 @@ import dev.by1337.virtualentity.api.virtual.player.VirtualPlayer;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.mappings.VirtualEntityRegistrar;
 import dev.by1337.virtualentity.core.network.Packet;
-import dev.by1337.virtualentity.core.virtual.decoration.VirtualItemFrameImpl;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -70,8 +69,8 @@ public class Main extends JavaPlugin implements Listener {
                 .addSubCommand(new Command<CommandSender>("spawn")
                         .requires(sender -> sender instanceof Player)
                         .argument(new ArgumentEnumValue<>("type", VirtualEntityType.class,
-                                v -> Version.VERSION.newerThanOrEqual(v.availableSinceVersion()) &&
-                                        (v.removedIn() == null || Version.VERSION.olderThan(v.removedIn()))
+                                        v -> Version.VERSION.newerThanOrEqual(v.availableSinceVersion()) &&
+                                                (v.removedIn() == null || Version.VERSION.olderThan(v.removedIn()))
                                 )
                         )
                         .executor(((sender, args) -> {
@@ -97,20 +96,20 @@ public class Main extends JavaPlugin implements Listener {
                             Player player = (Player) sender;
                             PlayerTracker tracker = new PlayerTracker(player.getWorld(), new Vec3d(player.getLocation()));
 
-                            VirtualArmorStand armorStand = VirtualEntityApi.getFactory().create(VirtualEntityType.ARMOR_STAND, VirtualArmorStand.class);
+                            VirtualArmorStand armorStand = VirtualArmorStand.create();
                             final Vec3d center = new Vec3d(player.getLocation());
                             final Vec3d spawnPos = center.add(0, 0, 0);
                             armorStand.setPos(spawnPos);
                             armorStand.setEquipment(EquipmentSlot.HEAD, new ItemStack(Material.RED_SHULKER_BOX));
                             tracker.addEntity(armorStand);
 
-                            VirtualCreeper creeper = VirtualEntityApi.getFactory().create(VirtualEntityType.CREEPER, VirtualCreeper.class);
+                            VirtualCreeper creeper = VirtualCreeper.create();
                             creeper.setPos(new Vec3d(player.getLocation()));
                             creeper.lookAt(armorStand.getPos());
                             creeper.setPowered(true);
                             tracker.addEntity(creeper);
 
-                            VirtualAreaEffectCloud areaEffectCloud = VirtualEntityApi.getFactory().create(VirtualEntityType.AREA_EFFECT_CLOUD, VirtualAreaEffectCloud.class);
+                            VirtualAreaEffectCloud areaEffectCloud = VirtualAreaEffectCloud.create();
                             areaEffectCloud.setPos(center);
                             areaEffectCloud.setRadius(1);
                             areaEffectCloud.setParticle(new ParticleOptions<>(null, Particle.FLAME));
@@ -138,7 +137,7 @@ public class Main extends JavaPlugin implements Listener {
                                     creeper.lookAt(armorStand.getPos());
                                     tracker.tick();
                                     if (tick % 5 == 0) {
-                                        VirtualItem item = VirtualEntityApi.getFactory().create(VirtualEntityType.ITEM, VirtualItem.class);
+                                        VirtualItem item = VirtualItem.create();
                                         item.setPos(armorStand.getPos());
                                         item.setItem(new ItemStack(Material.values()[random.nextInt(50)]));
                                         tracker.addEntity(item);
@@ -159,7 +158,8 @@ public class Main extends JavaPlugin implements Listener {
                             Vec3d pos = new Vec3d(player.getLocation());
                             for (VirtualEntityType value : VirtualEntityType.values()) {
                                 if (Version.VERSION.olderThan(value.availableSinceVersion())) continue;
-                                if (value.removedIn() != null && Version.VERSION.newerThanOrEqual(value.removedIn())) continue;
+                                if (value.removedIn() != null && Version.VERSION.newerThanOrEqual(value.removedIn()))
+                                    continue;
                                 try {
                                     VirtualEntity entity = VirtualEntityApi.getFactory().create(value);
                                     entity.setCustomNameVisible(true);
@@ -181,7 +181,7 @@ public class Main extends JavaPlugin implements Listener {
                         .requires(sender -> sender instanceof Player)
                         .executor(((sender, args) -> {
                             Player player = (Player) sender;
-                            VirtualItemFrame frame = new VirtualItemFrameImpl();
+                            VirtualItemFrame frame = VirtualItemFrame.create();
                             frame.setPos(new Vec3d(player.getLocation()));
                             frame.setItem(new ItemStack(Material.RED_SHULKER_BOX));
                             frame.tick(Set.of(player));

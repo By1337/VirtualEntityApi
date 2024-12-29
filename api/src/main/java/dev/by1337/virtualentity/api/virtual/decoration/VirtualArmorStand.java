@@ -1,6 +1,8 @@
 package dev.by1337.virtualentity.api.virtual.decoration;
 
 
+import dev.by1337.virtualentity.api.VirtualEntityApi;
+import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.api.virtual.VirtualLivingEntity;
 import org.by1337.blib.geom.Vec3f;
 
@@ -45,4 +47,8 @@ public interface VirtualArmorStand extends VirtualLivingEntity {
     void setRightLegPose(Vec3f pos);
 
     Vec3f getRightLegPose();
+
+    static VirtualArmorStand create() {
+        return VirtualEntityApi.getFactory().create(VirtualEntityType.ARMOR_STAND, VirtualArmorStand.class);
+    }
 }

@@ -1,8 +1,10 @@
 package dev.by1337.virtualentity.api.virtual.animal.horse;
 
+import dev.by1337.virtualentity.api.VirtualEntityApi;
 import dev.by1337.virtualentity.api.annotations.RemovedInMinecraftVersion;
 import dev.by1337.virtualentity.api.entity.DyeColor;
 import dev.by1337.virtualentity.api.entity.EquipmentSlot;
+import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.api.virtual.VirtualEntityController;
 import org.bukkit.inventory.ItemStack;
 
@@ -32,4 +34,8 @@ public interface VirtualLlama extends VirtualAbstractChestedHorse {
 
     // 0 - 3
     void setVariant(int type);
+
+    static VirtualLlama create() {
+        return VirtualEntityApi.getFactory().create(VirtualEntityType.LLAMA, VirtualLlama.class);
+    }
 }

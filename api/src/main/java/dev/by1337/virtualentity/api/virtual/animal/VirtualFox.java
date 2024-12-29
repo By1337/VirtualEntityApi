@@ -1,6 +1,8 @@
 package dev.by1337.virtualentity.api.virtual.animal;
 
+import dev.by1337.virtualentity.api.VirtualEntityApi;
 import dev.by1337.virtualentity.api.entity.FoxType;
+import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.api.virtual.VirtualAgeableMob;
 
 import javax.annotation.Nullable;
@@ -43,4 +45,7 @@ public interface VirtualFox extends VirtualAgeableMob {
     void setIsInterested(boolean flag);
 
     boolean isInterested();
+    static VirtualFox create() {
+        return VirtualEntityApi.getFactory().create(VirtualEntityType.FOX, VirtualFox.class);
+    }
 }

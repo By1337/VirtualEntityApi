@@ -1,7 +1,10 @@
 package dev.by1337.virtualentity.api.virtual.monster.creaking;
 
+import dev.by1337.virtualentity.api.VirtualEntityApi;
 import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
+import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.api.virtual.VirtualMob;
+import dev.by1337.virtualentity.api.virtual.monster.hoglin.VirtualHoglin;
 import org.by1337.blib.geom.Vec3i;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,4 +29,8 @@ public interface VirtualCreaking extends VirtualMob {
 
     @SinceMinecraftVersion("1.21.4")
     void setTearingDown(boolean tearingDown);
+
+    static VirtualCreaking create() {
+        return VirtualEntityApi.getFactory().create(VirtualEntityType.CREAKING, VirtualCreaking.class);
+    }
 }

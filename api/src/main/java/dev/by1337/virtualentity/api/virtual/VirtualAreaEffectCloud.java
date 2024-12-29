@@ -1,6 +1,8 @@
 package dev.by1337.virtualentity.api.virtual;
 
+import dev.by1337.virtualentity.api.VirtualEntityApi;
 import dev.by1337.virtualentity.api.annotations.RemovedInMinecraftVersion;
+import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.api.particles.ParticleOptions;
 import org.bukkit.Color;
 
@@ -22,4 +24,8 @@ public interface VirtualAreaEffectCloud extends VirtualEntity {
     void setParticle(ParticleOptions<?> particle);
 
     ParticleOptions<?> getParticle();
+
+    static VirtualAreaEffectCloud create() {
+        return VirtualEntityApi.getFactory().create(VirtualEntityType.AREA_EFFECT_CLOUD, VirtualAreaEffectCloud.class);
+    }
 }

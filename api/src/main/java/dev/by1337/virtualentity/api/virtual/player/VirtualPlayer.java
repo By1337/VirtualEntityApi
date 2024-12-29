@@ -1,7 +1,9 @@
 package dev.by1337.virtualentity.api.virtual.player;
 
 import com.mojang.authlib.properties.PropertyMap;
+import dev.by1337.virtualentity.api.VirtualEntityApi;
 import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
+import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.api.virtual.VirtualLivingEntity;
 import net.kyori.adventure.text.Component;
 import org.bukkit.GameMode;
@@ -81,4 +83,8 @@ public interface VirtualPlayer extends VirtualLivingEntity {
 
     @SinceMinecraftVersion("1.21.3")
     void setListOrder(int val);
+
+    static VirtualPlayer create() {
+        return VirtualEntityApi.getFactory().create(VirtualEntityType.PLAYER, VirtualPlayer.class);
+    }
 }
