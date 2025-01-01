@@ -8,6 +8,7 @@ import dev.by1337.virtualentity.api.virtual.VirtualEntity;
 import dev.by1337.virtualentity.api.virtual.VirtualEntityController;
 import dev.by1337.virtualentity.api.virtual.VirtualLivingEntity;
 import dev.by1337.virtualentity.api.virtual.decoration.VirtualPainting;
+import dev.by1337.virtualentity.core.api.PacketListener;
 import dev.by1337.virtualentity.core.entity.EntityPosition;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.network.Packet;
@@ -47,6 +48,7 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
     private Packet spawnPacket;
     private final PacketType spawnPacketType;
     private final VirtualEntity virtualEntity;
+    private @Nullable PacketListener packetListener;
 
     public VirtualEntityControllerImpl(VirtualEntityType type) {
         virtualEntity = (VirtualEntity) this;
@@ -98,17 +100,17 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
         for (Player player : viewers) {
             if (lastViewers.contains(player)) {
                 if (dirtyData != null) {
-                    dirtyData.send(player);
+                    send(player, dirtyData);
                 }
                 if (hasEquipmentChanges && equipmentPacket != null) {
-                    equipmentPacket.send(player);
+                    send(player, equipmentPacket);
                 }
             } else {
                 preSpawn(player);
-                spawnPacket.send(player);
-                allEntityData.send(player);
+                send(player, spawnPacket);
+                send(player, allEntityData);
                 if (equipmentPacket != null && !equipment.isEmpty()) {
-                    equipmentPacket.send(player);
+                    send(player, equipmentPacket);
                 }
                 postSpawn(player);
             }
@@ -171,13 +173,21 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
     protected void broadcast(Packet packet, Consumer<Player> pre, Consumer<Player> post) {
         lastViewers.forEach(p -> {
             pre.accept(p);
-            packet.send(p);
+            send(p, packet);
             post.accept(p);
         });
     }
 
     protected void broadcast(Packet packet) {
-        lastViewers.forEach(packet::send);
+        lastViewers.forEach(p -> send(p, packet));
+    }
+
+    protected void send(Player player, Packet packet) {
+        if (packetListener == null) packet.send(player);
+        else {
+            var v = packetListener.onSend(player, packet);
+            if (v != null) v.send(player);
+        }
     }
 
     protected abstract void defineSynchedData();
@@ -332,5 +342,13 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
 
     public Set<Player> getLastViewers() {
         return lastViewers;
+    }
+
+    public @Nullable PacketListener packetListener() {
+        return packetListener;
+    }
+
+    public void setPacketListener(@Nullable PacketListener packetListener) {
+        this.packetListener = packetListener;
     }
 }
