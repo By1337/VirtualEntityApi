@@ -93,6 +93,7 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
         } else {
             dirtyData = null;
         }
+        boolean equipmentUpdate = hasEquipmentChanges;
         if (hasEquipmentChanges) {
             hasEquipmentChanges = false;
             equipmentPacket = new SetEquipmentPacket(id, equipment);
@@ -102,7 +103,7 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
                 if (dirtyData != null) {
                     send(player, dirtyData);
                 }
-                if (hasEquipmentChanges && equipmentPacket != null) {
+                if (equipmentUpdate && equipmentPacket != null) {
                     send(player, equipmentPacket);
                 }
             } else {

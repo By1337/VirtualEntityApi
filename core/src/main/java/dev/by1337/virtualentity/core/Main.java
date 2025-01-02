@@ -37,7 +37,7 @@ import org.by1337.blib.util.Version;
 import java.util.Random;
 import java.util.Set;
 
-public class Main extends JavaPlugin implements Listener {
+public class Main extends JavaPlugin {
 
     private CommandWrapper commandWrapper;
 
@@ -52,7 +52,6 @@ public class Main extends JavaPlugin implements Listener {
         commandWrapper = new CommandWrapper(createCommand(this), this);
         commandWrapper.setPermission("virtualentityapi.admin");
         commandWrapper.register();
-        getServer().getPluginManager().registerEvents(this, this);
     }
 
     @Override
