@@ -9,6 +9,7 @@ import dev.by1337.virtualentity.api.virtual.VirtualEntityController;
 import dev.by1337.virtualentity.api.virtual.VirtualLivingEntity;
 import dev.by1337.virtualentity.api.virtual.decoration.VirtualPainting;
 import dev.by1337.virtualentity.core.api.PacketListener;
+import dev.by1337.virtualentity.core.controller.EquipmentController;
 import dev.by1337.virtualentity.core.entity.EntityPosition;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.network.Packet;
@@ -23,7 +24,6 @@ import org.bukkit.inventory.ItemStack;
 import org.by1337.blib.geom.Vec3d;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.EnumMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -36,15 +36,13 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
     private final EntityPosition position = new EntityPosition();
     private final UUID uuid = UUID.randomUUID();
     private boolean onGround = true;
-    private final Map<EquipmentSlot, ItemStack> equipment = new EnumMap<>(EquipmentSlot.class);
-    private volatile boolean hasEquipmentChanges = false;
+    private final EquipmentController equipment = new EquipmentController();
 
     protected final SynchedEntityData entityData;
     private final VirtualEntityType type;
     protected final Set<Player> lastViewers = new ConcurrentPlayerHashSet();
     private final Packet removePacket;
     private Packet allEntityData;
-    private Packet equipmentPacket;
     private Packet spawnPacket;
     private final PacketType spawnPacketType;
     private final VirtualEntity virtualEntity;
@@ -93,25 +91,26 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
         } else {
             dirtyData = null;
         }
-        boolean equipmentUpdate = hasEquipmentChanges;
-        if (hasEquipmentChanges) {
-            hasEquipmentChanges = false;
-            equipmentPacket = new SetEquipmentPacket(id, equipment);
+        final Map<EquipmentSlot, ItemStack> changedSlots;
+        if (equipment.isDirty()) {
+            changedSlots = equipment.packDirty();
+        } else {
+            changedSlots = null;
         }
         for (Player player : viewers) {
             if (lastViewers.contains(player)) {
                 if (dirtyData != null) {
                     send(player, dirtyData);
                 }
-                if (equipmentUpdate && equipmentPacket != null) {
-                    send(player, equipmentPacket);
+                if (changedSlots != null) {
+                    send(player, new SetEquipmentPacket(id, changedSlots));
                 }
             } else {
                 preSpawn(player);
                 send(player, spawnPacket);
                 send(player, allEntityData);
-                if (equipmentPacket != null && !equipment.isEmpty()) {
-                    send(player, equipmentPacket);
+                if (!equipment.isEmpty()) {
+                    send(player, new SetEquipmentPacket(id, equipment.packAll()));
                 }
                 postSpawn(player);
             }
@@ -128,8 +127,8 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
         broadcast(removePacket, this::preRemove, this::postRemove);
         broadcast(spawnPacket, this::preSpawn, this::postSpawn);
         broadcast(allEntityData);
-        if (equipmentPacket != null && !equipment.isEmpty()) {
-            broadcast(allEntityData);
+        if (!equipment.isEmpty()) {
+            broadcast(new SetEquipmentPacket(id, equipment.packAll()));
         }
     }
 
@@ -227,18 +226,11 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
     @Override
     public void clearEquipment() {
         equipment.clear();
-        hasEquipmentChanges = true;
     }
 
     @Override
-    public void setEquipment(EquipmentSlot slot, ItemStack item) {
-        if (item != null && item.getType().isAir()) {
-            if (equipment.remove(slot) == null) return;
-        } else {
-            if (item == null) equipment.remove(slot);
-            else equipment.put(slot, item);
-        }
-        hasEquipmentChanges = true;
+    public void setEquipment(EquipmentSlot slot, @Nullable ItemStack item) {
+        equipment.set(slot, item);
     }
 
     @Nullable

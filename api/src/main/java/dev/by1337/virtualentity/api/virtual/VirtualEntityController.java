@@ -15,7 +15,7 @@ import java.util.UUID;
 public interface VirtualEntityController {
     void clearEquipment();
 
-    void setEquipment(EquipmentSlot slot, ItemStack item);
+    void setEquipment(EquipmentSlot slot,@Nullable ItemStack item);
 
     @Nullable
     ItemStack getEquipment(EquipmentSlot slot);

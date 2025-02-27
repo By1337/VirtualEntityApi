@@ -21,7 +21,6 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -202,6 +201,59 @@ public class Main extends JavaPlugin {
                                     }
                                 }
                             }.runTaskTimerAsynchronously(plugin, 0, 15);
+                        }))
+                )
+                .addSubCommand(new Command<CommandSender>("equipmentTest")
+                        .requires(sender -> sender instanceof Player)
+                        .executor(((sender, args) -> {
+                            Player player = (Player) sender;
+                            VirtualArmorStand stand = VirtualArmorStand.create();
+                            stand.setPos(new Vec3d(player.getLocation()));
+                            stand.tick(Set.of(player));
+
+                            new BukkitRunnable() {
+                                EquipmentSlot slot = EquipmentSlot.MAINHAND;
+
+                                @Override
+                                public void run() {
+                                    stand.clearEquipment();
+                                    switch (slot) {
+                                        case MAINHAND -> {
+                                            stand.setEquipment(slot, new ItemStack(Material.DIAMOND_SWORD));
+                                            slot = EquipmentSlot.OFFHAND;
+                                        }
+                                        case OFFHAND -> {
+                                            stand.setEquipment(slot, new ItemStack(Material.NETHERITE_SWORD));
+                                            slot = EquipmentSlot.FEET;
+                                        }
+                                        case FEET -> {
+                                            stand.setEquipment(slot, new ItemStack(Material.DIAMOND_BOOTS));
+                                            slot = EquipmentSlot.LEGS;
+                                        }
+                                        case LEGS -> {
+                                            stand.setEquipment(slot, new ItemStack(Material.DIAMOND_LEGGINGS));
+                                            slot = EquipmentSlot.CHEST;
+                                        }
+                                        case CHEST -> {
+                                            stand.setEquipment(slot, new ItemStack(Material.DIAMOND_CHESTPLATE));
+                                            slot = EquipmentSlot.HEAD;
+                                        }
+                                        case HEAD -> {
+                                            stand.setEquipment(slot, new ItemStack(Material.DIAMOND_HELMET));
+                                            slot = EquipmentSlot.BODY;
+                                        }
+                                        case BODY -> {
+                                            if (Version.is1_20_6orNewer()) {
+                                                stand.setEquipment(slot, new ItemStack(Material.DIAMOND_HELMET));
+                                            }
+                                            cancel();
+                                            stand.tick(Set.of());
+                                            return;
+                                        }
+                                    }
+                                    stand.tick(Set.of(player));
+                                }
+                            }.runTaskTimerAsynchronously(plugin, 0, 20);
                         }))
                 )
                 ;
