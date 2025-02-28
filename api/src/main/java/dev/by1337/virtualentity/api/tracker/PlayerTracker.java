@@ -1,6 +1,7 @@
 package dev.by1337.virtualentity.api.tracker;
 
 import dev.by1337.virtualentity.api.util.ConcurrentIdentityHashSet;
+import dev.by1337.virtualentity.api.util.PlayerHashSet;
 import dev.by1337.virtualentity.api.virtual.VirtualEntity;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -38,7 +39,7 @@ public class PlayerTracker {
     }
 
     public void tick() {
-        Set<Player> actualViewers = new IdentityHashSet<>();
+        Set<Player> actualViewers = new PlayerHashSet();
         for (Player player : world.getPlayers()) {
             Location loc = player.getLocation();
             if (center.distanceSquared(new Vec3d(loc.getX(), loc.getY(), loc.getZ())) <= radiusSq) {
