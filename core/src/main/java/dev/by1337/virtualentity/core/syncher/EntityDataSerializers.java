@@ -130,7 +130,7 @@ public class EntityDataSerializers {
     public static int getId(EntityDataSerializer<?> serializer) {
         Integer id = SERIALIZER_TO_ID.get(serializer);
         if (id == null) {
-            throw new IllegalStateException("Has no EntityDataSerializer id for serializer " + SERIALIZER_TO_NAME.get(serializer) + " Version: " + Version.VERSION);
+            throw new IllegalStateException("Has no EntityDataSerializer id for serializer " + SERIALIZER_TO_NAME.get(serializer) + " Version: " + Version.VERSION.getVer());
         }
         return id;
     }

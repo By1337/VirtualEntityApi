@@ -44,6 +44,7 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
     private final Packet removePacket;
     private Packet allEntityData;
     private Packet spawnPacket;
+    private SetEntityMotionPacket motionPacket;
     private final PacketType spawnPacketType;
     private final VirtualEntity virtualEntity;
     private @Nullable PacketListener packetListener;
@@ -112,6 +113,7 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
                 if (!equipment.isEmpty()) {
                     send(player, new SetEquipmentPacket(id, equipment.packAll()));
                 }
+                if (motionPacket != null) send(player, motionPacket);
                 postSpawn(player);
             }
             lastViewers.remove(player);
@@ -127,6 +129,7 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
         broadcast(removePacket, this::preRemove, this::postRemove);
         broadcast(spawnPacket, this::preSpawn, this::postSpawn);
         broadcast(allEntityData);
+        if (motionPacket != null) broadcast(motionPacket);
         if (!equipment.isEmpty()) {
             broadcast(new SetEquipmentPacket(id, equipment.packAll()));
         }
@@ -343,5 +346,12 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
 
     public void setPacketListener(@Nullable PacketListener packetListener) {
         this.packetListener = packetListener;
+    }
+
+
+    @Override
+    public void setMotion(Vec3d motion) {
+        motionPacket = new SetEntityMotionPacket(getId(), motion);
+        broadcast(motionPacket);
     }
 }

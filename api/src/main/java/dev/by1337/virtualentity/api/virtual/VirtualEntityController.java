@@ -15,7 +15,7 @@ import java.util.UUID;
 public interface VirtualEntityController {
     void clearEquipment();
 
-    void setEquipment(EquipmentSlot slot,@Nullable ItemStack item);
+    void setEquipment(EquipmentSlot slot, @Nullable ItemStack item);
 
     @Nullable
     ItemStack getEquipment(EquipmentSlot slot);
@@ -67,6 +67,14 @@ public interface VirtualEntityController {
     }
 
     void broadcastEntityEvent(EntityEvent event);
+
     void respawn();
+
     Set<Player> getLastViewers();
+
+    default void setNoMotion() {
+        setMotion(Vec3d.ZERO);
+    }
+
+    void setMotion(Vec3d motion);
 }

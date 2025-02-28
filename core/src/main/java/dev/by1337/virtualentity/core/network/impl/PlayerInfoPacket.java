@@ -108,7 +108,7 @@ public class PlayerInfoPacket extends Packet {
         INITIALIZE_CHAT((byte) (1 << 1), (byteBuf, player) -> {
             if (IS_1_19_4_OR_NEWER) {
             } else {
-                throw new UnsupportedOperationException("The INITIALIZE_CHAT operation is not supported in version " + Version.VERSION);
+                throw new UnsupportedOperationException("The INITIALIZE_CHAT operation is not supported in version " + Version.VERSION.getVer());
             }
         }),
         UPDATE_GAME_MODE((byte) (1 << 2), (byteBuf, player) -> ByteBufUtil.writeVarInt(toId(player.getGameMode()), byteBuf)),
@@ -117,7 +117,7 @@ public class PlayerInfoPacket extends Packet {
             if (IS_1_19_4_OR_NEWER) {
                 byteBuf.writeBoolean(player.isListed());
             } else {
-                throw new UnsupportedOperationException("The UPDATE_LISTED operation is not supported in version " + Version.VERSION);
+                throw new UnsupportedOperationException("The UPDATE_LISTED operation is not supported in version " + Version.VERSION.getVer());
             }
         }),
         UPDATE_LATENCY((byte) (1 << 4), (byteBuf, player) -> ByteBufUtil.writeVarInt(player.getLatency(), byteBuf)),
@@ -127,13 +127,13 @@ public class PlayerInfoPacket extends Packet {
             if (IS_1_21_3_OR_NEWER) {
                 ByteBufUtil.writeVarInt(player.getListOrder(), byteBuf);
             } else {
-                throw new UnsupportedOperationException("The UPDATE_LIST_ORDER operation is not supported in version " + Version.VERSION);
+                throw new UnsupportedOperationException("The UPDATE_LIST_ORDER operation is not supported in version " + Version.VERSION.getVer());
             }
         }),
         @RemovedInMinecraftVersion("1.19.4")
         REMOVE_PLAYER((byte) 0, (byteBuf, player) -> {
             if (IS_1_19_4_OR_NEWER) {
-                throw new UnsupportedOperationException("The REMOVE_PLAYER operation is not supported in version " + Version.VERSION);
+                throw new UnsupportedOperationException("The REMOVE_PLAYER operation is not supported in version " + Version.VERSION.getVer());
             } else {
                 // none
             }

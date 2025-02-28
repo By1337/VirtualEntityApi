@@ -15,8 +15,6 @@ import org.by1337.blib.geom.Vec3d;
 public class VirtualItemImpl extends VirtualEntityImpl implements VirtualItem {
     private static final EntityDataAccessor<ItemStack> DATA_ITEM;
 
-    private Packet motion = null;
-
     public VirtualItemImpl() {
         super(VirtualEntityType.ITEM);
     }
@@ -25,24 +23,6 @@ public class VirtualItemImpl extends VirtualEntityImpl implements VirtualItem {
     protected void defineSynchedData() {
         super.defineSynchedData();
         entityData.define(DATA_ITEM, new ItemStack(Material.DIRT));
-    }
-
-    @Override
-    protected void postSpawn(Player player) {
-        super.postSpawn(player);
-        if (motion != null) {
-            motion.send(player);
-        }
-    }
-
-    @Override
-    public void setNoMotion() {
-        setMotion(Vec3d.ZERO);
-    }
-
-    @Override
-    public void setMotion(Vec3d motion) {
-        this.motion = new SetEntityMotionPacket(getId(), motion);
     }
 
     @Override

@@ -136,7 +136,7 @@ public class Mappings {
             Plugin plugin = ((PluginClassLoader) Mappings.class.getClassLoader()).getPlugin();
             in = plugin.getResource("entity/" + Version.VERSION + "/mappings.nbt");
             if (in == null) {
-                throw new RuntimeException("Could not find mappings file for version " + Version.VERSION);
+                throw new RuntimeException("Could not find mappings file for version " + Version.VERSION.getVer());
             }
         }
 
@@ -145,7 +145,7 @@ public class Mappings {
             instance = CODEC.decode(NbtOps.INSTANCE, nbt).getOrThrow().getFirst();
             instance.applyEnumMappings();
         } catch (IOException e) {
-            throw new RuntimeException("Failed to read mappings file for version " + Version.VERSION, e);
+            throw new RuntimeException("Failed to read mappings file for version " + Version.VERSION.getVer(), e);
         }
     }
 

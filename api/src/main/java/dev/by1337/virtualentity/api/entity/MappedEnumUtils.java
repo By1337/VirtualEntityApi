@@ -9,7 +9,7 @@ public class MappedEnumUtils {
     public static <T extends Enum<T>> int getId(T value, Map<T, Integer> map) {
         Integer id = map.get(value);
         if (id == null){
-            throw new IllegalStateException("Unable to serialize value "+ value + " on version " + Version.VERSION);
+            throw new IllegalStateException("Unable to serialize value "+ value + " on version " + Version.VERSION.getVer());
         }
         return id;
     }
