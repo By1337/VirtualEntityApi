@@ -8,7 +8,6 @@ import dev.by1337.virtualentity.api.virtual.VirtualEntity;
 import dev.by1337.virtualentity.api.virtual.VirtualEntityController;
 import dev.by1337.virtualentity.api.virtual.VirtualLivingEntity;
 import dev.by1337.virtualentity.api.virtual.decoration.VirtualPainting;
-import dev.by1337.virtualentity.core.api.PacketListener;
 import dev.by1337.virtualentity.core.controller.EquipmentController;
 import dev.by1337.virtualentity.core.entity.EntityPosition;
 import dev.by1337.virtualentity.core.mappings.Mappings;
@@ -47,7 +46,6 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
     private SetEntityMotionPacket motionPacket;
     private final PacketType spawnPacketType;
     private final VirtualEntity virtualEntity;
-    private @Nullable PacketListener packetListener;
 
     public VirtualEntityControllerImpl(VirtualEntityType type) {
         virtualEntity = (VirtualEntity) this;
@@ -101,19 +99,19 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
         for (Player player : viewers) {
             if (lastViewers.contains(player)) {
                 if (dirtyData != null) {
-                    send(player, dirtyData);
+                    dirtyData.send(player);
                 }
                 if (changedSlots != null) {
-                    send(player, new SetEquipmentPacket(id, changedSlots));
+                    new SetEquipmentPacket(id, changedSlots).send(player);
                 }
             } else {
                 preSpawn(player);
-                send(player, spawnPacket);
-                send(player, allEntityData);
+                spawnPacket.send(player);
+                allEntityData.send(player);
                 if (!equipment.isEmpty()) {
-                    send(player, new SetEquipmentPacket(id, equipment.packAll()));
+                    new SetEquipmentPacket(id, equipment.packAll()).send(player);
                 }
-                if (motionPacket != null) send(player, motionPacket);
+                if (motionPacket != null) motionPacket.send(player);
                 postSpawn(player);
             }
             lastViewers.remove(player);
@@ -176,21 +174,13 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
     protected void broadcast(Packet packet, Consumer<Player> pre, Consumer<Player> post) {
         lastViewers.forEach(p -> {
             pre.accept(p);
-            send(p, packet);
+            packet.send(p);
             post.accept(p);
         });
     }
 
     protected void broadcast(Packet packet) {
-        lastViewers.forEach(p -> send(p, packet));
-    }
-
-    protected void send(Player player, Packet packet) {
-        if (packetListener == null) packet.send(player);
-        else {
-            var v = packetListener.onSend(player, packet);
-            if (v != null) v.send(player);
-        }
+        lastViewers.forEach(packet::send);
     }
 
     protected abstract void defineSynchedData();
@@ -339,15 +329,6 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
     public Set<Player> getLastViewers() {
         return lastViewers;
     }
-
-    public @Nullable PacketListener packetListener() {
-        return packetListener;
-    }
-
-    public void setPacketListener(@Nullable PacketListener packetListener) {
-        this.packetListener = packetListener;
-    }
-
 
     @Override
     public void setMotion(Vec3d motion) {
