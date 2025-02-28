@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Set;
 import java.util.UUID;
 
-public interface VirtualEntityController {
+public interface VirtualEntityController extends ViewTracker{
     void clearEquipment();
 
     void setEquipment(EquipmentSlot slot, @Nullable ItemStack item);
@@ -58,8 +58,6 @@ public interface VirtualEntityController {
     int getId();
 
     void playAnimation(EntityAnimation animation);
-
-    void tick(Set<Player> viewers);
 
     void lookAt(Vec3d at);
 

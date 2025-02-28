@@ -90,9 +90,9 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
         } else {
             dirtyData = null;
         }
-        final Map<EquipmentSlot, ItemStack> changedSlots;
+        final SetEquipmentPacket changedSlots;
         if (equipment.isDirty()) {
-            changedSlots = equipment.packDirty();
+            changedSlots = new SetEquipmentPacket(id, equipment.packDirty());
         } else {
             changedSlots = null;
         }
@@ -102,7 +102,7 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
                     dirtyData.send(player);
                 }
                 if (changedSlots != null) {
-                    new SetEquipmentPacket(id, changedSlots).send(player);
+                    changedSlots.send(player);
                 }
             } else {
                 preSpawn(player);
