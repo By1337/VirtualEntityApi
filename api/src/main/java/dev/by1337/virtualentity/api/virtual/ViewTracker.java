@@ -4,6 +4,6 @@ import org.bukkit.entity.Player;
 
 import java.util.Set;
 
-public interface ViewTracker extends Identifiable{
+public interface ViewTracker{
     void tick(Set<Player> viewers);
 }

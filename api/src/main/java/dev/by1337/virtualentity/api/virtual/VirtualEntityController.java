@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Set;
 import java.util.UUID;
 
-public interface VirtualEntityController extends ViewTracker {
+public interface VirtualEntityController extends ViewTracker, Identifiable {
     void clearEquipment();
 
     void setEquipment(EquipmentSlot slot, @Nullable ItemStack item);

@@ -208,12 +208,22 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
     public void lookAt(Vec3d at) {
         Vec3d delta = at.sub(position.getPos());
         double horizontalDistance = Math.sqrt(delta.x * delta.x + delta.z * delta.z);
-        float pitch = (float) Math.toDegrees(Math.atan2(delta.y, horizontalDistance));
-        float yaw = (float) Math.toDegrees(Math.atan2(delta.z, delta.x)) - 90.0f;
+        float pitch = wrapDegrees((float) -(Math.atan2(delta.y, horizontalDistance) * 57.2957763671875)); // Convert radians to degrees (180 / PI)
+        float yaw = wrapDegrees((float) (Math.atan2(delta.z, delta.x) * 57.2957763671875) - 90.0f); // Convert radians to degrees (180 / PI)
         position.setPitch(pitch);
         position.setYaw(yaw);
     }
 
+    private static float wrapDegrees(float f) {
+        float f1 = f % 360.0F;
+        if (f1 >= 180.0F) {
+            f1 -= 360.0F;
+        }
+        if (f1 < -180.0F) {
+            f1 += 360.0F;
+        }
+        return f1;
+    }
 
     @Override
     public void clearEquipment() {
