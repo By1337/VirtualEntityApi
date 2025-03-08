@@ -5,25 +5,33 @@ import dev.by1337.virtualentity.core.network.Packet;
 import dev.by1337.virtualentity.core.network.PacketType;
 import io.netty.buffer.ByteBuf;
 
-public class RemoveEntitiesPacket extends Packet {
+import java.util.Arrays;
+
+public class RemoveEntitiesPacket extends Packet implements dev.by1337.virtualentity.api.network.RemoveEntitiesPacket {
     private static final int PACKET_ID = PacketType.REMOVE_ENTITIES_PACKET.getId();
-    private final int id;
+    private final int[] id;
 
     public RemoveEntitiesPacket(int id) {
+        this.id = new int[]{id};
+    }
+
+    public RemoveEntitiesPacket(int... id) {
         this.id = id;
     }
 
     @Override
     public void write(ByteBuf byteBuf) {
         ByteBufUtil.writeVarInt(PACKET_ID, byteBuf);
-        ByteBufUtil.writeVarInt(1, byteBuf);
-        ByteBufUtil.writeVarInt(id, byteBuf);
+        ByteBufUtil.writeVarInt(id.length, byteBuf);
+        for (int i : id) {
+            ByteBufUtil.writeVarInt(i, byteBuf);
+        }
     }
 
     @Override
     public String toString() {
         return "RemoveEntitiesPacket{" +
-                "id=" + id +
+                "ids=" + Arrays.toString(id) +
                 '}';
     }
 }

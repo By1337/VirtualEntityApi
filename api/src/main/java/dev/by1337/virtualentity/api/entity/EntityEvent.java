@@ -67,10 +67,15 @@ public enum EntityEvent implements MappedEnum {
     START_RAM,
     END_RAM,
     POOF,
+    @RemovedInMinecraftVersion("1.19.4")
     DROWNED,
+    @RemovedInMinecraftVersion("1.19.4")
     HURT,
+    @RemovedInMinecraftVersion("1.19.4")
     FROZEN,
+    @RemovedInMinecraftVersion("1.19.4")
     POKED,
+    @RemovedInMinecraftVersion("1.19.4")
     BURNED,
     THORNED,
     @SinceMinecraftVersion("1.19.4")
