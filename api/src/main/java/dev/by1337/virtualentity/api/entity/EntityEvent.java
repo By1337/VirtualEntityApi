@@ -77,6 +77,7 @@ public enum EntityEvent implements MappedEnum {
     POKED,
     @RemovedInMinecraftVersion("1.19.4")
     BURNED,
+    @RemovedInMinecraftVersion("1.19.4")
     THORNED,
     @SinceMinecraftVersion("1.19.4")
     TENDRILS_SHIVER,

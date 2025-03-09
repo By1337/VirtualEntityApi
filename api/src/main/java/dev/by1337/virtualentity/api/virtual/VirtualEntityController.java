@@ -4,9 +4,11 @@ import dev.by1337.virtualentity.api.entity.EntityAnimation;
 import dev.by1337.virtualentity.api.entity.EntityEvent;
 import dev.by1337.virtualentity.api.entity.EquipmentSlot;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
+import dev.by1337.virtualentity.api.task.TickTask;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.by1337.blib.geom.Vec3d;
+import org.by1337.blib.util.Version;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
@@ -61,7 +63,27 @@ public interface VirtualEntityController extends ViewTracker, Identifiable {
     default void onTick() {
     }
 
-    void broadcastEntityEvent(EntityEvent event);
+    void sendEntityEvent(EntityEvent event);
+
+    default void broadcastEntityEvent(EntityEvent event) {
+        if (event == EntityEvent.TALISMAN_ACTIVATE && Version.is1_21_3orNewer()) {
+            return;
+        }
+        if (event == EntityEvent.BAD_OMEN_TRIGGERED && Version.is1_20_6orNewer()) {
+            return;
+        }
+        if (Version.is1_19_4orNewer()) {
+            switch (event) {
+                case DROWNED, HURT, FROZEN, POKED, BURNED -> {
+                    //todo play take damage
+                    return;
+                }
+                case THORNED -> {
+                    return;
+                }
+            }
+        }
+    }
 
     void respawn();
 
@@ -72,4 +94,7 @@ public interface VirtualEntityController extends ViewTracker, Identifiable {
     }
 
     void setMotion(Vec3d motion);
+    void addTickTask(TickTask task);
+    boolean removeTickTask(TickTask task);
+    void removeAllTickTask();
 }

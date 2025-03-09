@@ -7,7 +7,7 @@ import io.netty.buffer.ByteBuf;
 
 import java.util.Arrays;
 
-public class RemoveEntitiesPacket extends Packet implements dev.by1337.virtualentity.api.network.RemoveEntitiesPacket {
+public class RemoveEntitiesPacket extends Packet {
     private static final int PACKET_ID = PacketType.REMOVE_ENTITIES_PACKET.getId();
     private final int[] id;
 

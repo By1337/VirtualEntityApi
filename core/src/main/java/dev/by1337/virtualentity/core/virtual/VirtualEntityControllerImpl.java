@@ -4,6 +4,7 @@ import dev.by1337.virtualentity.api.entity.EntityAnimation;
 import dev.by1337.virtualentity.api.entity.EntityEvent;
 import dev.by1337.virtualentity.api.entity.EquipmentSlot;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
+import dev.by1337.virtualentity.api.task.TickTask;
 import dev.by1337.virtualentity.api.virtual.VirtualEntity;
 import dev.by1337.virtualentity.api.virtual.VirtualEntityController;
 import dev.by1337.virtualentity.api.virtual.VirtualLivingEntity;
@@ -23,8 +24,10 @@ import org.bukkit.inventory.ItemStack;
 import org.by1337.blib.geom.Vec3d;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Consumer;
 
 
@@ -45,6 +48,7 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
     private SetEntityMotionPacket motionPacket;
     private final PacketType spawnPacketType;
     private final VirtualEntity virtualEntity;
+    private final List<TickTask> tickTasks = new CopyOnWriteArrayList<>();
 
     public VirtualEntityControllerImpl(VirtualEntityType type) {
         virtualEntity = (VirtualEntity) this;
@@ -73,6 +77,7 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
 
     @Override
     public void tick(Set<Player> viewers) {
+        tickTasks.forEach(Runnable::run);
         if (viewers.isEmpty()) {
             broadcast(removePacket, this::preRemove, this::postRemove);
             lastViewers.clear();
@@ -166,7 +171,7 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
     }
 
     @Override
-    public void broadcastEntityEvent(EntityEvent event) {
+    public void sendEntityEvent(EntityEvent event) {
         broadcast(new EntityEventPacket(id, event));
     }
 
@@ -343,5 +348,20 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
     public void setMotion(Vec3d motion) {
         motionPacket = new SetEntityMotionPacket(getId(), motion);
         broadcast(motionPacket);
+    }
+
+    @Override
+    public void addTickTask(TickTask task) {
+        tickTasks.add(task);
+    }
+
+    @Override
+    public boolean removeTickTask(TickTask task) {
+        return tickTasks.remove(task);
+    }
+
+    @Override
+    public void removeAllTickTask() {
+        tickTasks.clear();
     }
 }
