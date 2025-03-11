@@ -49,6 +49,7 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
     private final PacketType spawnPacketType;
     private final VirtualEntity virtualEntity;
     private final List<TickTask> tickTasks = new CopyOnWriteArrayList<>();
+    private long tick;
 
     public VirtualEntityControllerImpl(VirtualEntityType type) {
         virtualEntity = (VirtualEntity) this;
@@ -77,6 +78,7 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
 
     @Override
     public void tick(Set<Player> viewers) {
+        tick++;
         tickTasks.forEach(Runnable::run);
         if (viewers.isEmpty()) {
             broadcast(removePacket, this::preRemove, this::postRemove);
@@ -144,24 +146,20 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
         Vec3d abs = deltaPos.abs();
         boolean shouldUseEntityTeleport = abs.x > 8 || abs.y > 8 || abs.z > 8;
 
-        if (shouldUseEntityTeleport) {
+        if (shouldUseEntityTeleport || tick % 30 == 0) { // всё-таки давайте хоть иногда бросать teleport packet
             position.sync();
-            Packet packet = new TeleportEntityPacket(virtualEntity);
-            broadcast(packet);
+            broadcast(new TeleportEntityPacket(virtualEntity));
         } else if (position.needPosUpdate() && (position.needRotUpdate())) {
-            Packet packet = new MoveEntityPacket.PosRot(virtualEntity);
-            broadcast(packet);
+            broadcast(new MoveEntityPacket.PosRot(virtualEntity));
             if (this instanceof VirtualLivingEntity) {
                 broadcast(new RotateHeadPacket(id, yaw())); // не для всех ентити работает, но будем пытаться на всех
             }
             position.sync();
         } else if (position.needPosUpdate()) {
-            Packet packet = new MoveEntityPacket.Pos(virtualEntity);
-            broadcast(packet);
+            broadcast(new MoveEntityPacket.Pos(virtualEntity));
             position.sync();
         } else {
-            Packet packet = new MoveEntityPacket.Rot(virtualEntity);
-            broadcast(packet);
+            broadcast(new MoveEntityPacket.Rot(virtualEntity));
             if (this instanceof VirtualLivingEntity) {
                 broadcast(new RotateHeadPacket(id, yaw())); // не для всех ентити работает, но будем пытаться на всех
             }
