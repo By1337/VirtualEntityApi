@@ -16,7 +16,7 @@ Supported versions: 1.16.5, 1.17.1, 1.18.2, 1.19.4, 1.20.4, 1.20.6, 1.21, 1.21.1
 ```java
 public void test(Player player) {
     // Create a packet ArmorStand
-    VirtualArmorStand armorStand = VirtualEntityApi.getFactory().create(VirtualEntityType.ARMOR_STAND, VirtualArmorStand.class);
+    VirtualArmorStand armorStand = VirtualArmorStand.create();
     
     // Set parameters
     armorStand.setCustomName(Component.text("Custom name"));
@@ -41,7 +41,7 @@ Working with packet mobs is very similar to working with regular mobs, except fo
 private void spawn(Location location, Plugin plugin) {
     PlayerTracker tracker = new PlayerTracker(location.getWorld(), new Vec3d(location));
     
-    VirtualArmorStand armorStand = VirtualEntityApi.getFactory().create(VirtualEntityType.ARMOR_STAND, VirtualArmorStand.class);
+    VirtualArmorStand armorStand = VirtualArmorStand.create();
     armorStand.setCustomName(Component.text("Custom name"));
     armorStand.setCustomNameVisible(true);
     armorStand.setPos(new Vec3d(location));
@@ -70,7 +70,7 @@ private void spawn(Location location, Plugin plugin) {
 <dependency>
     <groupId>dev.by1337.virtualentity.api</groupId>
     <artifactId>VirtualEntityApi-api</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
     <scope>provided</scope>
 </dependency>
 </dependencies>
@@ -86,7 +86,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'dev.by1337.virtualentity.api:VirtualEntityApi-api:1.1'
+    compileOnly 'dev.by1337.virtualentity.api:VirtualEntityApi-api:1.2'
 }
 ```
 

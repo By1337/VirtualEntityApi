@@ -4,7 +4,7 @@
     <parent>
         <groupId>dev.by1337.virtualentity</groupId>
         <artifactId>VirtualEntityApi</artifactId>
-        <version>1.1</version>
+        <version>1.2</version>
     </parent>
     <groupId>dev.by1337.virtualentity.api</groupId>
     <artifactId>VirtualEntityApi-api</artifactId>
@@ -111,7 +111,7 @@
         <dependency>
             <groupId>org.by1337.blib</groupId>
             <artifactId>Blib-api</artifactId>
-            <version>1.5</version>
+            <version>1.5.3</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
