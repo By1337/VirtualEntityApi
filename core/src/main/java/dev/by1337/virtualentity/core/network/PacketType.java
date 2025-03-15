@@ -36,6 +36,8 @@ public enum PacketType implements MappedEnum {
     REMOVE_PLAYER_PACKET,
     @SinceMinecraftVersion("1.19.4")
     UPDATE_PLAYER_INFO_PACKET,
+    @SinceMinecraftVersion("1.21.2")
+    ENTITY_POSITION_SYNC_PACKET
     ;
     public static final Codec<PacketType> CODEC = DefaultCodecs.createEnumCodec(PacketType.class);
     private static final EnumMap<PacketType, Integer> TO_ID = new EnumMap<>(PacketType.class);

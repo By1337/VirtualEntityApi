@@ -4,13 +4,13 @@
     <parent>
         <groupId>dev.by1337.virtualentity</groupId>
         <artifactId>VirtualEntityApi</artifactId>
-        <version>1.2</version>
+        <version>1.2.1</version>
     </parent>
 
     <groupId>dev.by1337.virtualentity.asm</groupId>
     <artifactId>asm-maven-plugin</artifactId>
     <name>asm-maven-plugin</name>
-    <version>1.2</version>
+    <version>1.2.1</version>
     <packaging>maven-plugin</packaging>
 
     <properties>

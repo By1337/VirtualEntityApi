@@ -70,7 +70,7 @@ private void spawn(Location location, Plugin plugin) {
 <dependency>
     <groupId>dev.by1337.virtualentity.api</groupId>
     <artifactId>VirtualEntityApi-api</artifactId>
-    <version>1.2</version>
+    <version>1.2.1</version>
     <scope>provided</scope>
 </dependency>
 </dependencies>

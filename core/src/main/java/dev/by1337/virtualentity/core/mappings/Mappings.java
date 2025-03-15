@@ -7,8 +7,6 @@ import dev.by1337.virtualentity.core.network.PacketType;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
 import dev.by1337.virtualentity.core.syncher.EntityDataSerializer;
 import dev.by1337.virtualentity.core.syncher.EntityDataSerializers;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.PluginClassLoader;
 import org.by1337.blib.nbt.MojangNbtReader;
 import org.by1337.blib.nbt.NbtOps;
 import org.by1337.blib.nbt.impl.CompoundTag;
@@ -18,6 +16,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.lang.reflect.Field;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 import java.util.Map;
 
@@ -133,14 +133,24 @@ public class Mappings {
                 throw new RuntimeException(e);
             }
         } else {
-            Plugin plugin = ((PluginClassLoader) Mappings.class.getClassLoader()).getPlugin();
-            in = plugin.getResource("entity/" + Version.VERSION + "/mappings.nbt");
+            ClassLoader loader = Mappings.class.getClassLoader();
+            URL url = loader.getResource("entity/" + Version.VERSION + "/mappings.nbt");
+            if (url == null) {
+                throw new RuntimeException("Could not find mappings file for version " + Version.VERSION.getVer());
+            }
+            try {
+                URLConnection connection = url.openConnection();
+                connection.setUseCaches(false);
+                in = connection.getInputStream();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             if (in == null) {
                 throw new RuntimeException("Could not find mappings file for version " + Version.VERSION.getVer());
             }
         }
 
-        try (in){
+        try (in) {
             CompoundTag nbt = MojangNbtReader.readCompressed(in);
             instance = CODEC.decode(NbtOps.INSTANCE, nbt).getOrThrow().getFirst();
             instance.applyEnumMappings();

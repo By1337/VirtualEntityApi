@@ -25,14 +25,12 @@ import net.minecraft.world.entity.animal.armadillo.Armadillo;
 import net.minecraft.world.entity.animal.axolotl.Axolotl;
 import net.minecraft.world.entity.animal.sniffer.Sniffer;
 import net.minecraft.world.entity.boss.enderdragon.phases.EnderDragonPhase;
-import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.entity.decoration.PaintingVariant;
 import net.minecraft.world.entity.monster.SpellcasterIllager;
 import net.minecraft.world.entity.monster.warden.Warden;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerType;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.phys.Vec3;
@@ -314,6 +312,7 @@ public class MappingsCreator {
             packets.putInt("ANIMATE_PACKET", map.getInt(((Packet<?>) unsafe.allocateInstance(ClientboundAnimatePacket.class)).type()));
             packets.putInt("ROTATE_HEAD_PACKET", map.getInt(((Packet<?>) unsafe.allocateInstance(ClientboundRotateHeadPacket.class)).type()));
             packets.putInt("TELEPORT_ENTITY_PACKET", map.getInt(((Packet<?>) unsafe.allocateInstance(ClientboundTeleportEntityPacket.class)).type()));
+            packets.putInt("ENTITY_POSITION_SYNC_PACKET", map.getInt(((Packet<?>) unsafe.allocateInstance(ClientboundEntityPositionSyncPacket.class)).type()));
             packets.putInt("ADD_ENTITY_PACKET", map.getInt(((Packet<?>) unsafe.allocateInstance(ClientboundAddEntityPacket.class)).type()));
             //packets.putInt("ADD_MOB_PACKET", map.getInt(unsafe .allocateInstance(ClientboundAddMobPacket.class))); // removed in 1.19.4
             //packets.putInt("ADD_PLAYER_PACKET", map.getInt(unsafe .allocateInstance(ClientboundAddPlayerPacket.class))); // removed in 1.20.4

@@ -4,7 +4,7 @@
     <parent>
         <groupId>dev.by1337.virtualentity</groupId>
         <artifactId>VirtualEntityApi</artifactId>
-        <version>1.2</version>
+        <version>1.2.1</version>
     </parent>
     <groupId>dev.by1337.virtualentity.core</groupId>
     <artifactId>VirtualEntityApi</artifactId>
@@ -20,7 +20,7 @@
             <plugin>
                 <groupId>dev.by1337.virtualentity.asm</groupId>
                 <artifactId>asm-maven-plugin</artifactId>
-                <version>1.2</version>
+                <version>1.2.1</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -130,7 +130,7 @@
         <dependency>
             <groupId>dev.by1337.virtualentity.api</groupId>
             <artifactId>VirtualEntityApi-api</artifactId>
-            <version>1.2</version>
+            <version>1.2.1</version>
             <scope>compile</scope>
         </dependency>
         <dependency> <!-- in BLib further in the minecraft -->

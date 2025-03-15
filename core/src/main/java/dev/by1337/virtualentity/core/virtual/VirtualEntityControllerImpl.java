@@ -140,7 +140,8 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
     }
 
     private void updateLocation() {
-        if (!position.needPosUpdate() && !position.needRotUpdate()) return;
+        boolean rotChanged = position.needRotUpdate();
+        if (!position.needPosUpdate() && !rotChanged) return;
 
         Vec3d deltaPos = position.deltaPos();
         Vec3d abs = deltaPos.abs();
@@ -149,23 +150,21 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
         if (shouldUseEntityTeleport || tick % 30 == 0) { // всё-таки давайте хоть иногда бросать teleport packet
             position.sync();
             broadcast(new TeleportEntityPacket(virtualEntity));
-        } else if (position.needPosUpdate() && (position.needRotUpdate())) {
+        } else if (position.needPosUpdate() && rotChanged) {
             broadcast(new MoveEntityPacket.PosRot(virtualEntity));
-            if (this instanceof VirtualLivingEntity) {
-                broadcast(new RotateHeadPacket(id, yaw())); // не для всех ентити работает, но будем пытаться на всех
-            }
             position.sync();
         } else if (position.needPosUpdate()) {
             broadcast(new MoveEntityPacket.Pos(virtualEntity));
             position.sync();
         } else {
             broadcast(new MoveEntityPacket.Rot(virtualEntity));
+            position.sync();
+        }
+        if (rotChanged){
             if (this instanceof VirtualLivingEntity) {
                 broadcast(new RotateHeadPacket(id, yaw())); // не для всех ентити работает, но будем пытаться на всех
             }
-            position.sync();
         }
-        rebuildSpawnPacket();
     }
 
     @Override
