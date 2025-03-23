@@ -12,6 +12,7 @@ import io.netty.buffer.ByteBuf;
 import org.bukkit.GameMode;
 import org.by1337.blib.util.Version;
 
+import java.util.Arrays;
 import java.util.function.BiConsumer;
 
 public class PlayerInfoPacket extends Packet {
@@ -162,5 +163,13 @@ public class PlayerInfoPacket extends Packet {
                 case REMOVE_PLAYER -> 4;
             };
         }
+    }
+
+    @Override
+    public String toString() {
+        return "PlayerInfoPacket{" +
+                "player=" + player +
+                ", actions=" + Arrays.toString(actions) +
+                '}';
     }
 }
