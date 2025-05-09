@@ -1,5 +1,6 @@
 package dev.by1337.virtualentity.core.syncher;
 
+import dev.by1337.virtualentity.api.annotations.RemovedInMinecraftVersion;
 import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 import dev.by1337.virtualentity.api.entity.*;
 import dev.by1337.virtualentity.api.entity.npc.VillagerData;
@@ -64,9 +65,13 @@ public class EntityDataSerializers {
 
     public static final EntityDataSerializer<Direction> DIRECTION = register(ByteBufUtil::writeEnum, "DIRECTION");
 
+    @RemovedInMinecraftVersion("1.21.5")
     public static final EntityDataSerializer<Optional<UUID>> OPTIONAL_UUID = register((val, byteBuf) -> {
         ByteBufUtil.writeOptional(byteBuf, val.orElse(null), ByteBufUtil::writeUUID);
     }, "OPTIONAL_UUID");
+
+    @SinceMinecraftVersion("1.21.5")
+    public static EntityDataSerializer<Optional<UUID>> OPTIONAL_LIVING_ENTITY_REFERENCE = register(OPTIONAL_UUID, "OPTIONAL_LIVING_ENTITY_REFERENCE");
 
     public static final EntityDataSerializer<CompoundTag> COMPOUND_TAG = register(ByteBufUtil::writeNbt, "COMPOUND_TAG");
 
@@ -88,6 +93,15 @@ public class EntityDataSerializers {
         byteBuf.writeFloat(val.z);
         byteBuf.writeFloat(val.w);
     }, "QUATERNION");
+
+    @SinceMinecraftVersion("1.21.5")
+    public static final EntityDataSerializer<PigVariant> PIG_VARIANT = register(ByteBufUtil::writeEnum, "PIG_VARIANT");
+    @SinceMinecraftVersion("1.21.5")
+    public static final EntityDataSerializer<ChickenVariant> CHICKEN_VARIANT = register(ByteBufUtil::writeEnum, "CHICKEN_VARIANT");
+    @SinceMinecraftVersion("1.21.5")
+    public static final EntityDataSerializer<CowVariant> COW_VARIANT = register(ByteBufUtil::writeEnum, "COW_VARIANT");
+    @SinceMinecraftVersion("1.21.5")
+    public static final EntityDataSerializer<WolfSoundVariant> WOLF_SOUND_VARIANT = register(ByteBufUtil::writeEnum, "WOLF_SOUND_VARIANT");
 
     public static final EntityDataSerializer<SnifferState> SNIFFER_STATE = register(ByteBufUtil::writeEnum, "SNIFFER_STATE");
     public static final EntityDataSerializer<CatVariant> CAT_VARIANT = register(ByteBufUtil::writeEnum, "CAT_VARIANT");

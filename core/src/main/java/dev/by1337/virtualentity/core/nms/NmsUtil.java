@@ -60,7 +60,7 @@ public class NmsUtil {
             case V1_19_4 -> new NmsAccessorV1_19_4();
             case V1_20_1 -> new NmsAccessorV1_20_1();
             case V1_20_4 -> new NmsAccessorV1_20_4();
-            case V1_20_6, V1_21, V1_21_1, V1_21_3, V1_21_4 -> new NmsAccessorV1_20_6();
+            case V1_20_6, V1_21, V1_21_1, V1_21_3, V1_21_4, V1_21_5 -> new NmsAccessorV1_20_6();
             default -> throw new UnsupportedOperationException("Unsupported version " + Version.VERSION.getVer());
         };
     }

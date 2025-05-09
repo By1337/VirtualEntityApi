@@ -11,6 +11,7 @@ import org.by1337.blib.nbt.MojangNbtReader;
 import org.by1337.blib.nbt.NbtOps;
 import org.by1337.blib.nbt.impl.CompoundTag;
 import org.by1337.blib.util.Version;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -133,21 +134,7 @@ public class Mappings {
                 throw new RuntimeException(e);
             }
         } else {
-            ClassLoader loader = Mappings.class.getClassLoader();
-            URL url = loader.getResource("entity/" + Version.VERSION + "/mappings.nbt");
-            if (url == null) {
-                throw new RuntimeException("Could not find mappings file for version " + Version.VERSION.getVer());
-            }
-            try {
-                URLConnection connection = url.openConnection();
-                connection.setUseCaches(false);
-                in = connection.getInputStream();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            if (in == null) {
-                throw new RuntimeException("Could not find mappings file for version " + Version.VERSION.getVer());
-            }
+           in = getMappingsInputStream(Version.VERSION);
         }
 
         try (in) {
@@ -157,6 +144,27 @@ public class Mappings {
         } catch (IOException e) {
             throw new RuntimeException("Failed to read mappings file for version " + Version.VERSION.getVer(), e);
         }
+    }
+
+    @NotNull
+    public static InputStream getMappingsInputStream(Version version) {
+        InputStream in;
+        ClassLoader loader = Mappings.class.getClassLoader();
+        URL url = loader.getResource("entity/" + version + "/mappings.nbt");
+        if (url == null) {
+            throw new RuntimeException("Could not find mappings file for version " + version.getVer());
+        }
+        try {
+            URLConnection connection = url.openConnection();
+            connection.setUseCaches(false);
+            in = connection.getInputStream();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        if (in == null) {
+            throw new RuntimeException("Could not find mappings file for version " + version.getVer());
+        }
+        return in;
     }
 
     public record EntityInfo(int networkId, PacketType spawnPacket) {

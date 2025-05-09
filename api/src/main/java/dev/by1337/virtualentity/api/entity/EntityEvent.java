@@ -38,7 +38,9 @@ public enum EntityEvent implements MappedEnum {
     PERMISSION_LEVEL_GAMEMASTERS,
     PERMISSION_LEVEL_ADMINS,
     PERMISSION_LEVEL_OWNERS,
+    @RemovedInMinecraftVersion("1.21.5")
     ATTACK_BLOCKED,
+    @RemovedInMinecraftVersion("1.21.5")
     SHIELD_DISABLED,
     FISHING_ROD_REEL_IN,
     ARMORSTAND_WOBBLE,
@@ -93,6 +95,10 @@ public enum EntityEvent implements MappedEnum {
     PROTECTED_FROM_DEATH,
     @SinceMinecraftVersion("1.21.3")
     SHAKE,
+    @SinceMinecraftVersion("1.21.5")
+    SADDLE_BREAK,
+    @SinceMinecraftVersion("1.21.5")
+    DROWN_PARTICLES
     ;
     public static final Codec<EntityEvent> CODEC = DefaultCodecs.createEnumCodec(EntityEvent.class);
     private static final EnumMap<EntityEvent, Integer> TO_ID = new EnumMap<>(EntityEvent.class);

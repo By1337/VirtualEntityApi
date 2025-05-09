@@ -20,7 +20,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Fox;
 import net.minecraft.world.entity.animal.Panda;
-import net.minecraft.world.entity.animal.WolfVariant;
 import net.minecraft.world.entity.animal.armadillo.Armadillo;
 import net.minecraft.world.entity.animal.axolotl.Axolotl;
 import net.minecraft.world.entity.animal.sniffer.Sniffer;
@@ -142,6 +141,7 @@ public class MappingsCreator {
                 info.putString("spawnPacket", "ADD_ENTITY_PACKET");
             } else {
                 ServerEntity serverEntity = new ServerEntity(null, entity, 0, false, p -> {
+                }, (p, l) -> {
                 }, Set.of());
                 Class<?> spawnPacket = entity.getAddEntityPacket(serverEntity).getClass();
                 if (spawnPacket == ClientboundAddEntityPacket.class) {
@@ -150,9 +150,9 @@ public class MappingsCreator {
                 info.putString("spawnPacket", "ADD_MOB_PACKET");
             }*/ /*else if (spawnPacket == ClientboundAddPlayerPacket.class) { // removed in 1.20.4
                     info.putString("spawnPacket", "ADD_PLAYER_PACKET");
-                }*/ else if (spawnPacket == ClientboundAddExperienceOrbPacket.class) {
+                }*/ /*else if (spawnPacket == ClientboundAddExperienceOrbPacket.class) { // removed in 1.21.5
                     info.putString("spawnPacket", "ADD_EXPERIENCE_ORB_PACKET");
-                }/* else if (spawnPacket == ClientboundAddPaintingPacket.class) { // removed in 1.19.4
+                }*//* else if (spawnPacket == ClientboundAddPaintingPacket.class) { // removed in 1.19.4
                 info.putString("spawnPacket", "ADD_PAINTING_PACKET");
             }*/ else {
                     throw new IllegalStateException("Unknown spawn packet " + spawnPacket.getCanonicalName());
@@ -272,23 +272,20 @@ public class MappingsCreator {
             }
             enums.putTag("dev.by1337.virtualentity.api.entity.SnifferState", poseToId);
         }
+
         { // VillagerProfession
             CompoundTag profession = new CompoundTag();
-            for (Field field : VillagerProfession.class.getDeclaredFields()) {
-                field.setAccessible(true);
-                if (field.getType() != VillagerProfession.class) continue;
-                VillagerProfession villagerProfession = (VillagerProfession) field.get(null);
-                profession.putInt(field.getName(), BuiltInRegistries.VILLAGER_PROFESSION.getId(villagerProfession));
+            for (VillagerProfession type : BuiltInRegistries.VILLAGER_PROFESSION) {
+                String p = BuiltInRegistries.VILLAGER_PROFESSION.getKey(type).getPath();
+                profession.putInt(p.toUpperCase(), BuiltInRegistries.VILLAGER_PROFESSION.getId(type));
             }
             enums.putTag("dev.by1337.virtualentity.api.entity.npc.VillagerProfession", profession);
         }
         { // VillagerType
             CompoundTag villagerType = new CompoundTag();
-            for (Field field : VillagerType.class.getDeclaredFields()) {
-                field.setAccessible(true);
-                if (field.getType() != VillagerType.class) continue;
-                VillagerType villagerProfession = (VillagerType) field.get(null);
-                villagerType.putInt(field.getName(), BuiltInRegistries.VILLAGER_TYPE.getId(villagerProfession));
+            for (VillagerType type : BuiltInRegistries.VILLAGER_TYPE) {
+                String p = BuiltInRegistries.VILLAGER_TYPE.getKey(type).getPath();
+                villagerType.putInt(p.toUpperCase(), BuiltInRegistries.VILLAGER_TYPE.getId(type));
             }
             enums.putTag("dev.by1337.virtualentity.api.entity.npc.VillagerType", villagerType);
         }
@@ -316,7 +313,7 @@ public class MappingsCreator {
             packets.putInt("ADD_ENTITY_PACKET", map.getInt(((Packet<?>) unsafe.allocateInstance(ClientboundAddEntityPacket.class)).type()));
             //packets.putInt("ADD_MOB_PACKET", map.getInt(unsafe .allocateInstance(ClientboundAddMobPacket.class))); // removed in 1.19.4
             //packets.putInt("ADD_PLAYER_PACKET", map.getInt(unsafe .allocateInstance(ClientboundAddPlayerPacket.class))); // removed in 1.20.4
-            packets.putInt("ADD_EXPERIENCE_ORB_PACKET", map.getInt(((Packet<?>) unsafe.allocateInstance(ClientboundAddExperienceOrbPacket.class)).type()));
+            //packets.putInt("ADD_EXPERIENCE_ORB_PACKET", map.getInt(((Packet<?>) unsafe.allocateInstance(ClientboundAddExperienceOrbPacket.class)).type())); // removed im 1.21.5
             //packets.putInt("ADD_PAINTING_PACKET", map.getInt(unsafe .allocateInstance(ClientboundAddPaintingPacket.class))); // removed in 1.19.4
             packets.putInt("REMOVE_ENTITIES_PACKET", map.getInt(((Packet<?>) unsafe.allocateInstance(ClientboundRemoveEntitiesPacket.class)).type()));
             packets.putInt("SET_EQUIPMENT_PACKET", map.getInt(((Packet<?>) unsafe.allocateInstance(ClientboundSetEquipmentPacket.class)).type()));
@@ -335,19 +332,21 @@ public class MappingsCreator {
             }
             enums.putTag("dev.by1337.virtualentity.api.entity.PaintingMotive", paiting);
         }
+        var registryAccess = MinecraftServer.getServer().registryAccess();
+
         { // CatVariant
             CompoundTag cat = new CompoundTag();
-            for (var catVariant : BuiltInRegistries.CAT_VARIANT) {
-                var val = BuiltInRegistries.CAT_VARIANT.getKey(catVariant);
-                cat.putInt(val.getPath().toUpperCase(Locale.ENGLISH), BuiltInRegistries.CAT_VARIANT.getId(catVariant));
+            var idMap = registryAccess.lookupOrThrow(Registries.CAT_VARIANT).asHolderIdMap();
+            for (var holder : idMap) {
+                cat.putInt(holder.unwrapKey().map(v -> v.location().getPath()).get().toUpperCase(Locale.ENGLISH), idMap.getIdOrThrow(holder));
             }
             enums.putTag("dev.by1337.virtualentity.api.entity.CatVariant", cat);
         }
         { // FrogVariant
             CompoundTag frog = new CompoundTag();
-            for (var catVariant : BuiltInRegistries.FROG_VARIANT) {
-                var val = BuiltInRegistries.FROG_VARIANT.getKey(catVariant);
-                frog.putInt(val.getPath().toUpperCase(Locale.ENGLISH), BuiltInRegistries.FROG_VARIANT.getId(catVariant));
+            var idMap = registryAccess.lookupOrThrow(Registries.FROG_VARIANT).asHolderIdMap();
+            for (var holder : idMap) {
+                frog.putInt(holder.unwrapKey().map(v -> v.location().getPath()).get().toUpperCase(Locale.ENGLISH), idMap.getIdOrThrow(holder));
             }
             enums.putTag("dev.by1337.virtualentity.api.entity.FrogVariant", frog);
         }
@@ -355,7 +354,7 @@ public class MappingsCreator {
         { // WolfVariant
             var idMap = MinecraftServer.getServer().registryAccess().lookupOrThrow(Registries.WOLF_VARIANT).asHolderIdMap();
             CompoundTag wolf = new CompoundTag();
-            for (Holder<WolfVariant> holder : idMap) {
+            for (var holder : idMap) {
                 wolf.putInt(holder.unwrapKey().map(v -> v.location().getPath()).get().toUpperCase(Locale.ENGLISH), idMap.getIdOrThrow(holder));
             }
             enums.putTag("dev.by1337.virtualentity.api.entity.WolfVariant", wolf);
@@ -373,6 +372,39 @@ public class MappingsCreator {
                 billboardConstraints.putInt(value.name(), value.ordinal());
             }
             enums.putTag("dev.by1337.virtualentity.api.entity.ArmadilloState", billboardConstraints);
+        }
+
+        { // PigVariant
+            CompoundTag pig = new CompoundTag();
+            var idMap = registryAccess.lookupOrThrow(Registries.PIG_VARIANT).asHolderIdMap();
+            for (var holder : idMap) {
+                pig.putInt(holder.unwrapKey().map(v -> v.location().getPath()).get().toUpperCase(Locale.ENGLISH), idMap.getIdOrThrow(holder));
+            }
+            enums.putTag("dev.by1337.virtualentity.api.entity.PigVariant", pig);
+        }
+        { // CowVariant
+            CompoundTag cow = new CompoundTag();
+            var idMap = registryAccess.lookupOrThrow(Registries.COW_VARIANT).asHolderIdMap();
+            for (var holder : idMap) {
+                cow.putInt(holder.unwrapKey().map(v -> v.location().getPath()).get().toUpperCase(Locale.ENGLISH), idMap.getIdOrThrow(holder));
+            }
+            enums.putTag("dev.by1337.virtualentity.api.entity.CowVariant", cow);
+        }
+        { // ChickenVariant
+            CompoundTag chicken = new CompoundTag();
+            var idMap = registryAccess.lookupOrThrow(Registries.CHICKEN_VARIANT).asHolderIdMap();
+            for (var holder : idMap) {
+                chicken.putInt(holder.unwrapKey().map(v -> v.location().getPath()).get().toUpperCase(Locale.ENGLISH), idMap.getIdOrThrow(holder));
+            }
+            enums.putTag("dev.by1337.virtualentity.api.entity.ChickenVariant", chicken);
+        }
+        { // WolfSoundVariant
+            CompoundTag chicken = new CompoundTag();
+            var idMap = registryAccess.lookupOrThrow(Registries.WOLF_SOUND_VARIANT).asHolderIdMap();
+            for (var holder : idMap) {
+                chicken.putInt(holder.unwrapKey().map(v -> v.location().getPath()).get().toUpperCase(Locale.ENGLISH), idMap.getIdOrThrow(holder));
+            }
+            enums.putTag("dev.by1337.virtualentity.api.entity.WolfSoundVariant", chicken);
         }
         { // EntityEvent
             CompoundTag entityEvents = new CompoundTag();

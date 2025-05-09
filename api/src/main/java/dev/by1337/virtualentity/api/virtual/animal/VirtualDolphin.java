@@ -1,14 +1,19 @@
 package dev.by1337.virtualentity.api.virtual.animal;
 
 import dev.by1337.virtualentity.api.VirtualEntityApi;
+import dev.by1337.virtualentity.api.annotations.RemovedInMinecraftVersion;
 import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.api.virtual.VirtualAgeableMob;
 import org.by1337.blib.geom.Vec3i;
 
 public interface VirtualDolphin extends VirtualAgeableMob {
+    @Deprecated
+    @RemovedInMinecraftVersion("1.21.5")
     void setTreasurePos(Vec3i pos);
 
+    @Deprecated
+    @RemovedInMinecraftVersion("1.21.5")
     Vec3i getTreasurePos();
 
     boolean gotFish();

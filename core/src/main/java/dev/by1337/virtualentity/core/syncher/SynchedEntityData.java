@@ -1,5 +1,7 @@
 package dev.by1337.virtualentity.core.syncher;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.*;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -15,7 +17,7 @@ public class SynchedEntityData {
         this.onUpdate = onUpdate;
     }
 
-    public <T> void define(EntityDataAccessor<T> accessor, T value) {
+    public <T> void define(@NotNull EntityDataAccessor<T> accessor, T value) {
         int id = accessor.id();
         if (id > 254) {
             throw new IllegalArgumentException("Data value id is too big with " + id + "! (Max is " + 254 + ")");
@@ -36,14 +38,14 @@ public class SynchedEntityData {
         }
     }
 
-    public <T> T get(EntityDataAccessor<T> accessor) {
+    public <T> T get(@NotNull EntityDataAccessor<T> accessor) {
         return this.getItem(accessor).getValue();
     }
 
-    public <T> void set(EntityDataAccessor<T> accessor, T value) {
+    public <T> void set(@NotNull EntityDataAccessor<T> accessor, T value) {
         set(accessor, value, false);
     }
-    public <T> void set(EntityDataAccessor<T> accessor, T value, boolean force) {
+    public <T> void set(@NotNull EntityDataAccessor<T> accessor, T value, boolean force) {
         this.lock.writeLock().lock();
         try {
             DataItem<T> dataItem = this.getItem(accessor);

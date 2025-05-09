@@ -3,6 +3,7 @@ package dev.by1337.virtualentity.core.virtual.animal;
 import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 import dev.by1337.virtualentity.api.entity.DyeColor;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
+import dev.by1337.virtualentity.api.entity.WolfSoundVariant;
 import dev.by1337.virtualentity.api.entity.WolfVariant;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
@@ -15,6 +16,8 @@ public class VirtualWolfImpl extends VirtualTamableAnimalImpl implements dev.by1
     private static final EntityDataAccessor<Integer> DATA_REMAINING_ANGER_TIME;
     @SinceMinecraftVersion("1.20.6")
     private static final EntityDataAccessor<WolfVariant> DATA_VARIANT_ID;
+    @SinceMinecraftVersion("1.21.5")
+    private static final EntityDataAccessor<WolfSoundVariant> DATA_SOUND_VARIANT_ID;
 
     public VirtualWolfImpl() {
         super(VirtualEntityType.WOLF);
@@ -28,6 +31,19 @@ public class VirtualWolfImpl extends VirtualTamableAnimalImpl implements dev.by1
         if (NEWER_OR_EQUAL_1_20_6) {
             entityData.define(DATA_VARIANT_ID, WolfVariant.PALE);
         }
+        if (DATA_SOUND_VARIANT_ID != null) {
+            entityData.define(DATA_SOUND_VARIANT_ID, WolfSoundVariant.CLASSIC);
+        }
+    }
+
+    @SinceMinecraftVersion("1.21.5")
+    public void setSoundVariant(WolfSoundVariant variant) {
+        entityData.set(DATA_SOUND_VARIANT_ID, variant);
+    }
+
+    @SinceMinecraftVersion("1.21.5")
+    public WolfSoundVariant getSoundVariant() {
+        return entityData.get(DATA_SOUND_VARIANT_ID);
     }
 
     @Override
@@ -81,5 +97,10 @@ public class VirtualWolfImpl extends VirtualTamableAnimalImpl implements dev.by1
         DATA_INTERESTED_ID = Mappings.findAccessor("Wolf", "DATA_INTERESTED_ID");
         DATA_COLLAR_COLOR = Mappings.findAccessor("Wolf", "DATA_COLLAR_COLOR");
         DATA_REMAINING_ANGER_TIME = Mappings.findAccessor("Wolf", "DATA_REMAINING_ANGER_TIME");
+        if (Version.is1_21_5orNewer()) {
+            DATA_SOUND_VARIANT_ID = Mappings.findAccessor("Wolf", "DATA_SOUND_VARIANT_ID");
+        } else {
+            DATA_SOUND_VARIANT_ID = null;
+        }
     }
 }

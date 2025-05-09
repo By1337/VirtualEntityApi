@@ -15,6 +15,8 @@ public enum EquipmentSlot implements MappedEnum {
     HEAD,
     @SinceMinecraftVersion("1.20.6")
     BODY,
+    @SinceMinecraftVersion("1.21.5")
+    SADDLE
     ;
     public static final Codec<EquipmentSlot> CODEC = DefaultCodecs.createEnumCodec(EquipmentSlot.class);
     private static final EnumMap<EquipmentSlot, Integer> TO_ID = new EnumMap<>(EquipmentSlot.class);

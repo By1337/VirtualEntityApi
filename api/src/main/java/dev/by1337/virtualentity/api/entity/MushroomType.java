@@ -9,10 +9,17 @@ public enum MushroomType {
             RED.type, RED,
             BROWN.type, BROWN
     );
+    private static final MushroomType[] VALUES = values();
     private final String type;
 
     MushroomType(String param2) {
         this.type = param2;
+    }
+    public static MushroomType byId(String param1) {
+        return idToType.get(param1);
+    }
+    public static MushroomType byId(int param1) {
+        return VALUES[param1];
     }
 
     public String type() {

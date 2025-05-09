@@ -15,6 +15,7 @@ import dev.by1337.virtualentity.api.virtual.player.VirtualPlayer;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.mappings.VirtualEntityRegistrar;
 import dev.by1337.virtualentity.core.network.Packet;
+import dev.by1337.virtualentity.core.util.MappingsDiffGenerator;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -30,9 +31,15 @@ import org.by1337.blib.command.CommandWrapper;
 import org.by1337.blib.command.argument.ArgumentEnumValue;
 import org.by1337.blib.command.requires.RequiresPermission;
 import org.by1337.blib.geom.Vec3d;
+import org.by1337.blib.nbt.MojangNbtReader;
+import org.by1337.blib.nbt.impl.CompoundTag;
 import org.by1337.blib.util.Direction;
 import org.by1337.blib.util.Version;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Random;
 import java.util.Set;
 
@@ -242,10 +249,7 @@ public class Main extends JavaPlugin {
                                             stand.setEquipment(slot, new ItemStack(Material.DIAMOND_HELMET));
                                             slot = EquipmentSlot.BODY;
                                         }
-                                        case BODY -> {
-                                            if (Version.is1_20_6orNewer()) {
-                                                stand.setEquipment(slot, new ItemStack(Material.DIAMOND_HELMET));
-                                            }
+                                        default -> {
                                             cancel();
                                             stand.tick(Set.of());
                                             return;
@@ -254,6 +258,34 @@ public class Main extends JavaPlugin {
                                     stand.tick(Set.of(player));
                                 }
                             }.runTaskTimerAsynchronously(plugin, 0, 20);
+                        }))
+                ).addSubCommand(new Command<CommandSender>("diff")
+                        .argument(new ArgumentEnumValue<>("version", Version.class))
+                        .executor(((sender, args) -> {
+                            Version current = Version.VERSION;
+                            Version version = (Version) args.getOrThrow("version", "version is not selected");
+                            CompoundTag tags1;
+                            CompoundTag tags2;
+                            try (var in = Mappings.getMappingsInputStream(current)) {
+                                tags1 = MojangNbtReader.readCompressed(in);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                            try (var in = Mappings.getMappingsInputStream(version)) {
+                                tags2 = MojangNbtReader.readCompressed(in);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                            String result = MappingsDiffGenerator.createDiff(tags1, tags2);
+                            try {
+                                Path out = plugin.getDataFolder().toPath().resolve(current.getVer() + "_and_" + version.getVer() + "_diff.txt");
+                                plugin.getDataFolder().mkdirs();
+                                Files.writeString(out, result, StandardCharsets.UTF_8);
+                                sender.sendMessage("saved to " + out);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+
                         }))
                 )
                 ;

@@ -19,6 +19,7 @@ public enum PacketType implements MappedEnum {
     ADD_MOB_PACKET,
     @RemovedInMinecraftVersion("1.20.4")
     ADD_PLAYER_PACKET,
+    @RemovedInMinecraftVersion("1.21.5")
     ADD_EXPERIENCE_ORB_PACKET,
     @RemovedInMinecraftVersion("1.19.4")
     ADD_PAINTING_PACKET,

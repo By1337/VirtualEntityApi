@@ -25,8 +25,9 @@ import dev.by1337.virtualentity.core.virtual.item.VirtualFallingBlockEntityImpl;
 import dev.by1337.virtualentity.core.virtual.item.VirtualItemImpl;
 import dev.by1337.virtualentity.core.virtual.item.VirtualPrimedTntImpl;
 import dev.by1337.virtualentity.core.virtual.monster.*;
-import dev.by1337.virtualentity.core.virtual.monster.creaking.*;
 import dev.by1337.virtualentity.core.virtual.monster.breeze.VirtualBreezeImpl;
+import dev.by1337.virtualentity.core.virtual.monster.creaking.VirtualCreakingImpl;
+import dev.by1337.virtualentity.core.virtual.monster.creaking.VirtualCreakingTransientImpl;
 import dev.by1337.virtualentity.core.virtual.monster.hoglin.VirtualHoglinImpl;
 import dev.by1337.virtualentity.core.virtual.monster.piglin.VirtualPiglinBruteImpl;
 import dev.by1337.virtualentity.core.virtual.monster.piglin.VirtualPiglinImpl;
@@ -37,6 +38,8 @@ import dev.by1337.virtualentity.core.virtual.projectile.*;
 import dev.by1337.virtualentity.core.virtual.projectile.windcharge.VirtualBreezeWindChargeImpl;
 import dev.by1337.virtualentity.core.virtual.projectile.windcharge.VirtualWindChargeImpl;
 import dev.by1337.virtualentity.core.virtual.vehicle.*;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 import org.by1337.blib.util.Version;
 
 import java.util.Set;
@@ -136,7 +139,17 @@ public class VirtualEntityRegistrar {
         factory.register(VirtualEntityType.EGG, VirtualThrownEggImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.ENDER_PEARL, VirtualThrownEnderpearlImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.EXPERIENCE_BOTTLE, VirtualThrownExperienceBottleImpl::new, Version.V1_16_5);
-        factory.register(VirtualEntityType.POTION, VirtualThrownPotionImpl::new, Version.V1_16_5);
+
+        if (Version.is1_21_4orOlder()) {
+            factory.register(VirtualEntityType.POTION, VirtualThrownPotionImpl::new, Version.V1_16_5);
+        } else {
+            factory.register(VirtualEntityType.POTION, () -> {
+                VirtualThrownSplashPotionImpl impl = new VirtualThrownSplashPotionImpl();
+                impl.setItemStack(new ItemStack(Material.POTION));
+                return impl;
+            }, Version.V1_16_5);
+        }
+
         factory.register(VirtualEntityType.TRIDENT, VirtualThrownTridentImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.WITHER_SKULL, VirtualWitherSkullImpl::new, Version.V1_16_5);
         factory.register(VirtualEntityType.CHEST_MINECART, VirtualMinecartChestImpl::new, Version.V1_16_5);
@@ -193,6 +206,14 @@ public class VirtualEntityRegistrar {
         registerBoats();
         factory.register(VirtualEntityType.CREAKING, VirtualCreakingImpl::new, Version.V1_21_3);
         factory.register(VirtualEntityType.CREAKING_TRANSIENT, VirtualCreakingTransientImpl::new, Version.V1_21_3); // removed in 1.21.4
+
+        if (Version.is1_21_5orNewer()) {
+            factory.register(VirtualEntityType.LINGERING_POTION, VirtualThrownLingeringPotionImpl::new, Version.V1_21_5);
+            factory.register(VirtualEntityType.SPLASH_POTION, VirtualThrownSplashPotionImpl::new, Version.V1_21_5);
+        } else {
+            factory.register(VirtualEntityType.LINGERING_POTION, VirtualThrownPotionImpl::new, Version.V1_21_5);
+            factory.register(VirtualEntityType.SPLASH_POTION, VirtualThrownPotionImpl::new, Version.V1_21_5);
+        }
 
     }
 

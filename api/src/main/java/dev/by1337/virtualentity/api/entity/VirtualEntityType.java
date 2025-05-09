@@ -96,7 +96,8 @@ public enum VirtualEntityType {
     EGG(Version.V1_16_5),
     ENDER_PEARL(Version.V1_16_5),
     EXPERIENCE_BOTTLE(Version.V1_16_5),
-    POTION(Version.V1_16_5),
+    @RemovedInMinecraftVersion("1.21.5")
+    POTION(Version.V1_16_5, Version.V1_21_5),
     TRIDENT(Version.V1_16_5),
     TRADER_LLAMA(Version.V1_16_5),
     TROPICAL_FISH(Version.V1_16_5),
@@ -209,6 +210,10 @@ public enum VirtualEntityType {
     SPRUCE_BOAT(Version.V1_21_3),
     @SinceMinecraftVersion("1.21.3")
     SPRUCE_CHEST_BOAT(Version.V1_21_3),
+    @SinceMinecraftVersion("1.21.5")
+    LINGERING_POTION(Version.V1_21_5),
+    @SinceMinecraftVersion("1.21.5")
+    SPLASH_POTION(Version.V1_21_5),
 
     ;
     public static final Codec<VirtualEntityType> CODEC = DefaultCodecs.createEnumCodec(VirtualEntityType.class);
