@@ -143,7 +143,7 @@ public class VirtualEntityRegistrar {
         if (Version.is1_21_4orOlder()) {
             factory.register(VirtualEntityType.POTION, VirtualThrownPotionImpl::new, Version.V1_16_5);
         } else {
-            factory.register(VirtualEntityType.POTION, () -> {
+            factory.register(VirtualEntityType.POTION, () -> { // todo здесь надо вернуть VirtualThrownPotion
                 VirtualThrownSplashPotionImpl impl = new VirtualThrownSplashPotionImpl();
                 impl.setItemStack(new ItemStack(Material.POTION));
                 return impl;
@@ -211,7 +211,7 @@ public class VirtualEntityRegistrar {
             factory.register(VirtualEntityType.LINGERING_POTION, VirtualThrownLingeringPotionImpl::new, Version.V1_21_5);
             factory.register(VirtualEntityType.SPLASH_POTION, VirtualThrownSplashPotionImpl::new, Version.V1_21_5);
         } else {
-            factory.register(VirtualEntityType.LINGERING_POTION, VirtualThrownPotionImpl::new, Version.V1_21_5);
+            factory.register(VirtualEntityType.LINGERING_POTION, VirtualThrownPotionImpl::new, Version.V1_21_5); // todo хз
             factory.register(VirtualEntityType.SPLASH_POTION, VirtualThrownPotionImpl::new, Version.V1_21_5);
         }
 

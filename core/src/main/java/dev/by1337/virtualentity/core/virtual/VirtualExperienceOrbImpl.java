@@ -17,7 +17,8 @@ public class VirtualExperienceOrbImpl extends VirtualEntityImpl implements Virtu
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
-        entityData.define(DATA_VALUE, 1);
+        if (DATA_VALUE != null)
+            entityData.define(DATA_VALUE, 1);
     }
 
     @Override
