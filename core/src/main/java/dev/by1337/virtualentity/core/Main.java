@@ -85,6 +85,7 @@ public class Main extends JavaPlugin {
                             virtualEntity.setPos(new Vec3d(player.getLocation()));
                             virtualEntity.tick(Set.of(player));
 
+
                             if (virtualEntity instanceof VirtualPlayer vp) {
                                 Bukkit.getScheduler().runTaskLater(plugin, () -> vp.sendRemovePlayerPacket(player), 60);
                             }

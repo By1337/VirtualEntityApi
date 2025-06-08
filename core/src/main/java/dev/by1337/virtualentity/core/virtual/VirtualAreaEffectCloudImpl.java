@@ -44,7 +44,7 @@ public class VirtualAreaEffectCloudImpl extends VirtualEntityImpl implements dev
     @RemovedInMinecraftVersion("1.20.6")
     public void setColor(Color color) {
         if (NEWER_OR_EQUAL_1_20_6) {
-            this.entityData.define(DATA_PARTICLE, new ParticleOptions<>(color, ENTITY_EFFECT_PARTICLE));
+            this.entityData.set(DATA_PARTICLE, new ParticleOptions<>(color, ENTITY_EFFECT_PARTICLE));
         } else {
             this.entityData.set(DATA_COLOR, color.asRGB());
         }
