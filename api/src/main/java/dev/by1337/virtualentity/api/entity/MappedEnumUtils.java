@@ -8,14 +8,15 @@ public class MappedEnumUtils {
 
     public static <T extends Enum<T>> int getId(T value, Map<T, Integer> map) {
         Integer id = map.get(value);
-        if (id == null){
-            throw new IllegalStateException("Unable to serialize value "+ value + " on version " + Version.VERSION.getVer());
+        if (id == null) {
+            throw new IllegalStateException("Unable to serialize value " + value + " on version " + Version.VERSION.getVer());
         }
         return id;
     }
+
     public static <T extends Enum<T>> int getIdOr(T value, Map<T, Integer> map, int def) {
         Integer id = map.get(value);
-        if (id == null){
+        if (id == null) {
             return def;
         }
         return id;

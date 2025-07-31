@@ -2,6 +2,7 @@ package dev.by1337.virtualentity.core;
 
 import dev.by1337.virtualentity.api.VirtualEntityApi;
 import dev.by1337.virtualentity.api.entity.EquipmentSlot;
+import dev.by1337.virtualentity.api.entity.Pose;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.api.particles.ParticleOptions;
 import dev.by1337.virtualentity.api.tracker.PlayerTracker;
@@ -85,7 +86,7 @@ public class Main extends JavaPlugin {
                             virtualEntity.setPos(new Vec3d(player.getLocation()));
                             virtualEntity.tick(Set.of(player));
 
-
+                            virtualEntity.setPose(Pose.CROAKING);
                             if (virtualEntity instanceof VirtualPlayer vp) {
                                 Bukkit.getScheduler().runTaskLater(plugin, () -> vp.sendRemovePlayerPacket(player), 60);
                             }
@@ -204,7 +205,7 @@ public class Main extends JavaPlugin {
                                     }
                                     frame.setDirection(arr[pos++]);
                                     frame.tick(Set.of(player));
-                                    if (Version.VERSION.newerThanOrEqual(Version.V1_21_3)) {
+                                    if (Version.is1_21_3orNewer()) {
                                         frame.respawn();
                                     }
                                 }

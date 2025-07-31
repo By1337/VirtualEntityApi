@@ -98,7 +98,9 @@ public enum EntityEvent implements MappedEnum {
     @SinceMinecraftVersion("1.21.5")
     SADDLE_BREAK,
     @SinceMinecraftVersion("1.21.5")
-    DROWN_PARTICLES
+    DROWN_PARTICLES,
+    @SinceMinecraftVersion("1.21.6")
+    RAVAGER_ROARED,
     ;
     public static final Codec<EntityEvent> CODEC = DefaultCodecs.createEnumCodec(EntityEvent.class);
     private static final EnumMap<EntityEvent, Integer> TO_ID = new EnumMap<>(EntityEvent.class);

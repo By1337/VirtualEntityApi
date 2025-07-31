@@ -2,6 +2,7 @@ package dev.by1337.virtualentity.dumper;
 
 import com.mojang.authlib.GameProfile;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
@@ -16,6 +17,7 @@ import net.minecraft.network.syncher.*;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerEntity;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.ClassTreeIdRegistry;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Fox;
@@ -103,6 +105,15 @@ public class MappingsCreator {
 
         CompoundTag typeToData = new CompoundTag();
 
+        ClassTreeIdRegistry ID_REGISTRY = Util.make(() -> {
+            try {
+                var f = SynchedEntityData.class.getDeclaredField("ID_REGISTRY");
+                f.setAccessible(true);
+                return (ClassTreeIdRegistry) f.get(null);
+            }catch (Throwable t){
+                throw new RuntimeException(t);
+            }
+        });
         for (Field field : EntityType.class.getDeclaredFields()) {
             field.setAccessible(true);
             if (field.getType() != EntityType.class) continue;
@@ -110,55 +121,7 @@ public class MappingsCreator {
             if (type == EntityType.MARKER) continue;
             CompoundTag info = new CompoundTag();
             info.putInt("networkId", BuiltInRegistries.ENTITY_TYPE.getId(type));
-            Class<?> entityClazz = Class.forName(((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0].getTypeName());
-            if (entityClazz == Player.class) {
-                entityClazz = ServerPlayer.class;
-            }
-
-            Entity entity = (Entity) unsafe.allocateInstance(entityClazz);
-            Class<?> c = entity.getClass();
-            do { // init base fields
-                for (Field f : c.getDeclaredFields()) {
-                    f.setAccessible(true);
-                    if (Modifier.isStatic(f.getModifiers())) continue;
-                    if (f.getType() == Vec3.class) {
-                        f.set(entity, new Vec3(0, 0, 0));
-                    } else if (f.getType() == BlockPos.class) {
-                        f.set(entity, new BlockPos(0, 0, 0));
-                    } else if (f.getType() == Direction.class) {
-                        f.set(entity, Direction.SOUTH);
-                    } else if (f.getType() == GameProfile.class) {
-                        f.set(entity, new GameProfile(UUID.randomUUID(), "name"));
-                    } else if (f.getType() == SynchedEntityData.class) {
-                        Constructor<SynchedEntityData> constructor = SynchedEntityData.class.getDeclaredConstructor(SyncedDataHolder.class, SynchedEntityData.DataItem[].class);
-                        constructor.setAccessible(true);
-                        f.set(entity, constructor.newInstance(entity, new SynchedEntityData.DataItem[]{}));
-                    }
-                }
-                c = c.getSuperclass();
-            } while (c != Object.class);
-            if (entity.getClass() == Warden.class) {
-                info.putString("spawnPacket", "ADD_ENTITY_PACKET");
-            } else {
-                ServerEntity serverEntity = new ServerEntity(null, entity, 0, false, p -> {
-                }, (p, l) -> {
-                }, Set.of());
-                Class<?> spawnPacket = entity.getAddEntityPacket(serverEntity).getClass();
-                if (spawnPacket == ClientboundAddEntityPacket.class) {
-                    info.putString("spawnPacket", "ADD_ENTITY_PACKET");
-                } /*else if (spawnPacket == ClientboundAddMobPacket.class) { // removed in 1.19.4
-                info.putString("spawnPacket", "ADD_MOB_PACKET");
-            }*/ /*else if (spawnPacket == ClientboundAddPlayerPacket.class) { // removed in 1.20.4
-                    info.putString("spawnPacket", "ADD_PLAYER_PACKET");
-                }*/ /*else if (spawnPacket == ClientboundAddExperienceOrbPacket.class) { // removed in 1.21.5
-                    info.putString("spawnPacket", "ADD_EXPERIENCE_ORB_PACKET");
-                }*//* else if (spawnPacket == ClientboundAddPaintingPacket.class) { // removed in 1.19.4
-                info.putString("spawnPacket", "ADD_PAINTING_PACKET");
-            }*/ else {
-                    throw new IllegalStateException("Unknown spawn packet " + spawnPacket.getCanonicalName());
-                }
-            }
-
+            info.putString("spawnPacket", "ADD_ENTITY_PACKET");
             typeToData.putTag(field.getName(), info);
         }
         data.putTag("typeToData", typeToData);

@@ -214,6 +214,8 @@ public enum VirtualEntityType {
     LINGERING_POTION(Version.V1_21_5),
     @SinceMinecraftVersion("1.21.5")
     SPLASH_POTION(Version.V1_21_5),
+    @SinceMinecraftVersion("1.21.6")
+    HAPPY_GHAST(Version.V1_21_6),
 
     ;
     public static final Codec<VirtualEntityType> CODEC = DefaultCodecs.createEnumCodec(VirtualEntityType.class);

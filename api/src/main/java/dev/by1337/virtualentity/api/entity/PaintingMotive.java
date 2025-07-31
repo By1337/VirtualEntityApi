@@ -80,6 +80,8 @@ public enum PaintingMotive implements MappedEnum {
     TIDES,
     @SinceMinecraftVersion("1.21")
     UNPACKED,
+    @SinceMinecraftVersion("1.21.7")
+    DENNIS,
     ;
 
     private static final EnumMap<PaintingMotive, Integer> TO_ID = new EnumMap<>(PaintingMotive.class);
