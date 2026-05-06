@@ -1,6 +1,7 @@
 package dev.by1337.virtualentity.core.network.impl;
 
 import dev.by1337.virtualentity.api.entity.EquipmentSlot;
+import dev.by1337.virtualentity.core.mappings.Packets;
 import dev.by1337.virtualentity.core.network.ByteBufUtil;
 import dev.by1337.virtualentity.core.network.Packet;
 import dev.by1337.virtualentity.core.network.PacketType;
@@ -10,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Map;
 
 public class SetEquipmentPacket extends Packet {
-    private static final int PACKET_ID = PacketType.SET_EQUIPMENT_PACKET.getId();
+    private static final int PACKET_ID = Packets.play.clientbound.getId("minecraft:set_equipment");
     private final int id;
     private final Map<EquipmentSlot, ItemStack> items;
 

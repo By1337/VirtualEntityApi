@@ -1,6 +1,8 @@
 package dev.by1337.virtualentity.core.network.impl;
 
+import dev.by1337.core.ServerVersion;
 import dev.by1337.virtualentity.api.virtual.VirtualEntity;
+import dev.by1337.virtualentity.core.mappings.Packets;
 import dev.by1337.virtualentity.core.network.ByteBufUtil;
 import dev.by1337.virtualentity.core.network.Packet;
 import dev.by1337.virtualentity.core.network.PacketType;
@@ -8,9 +10,9 @@ import io.netty.buffer.ByteBuf;
 import org.by1337.blib.util.Version;
 
 public class TeleportEntityPacket extends Packet {
-    private static final boolean IS_1_21_2_OR_NEWER = Version.is1_21_2orNewer();
-    private static final int OLD_TELEPORT_PAKET_ID = PacketType.TELEPORT_ENTITY_PACKET.getId(-1);
-    private static final int POS_SYNC_PACKET_ID = PacketType.ENTITY_POSITION_SYNC_PACKET.getId(-1);
+    private static final boolean IS_1_21_2_OR_NEWER = ServerVersion.is1_21_2orNewer();
+    private static final int OLD_TELEPORT_PAKET_ID = Packets.play.clientbound.getId("minecraft:teleport_entity");
+    private static final int POS_SYNC_PACKET_ID = Packets.play.clientbound.getId("minecraft:entity_position_sync");
     private final VirtualEntity virtualEntity;
 
     public TeleportEntityPacket(VirtualEntity virtualEntity) {

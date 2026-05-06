@@ -14,6 +14,7 @@ import dev.by1337.virtualentity.api.virtual.item.VirtualItem;
 import dev.by1337.virtualentity.api.virtual.monster.VirtualCreeper;
 import dev.by1337.virtualentity.api.virtual.player.VirtualPlayer;
 import dev.by1337.virtualentity.core.mappings.Mappings;
+import dev.by1337.virtualentity.core.mappings.Packets;
 import dev.by1337.virtualentity.core.mappings.VirtualEntityRegistrar;
 import dev.by1337.virtualentity.core.network.Packet;
 import dev.by1337.virtualentity.core.util.MappingsDiffGenerator;
@@ -51,6 +52,7 @@ public class Main extends JavaPlugin {
     @Override
     public void onLoad() {
         Mappings.load();
+        Packets.load();
         VirtualEntityRegistrar.register();
     }
 

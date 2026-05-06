@@ -1,13 +1,14 @@
 package dev.by1337.virtualentity.core.network.impl;
 
 import dev.by1337.virtualentity.api.virtual.VirtualEntity;
+import dev.by1337.virtualentity.core.mappings.Packets;
 import dev.by1337.virtualentity.core.network.ByteBufUtil;
 import dev.by1337.virtualentity.core.network.Packet;
 import dev.by1337.virtualentity.core.network.PacketType;
 import io.netty.buffer.ByteBuf;
 
 public class AddPlayerPacket extends Packet {
-    private static final int PACKET_ID = PacketType.ADD_PLAYER_PACKET.getId();
+    private static final int PACKET_ID = Packets.play.clientbound.getId("minecraft:add_player");
     private final VirtualEntity virtualEntity;
 
     public AddPlayerPacket(VirtualEntity virtualEntity) {

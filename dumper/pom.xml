@@ -92,6 +92,11 @@
             <id>papermc</id>
             <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
+        <repository>
+            <id>bdev-repo-releases</id>
+            <name>BDev repository</name>
+            <url>https://repo.by1337.space/releases</url>
+        </repository>
     </repositories>
 
 
@@ -120,7 +125,7 @@
         <dependency>
             <groupId>org.by1337.blib</groupId>
             <artifactId>Blib-api</artifactId>
-            <version>1.7.1</version>
+            <version>1.9.6</version>
             <scope>provided</scope>
         </dependency>
         <!-- tests -->

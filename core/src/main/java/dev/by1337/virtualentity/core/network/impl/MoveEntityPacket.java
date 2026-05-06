@@ -1,6 +1,7 @@
 package dev.by1337.virtualentity.core.network.impl;
 
 import dev.by1337.virtualentity.api.virtual.VirtualEntity;
+import dev.by1337.virtualentity.core.mappings.Packets;
 import dev.by1337.virtualentity.core.network.ByteBufUtil;
 import dev.by1337.virtualentity.core.network.Packet;
 import dev.by1337.virtualentity.core.network.PacketType;
@@ -24,7 +25,7 @@ public abstract class MoveEntityPacket extends Packet {
     protected abstract int getPacketId();
 
     public static class Rot extends MoveEntityPacket {
-        private static final int PACKET_ID = PacketType.MOVE_ENTITY_PACKET_ROT.getId();
+        private static final int PACKET_ID = Packets.play.clientbound.getId("minecraft:move_entity_rot");
 
         public Rot(VirtualEntity entity) {
             super(entity);
@@ -50,7 +51,7 @@ public abstract class MoveEntityPacket extends Packet {
     }
 
     public static class Pos extends MoveEntityPacket {
-        private static final int PACKET_ID = PacketType.MOVE_ENTITY_PACKET_POS.getId();
+        private static final int PACKET_ID = Packets.play.clientbound.getId("minecraft:move_entity_pos");
 
         public Pos(VirtualEntity entity) {
             super(entity);
@@ -79,7 +80,7 @@ public abstract class MoveEntityPacket extends Packet {
     }
 
     public static class PosRot extends MoveEntityPacket {
-        private static final int PACKET_ID = PacketType.MOVE_ENTITY_PACKET_POS_ROT.getId();
+        private static final int PACKET_ID = Packets.play.clientbound.getId("minecraft:move_entity_pos_rot");
 
         public PosRot(VirtualEntity entity) {
             super(entity);

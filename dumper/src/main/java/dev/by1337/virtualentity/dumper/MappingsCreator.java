@@ -254,8 +254,6 @@ public class MappingsCreator {
         }
 
         { // PacketType
-
-
             MinecraftServer server = ((CraftServer) Bukkit.getServer()).getServer();
             ProtocolInfo<?> protocolInfo = GameProtocols.CLIENTBOUND_TEMPLATE.bind(RegistryFriendlyByteBuf.decorator(server.registryAccess()));
             IdDispatchCodec idDispatchCodec = (IdDispatchCodec) protocolInfo.codec();

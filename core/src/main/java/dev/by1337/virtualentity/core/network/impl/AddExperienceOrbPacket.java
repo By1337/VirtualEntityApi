@@ -3,6 +3,7 @@ package dev.by1337.virtualentity.core.network.impl;
 import dev.by1337.virtualentity.api.annotations.RemovedInMinecraftVersion;
 import dev.by1337.virtualentity.api.virtual.VirtualEntity;
 import dev.by1337.virtualentity.api.virtual.VirtualExperienceOrb;
+import dev.by1337.virtualentity.core.mappings.Packets;
 import dev.by1337.virtualentity.core.network.ByteBufUtil;
 import dev.by1337.virtualentity.core.network.Packet;
 import dev.by1337.virtualentity.core.network.PacketType;
@@ -10,7 +11,7 @@ import io.netty.buffer.ByteBuf;
 
 @RemovedInMinecraftVersion("1.21.5")
 public class AddExperienceOrbPacket extends Packet {
-    private static final int PACKET_ID = PacketType.ADD_EXPERIENCE_ORB_PACKET.getId();
+    private static final int PACKET_ID = Packets.play.clientbound.getId("minecraft:add_experience_orb");
     private final VirtualExperienceOrb virtualEntity;
 
     public AddExperienceOrbPacket(VirtualEntity virtualEntity) {

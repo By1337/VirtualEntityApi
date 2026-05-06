@@ -1,9 +1,11 @@
 package dev.by1337.virtualentity.core.network.impl;
 
 import com.mojang.authlib.properties.PropertyMap;
+import dev.by1337.core.ServerVersion;
 import dev.by1337.virtualentity.api.annotations.RemovedInMinecraftVersion;
 import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 import dev.by1337.virtualentity.api.virtual.player.VirtualPlayer;
+import dev.by1337.virtualentity.core.mappings.Packets;
 import dev.by1337.virtualentity.core.network.ByteBufUtil;
 import dev.by1337.virtualentity.core.network.Packet;
 import dev.by1337.virtualentity.core.network.PacketType;
@@ -16,11 +18,11 @@ import java.util.Arrays;
 import java.util.function.BiConsumer;
 
 public class PlayerInfoPacket extends Packet {
-    private static final boolean IS_1_19_4_OR_NEWER = Version.VERSION.newerThanOrEqual(Version.V1_19_4);
-    private static final boolean IS_1_21_3_OR_NEWER = Version.VERSION.newerThanOrEqual(Version.V1_21_3);
-    private static final int PLAYER_INFO_PACKET = PacketType.PLAYER_INFO_PACKET.getId(-1);
-    private static final int REMOVE_PLAYER_PACKET = PacketType.REMOVE_PLAYER_PACKET.getId(-1);
-    private static final int UPDATE_PLAYER_INFO_PACKET = PacketType.UPDATE_PLAYER_INFO_PACKET.getId(-1);
+    private static final boolean IS_1_19_4_OR_NEWER = ServerVersion.is1_19_4orNewer();
+    private static final boolean IS_1_21_3_OR_NEWER = ServerVersion.is1_21_3orNewer();
+    private static final int PLAYER_INFO_PACKET = Packets.play.clientbound.getId("minecraft:player_info");
+    private static final int REMOVE_PLAYER_PACKET = Packets.play.clientbound.getId("minecraft:player_info_remove");
+    private static final int UPDATE_PLAYER_INFO_PACKET = Packets.play.clientbound.getId("minecraft:player_info_update");
 
     private final VirtualPlayerImpl player;
     private final Action[] actions;

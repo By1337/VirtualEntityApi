@@ -1,13 +1,14 @@
 package dev.by1337.virtualentity.core.network.impl;
 
 import dev.by1337.virtualentity.api.entity.EntityEvent;
+import dev.by1337.virtualentity.core.mappings.Packets;
 import dev.by1337.virtualentity.core.network.ByteBufUtil;
 import dev.by1337.virtualentity.core.network.Packet;
 import dev.by1337.virtualentity.core.network.PacketType;
 import io.netty.buffer.ByteBuf;
 
 public class EntityEventPacket extends Packet {
-    private static final int PACKET_ID = PacketType.ENTITY_EVENT_PACKET.getId();
+    private static final int PACKET_ID = Packets.play.clientbound.getId("minecraft:entity_event");
     private final int id;
     private final EntityEvent event;
 
