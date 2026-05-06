@@ -17,43 +17,6 @@ import java.util.*;
 
 public class DiffGenerator {
 
-
-    public static void main00(String[] args) {
-        DiffRowGenerator generator = DiffRowGenerator.create()
-                // .showInlineDiffs(true)
-                .mergeOriginalRevised(true)
-                //  .inlineDiffByWord(true)
-                .oldTag(f -> "~")      //introduce markdown style for strikethrough
-                .newTag(f -> "**")     //introduce markdown style for bold
-                .build();
-
-//compute the differences for two test texts.
-        List<DiffRow> rows = generator.generateDiffRows(
-                Arrays.asList(
-                        "//introduce markdown style for strikethrough",
-                        "//introduce markdown style for bold"
-                ),
-                Arrays.asList(
-                        "//introduce markdown style for strikethrough",
-                        "//introduce markdown style for bold."
-                ));
-
-        for (DiffRow row : rows) {
-            if (row.getTag() == DiffRow.Tag.EQUAL) {
-                System.out.println(row.getOldLine());
-            } else if (row.getTag() == DiffRow.Tag.DELETE) {
-                System.out.println("-- " + row.getOldLine());
-            } else if (row.getTag() == DiffRow.Tag.INSERT) {
-                System.out.println("++ " + row.getNewLine());
-            } else if (row.getTag() == DiffRow.Tag.CHANGE) {
-                System.out.println("-- " + row.getOldLine());
-                System.out.println("++ " + row.getNewLine());
-            }
-
-        }
-        //  System.out.println(rows.get(0).getOldLine());
-    }
-
    // @Test
     public void run() throws IOException {
         Path home = Path.of("./diff");
@@ -101,7 +64,7 @@ public class DiffGenerator {
                 out.getParentFile().mkdirs();
                 Files.writeString(out.toPath(), sb.toString());
             } else {
-                if (Files.size(newFile) == Files.size(oldFile)) continue;
+             //   if (Files.size(newFile) == Files.size(oldFile)) continue;
                 String diffResult = diffGenerator(
                         Files.readAllLines(oldFile),
                         Files.readAllLines(newFile)

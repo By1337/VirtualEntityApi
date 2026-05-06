@@ -16,12 +16,12 @@ import org.by1337.blib.nbt.impl.CompoundTag;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
+import java.util.function.Supplier;
 
 public class VirtualPlayerImpl extends VirtualAvatarImpl implements dev.by1337.virtualentity.api.virtual.player.VirtualPlayer {
     private static final EntityDataAccessor<Float> DATA_PLAYER_ABSORPTION_ID;
     private static final EntityDataAccessor<Integer> DATA_SCORE_ID;
-    // private static final EntityDataAccessor<Byte> DATA_PLAYER_MODE_CUSTOMISATION;
-    //  private static final EntityDataAccessor<Byte> DATA_PLAYER_MAIN_HAND;
+    private static final Supplier<PropertyMap> PROPERTY_SUPPLIER;
     @Deprecated
     @RemovedInMinecraftVersion("1.21.9")
     @Nullable
@@ -32,7 +32,7 @@ public class VirtualPlayerImpl extends VirtualAvatarImpl implements dev.by1337.v
     private static final EntityDataAccessor<CompoundTag> DATA_SHOULDER_RIGHT;
 
     private String name = "VirtualPlayer";
-    private final PropertyMap properties = new PropertyMap();
+    private final PropertyMap properties = PROPERTY_SUPPLIER.get();
     private final ChangingValue<GameMode> gameMode = new ChangingValue<>(GameMode.CREATIVE);
     private int latency = 0;
     private final ChangingValue<@Nullable Component> displayName = new ChangingValue<>(null);
@@ -279,8 +279,44 @@ public class VirtualPlayerImpl extends VirtualAvatarImpl implements dev.by1337.v
     static {
         DATA_PLAYER_ABSORPTION_ID = Mappings.findAccessor("Player", "DATA_PLAYER_ABSORPTION_ID");
         DATA_SCORE_ID = Mappings.findAccessor("Player", "DATA_SCORE_ID");
-        DATA_SHOULDER_LEFT = Mappings.findAccessor("Player", "DATA_SHOULDER_LEFT");
-        DATA_SHOULDER_RIGHT = Mappings.findAccessor("Player", "DATA_SHOULDER_RIGHT");
+        if (ServerVersion.is1_21_8orOlder()) {
+            DATA_SHOULDER_LEFT = Mappings.findAccessor("Player", "DATA_SHOULDER_LEFT");
+            DATA_SHOULDER_RIGHT = Mappings.findAccessor("Player", "DATA_SHOULDER_RIGHT");
+        } else {
+            DATA_SHOULDER_LEFT = null;
+            DATA_SHOULDER_RIGHT = null;
+        }
+        PROPERTY_SUPPLIER = makePropertyMapFactory();
+    }
+
+    private static Supplier<PropertyMap> makePropertyMapFactory() {
+        Class<?> cl = findClass("io.papermc.paper.profile.MutablePropertyMap");
+        if (cl != null) {
+            try {
+                final var c = cl.getConstructor();
+                return () -> {
+                    try {
+                        return (PropertyMap) c.newInstance();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return new PropertyMap();
+                    }
+                };
+            } catch (Exception e) {
+                e.printStackTrace();
+                return PropertyMap::new;
+            }
+        } else {
+            return PropertyMap::new;
+        }
+    }
+
+    private static Class<?> findClass(String s) {
+        try {
+            return Class.forName(s);
+        } catch (ClassNotFoundException e) {
+            return null;
+        }
     }
 
     public static class ChangingValue<T> {
