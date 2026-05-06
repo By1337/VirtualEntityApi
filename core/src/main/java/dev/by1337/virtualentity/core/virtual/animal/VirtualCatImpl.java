@@ -1,7 +1,9 @@
 package dev.by1337.virtualentity.core.virtual.animal;
 
+import dev.by1337.core.ServerVersion;
 import dev.by1337.virtualentity.api.annotations.RemovedInMinecraftVersion;
 import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
+import dev.by1337.virtualentity.api.entity.CatSoundVariant;
 import dev.by1337.virtualentity.api.entity.CatVariant;
 import dev.by1337.virtualentity.api.entity.DyeColor;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
@@ -17,6 +19,8 @@ public class VirtualCatImpl extends VirtualTamableAnimalImpl implements dev.by13
     private static final EntityDataAccessor<Boolean> IS_LYING;
     private static final EntityDataAccessor<Boolean> RELAX_STATE_ONE;
     private static final EntityDataAccessor<Integer> DATA_COLLAR_COLOR;
+    @SinceMinecraftVersion("26.1")
+    private static final EntityDataAccessor<CatSoundVariant> DATA_SOUND_VARIANT_ID;
 
     public VirtualCatImpl() {
         super(VirtualEntityType.CAT);
@@ -33,6 +37,17 @@ public class VirtualCatImpl extends VirtualTamableAnimalImpl implements dev.by13
         this.entityData.define(IS_LYING, false);
         this.entityData.define(RELAX_STATE_ONE, false);
         this.entityData.define(DATA_COLLAR_COLOR, DyeColor.RED.getId());
+        if (ServerVersion.is26_1orNewer()) {
+            this.entityData.define(DATA_SOUND_VARIANT_ID, CatSoundVariant.CLASSIC);
+        }
+    }
+    @SinceMinecraftVersion("26.1")
+    public CatSoundVariant getSoundVariant() {
+        return this.entityData.get(DATA_SOUND_VARIANT_ID);
+    }
+    @SinceMinecraftVersion("26.1")
+    public void setSoundVariant(CatSoundVariant variant) {
+        this.entityData.set(DATA_SOUND_VARIANT_ID, variant);
     }
 
     @SinceMinecraftVersion("1.19.4")
@@ -114,5 +129,10 @@ public class VirtualCatImpl extends VirtualTamableAnimalImpl implements dev.by13
         IS_LYING = Mappings.findAccessor("Cat", "IS_LYING");
         RELAX_STATE_ONE = Mappings.findAccessor("Cat", "RELAX_STATE_ONE");
         DATA_COLLAR_COLOR = Mappings.findAccessor("Cat", "DATA_COLLAR_COLOR");
+        if (ServerVersion.is26_1orNewer()) {
+            DATA_SOUND_VARIANT_ID = Mappings.findAccessor("Cat", "DATA_SOUND_VARIANT_ID");
+        }else {
+            DATA_SOUND_VARIANT_ID = null;
+        }
     }
 }

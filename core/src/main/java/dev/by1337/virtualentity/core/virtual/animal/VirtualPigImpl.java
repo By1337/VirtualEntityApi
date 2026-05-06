@@ -1,7 +1,9 @@
 package dev.by1337.virtualentity.core.virtual.animal;
 
+import dev.by1337.core.ServerVersion;
 import dev.by1337.virtualentity.api.annotations.RemovedInMinecraftVersion;
 import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
+import dev.by1337.virtualentity.api.entity.PigSoundVariant;
 import dev.by1337.virtualentity.api.entity.PigVariant;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.core.mappings.Mappings;
@@ -18,6 +20,8 @@ public class VirtualPigImpl extends VirtualAgeableMobImpl implements dev.by1337.
     private static final EntityDataAccessor<Integer> DATA_BOOST_TIME;
     @SinceMinecraftVersion("1.21.5")
     private static final EntityDataAccessor<PigVariant> DATA_VARIANT_ID;
+    @SinceMinecraftVersion("26.1")
+    private static final EntityDataAccessor<PigSoundVariant> DATA_SOUND_VARIANT_ID;
 
     public VirtualPigImpl() {
         super(VirtualEntityType.PIG);
@@ -31,6 +35,17 @@ public class VirtualPigImpl extends VirtualAgeableMobImpl implements dev.by1337.
             entityData.define(DATA_VARIANT_ID, PigVariant.TEMPERATE);
         }
         this.entityData.define(DATA_BOOST_TIME, 0);
+        if (ServerVersion.is26_1orNewer()) {
+            entityData.define(DATA_SOUND_VARIANT_ID, PigSoundVariant.CLASSIC);
+        }
+    }
+    @SinceMinecraftVersion("26.1")
+    public PigSoundVariant getSoundVariant() {
+        return entityData.get(DATA_SOUND_VARIANT_ID);
+    }
+    @SinceMinecraftVersion("26.1")
+    public void setSoundVariant(PigSoundVariant soundVariant) {
+        entityData.set(DATA_SOUND_VARIANT_ID, soundVariant);
     }
 
     @SinceMinecraftVersion("1.21.5")
@@ -76,6 +91,11 @@ public class VirtualPigImpl extends VirtualAgeableMobImpl implements dev.by1337.
         } else {
             DATA_SADDLE_ID = Mappings.findAccessor("Pig", "DATA_SADDLE_ID");
             DATA_VARIANT_ID = null;
+        }
+        if (ServerVersion.is26_1orNewer()) {
+            DATA_SOUND_VARIANT_ID = Mappings.findAccessor("Pig", "DATA_SOUND_VARIANT_ID");
+        } else {
+            DATA_SOUND_VARIANT_ID = null;
         }
     }
 }

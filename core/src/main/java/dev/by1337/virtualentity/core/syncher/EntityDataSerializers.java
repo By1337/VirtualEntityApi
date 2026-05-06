@@ -112,6 +112,10 @@ public class EntityDataSerializers {
     public static final EntityDataSerializer<CopperWeatherState> WEATHERING_COPPER_STATE = register(ByteBufUtil::writeEnum, "WEATHERING_COPPER_STATE");
     public static final EntityDataSerializer<CopperGolemState> COPPER_GOLEM_STATE = register(ByteBufUtil::writeEnum, "COPPER_GOLEM_STATE");
     public static final EntityDataSerializer<ZombieNautilusVariant> ZOMBIE_NAUTILUS_VARIANT = register(ByteBufUtil::writeEnum, "ZOMBIE_NAUTILUS_VARIANT");
+    public static final EntityDataSerializer<CatSoundVariant> CAT_SOUND_VARIANT = register(ByteBufUtil::writeEnum, "CAT_SOUND_VARIANT");
+    public static final EntityDataSerializer<CowSoundVariant> COW_SOUND_VARIANT = register(ByteBufUtil::writeEnum, "COW_SOUND_VARIANT");
+    public static final EntityDataSerializer<PigSoundVariant> PIG_SOUND_VARIANT = register(ByteBufUtil::writeEnum, "PIG_SOUND_VARIANT");
+    public static final EntityDataSerializer<ChickenSoundVariant> CHICKEN_SOUND_VARIANT = register(ByteBufUtil::writeEnum, "CHICKEN_SOUND_VARIANT");
     public static final EntityDataSerializer<Long> LONG = register(ByteBufUtil::writeVarLong, "LONG");
     public static final EntityDataSerializer<Optional<BlockData>> OPTIONAL_BLOCK_STATE = register((val, buff) -> {
         if (val.isPresent()) {

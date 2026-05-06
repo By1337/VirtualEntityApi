@@ -1,5 +1,7 @@
 package dev.by1337.virtualentity.core.virtual.npc;
 
+import dev.by1337.core.ServerVersion;
+import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.api.entity.npc.VillagerData;
 import dev.by1337.virtualentity.api.entity.npc.VillagerProfession;
@@ -9,6 +11,8 @@ import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
 
 public class VirtualVillagerImpl extends VirtualAbstractVillagerImpl implements dev.by1337.virtualentity.api.virtual.npc.VirtualVillager {
     private static final EntityDataAccessor<VillagerData> DATA_VILLAGER_DATA;
+    @SinceMinecraftVersion("26.1")
+    private static final EntityDataAccessor<Boolean> DATA_VILLAGER_DATA_FINALIZED;
 
     public VirtualVillagerImpl() {
         super(VirtualEntityType.VILLAGER);
@@ -17,6 +21,19 @@ public class VirtualVillagerImpl extends VirtualAbstractVillagerImpl implements 
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(DATA_VILLAGER_DATA, new VillagerData(VillagerType.PLAINS, VillagerProfession.NONE, 1));
+        if (ServerVersion.is26_1orNewer()) {
+            entityData.define(DATA_VILLAGER_DATA_FINALIZED, false);
+        }
+    }
+
+    @SinceMinecraftVersion("26.1")
+    public boolean isDataFinalized() {
+        return entityData.get(DATA_VILLAGER_DATA_FINALIZED);
+    }
+
+    @SinceMinecraftVersion("26.1")
+    public void setDataFinalized(boolean value) {
+        entityData.set(DATA_VILLAGER_DATA_FINALIZED, value);
     }
 
     /**
@@ -42,5 +59,10 @@ public class VirtualVillagerImpl extends VirtualAbstractVillagerImpl implements 
 
     static {
         DATA_VILLAGER_DATA = Mappings.findAccessor("Villager", "DATA_VILLAGER_DATA");
+        if (ServerVersion.is26_1orNewer()) {
+            DATA_VILLAGER_DATA_FINALIZED = Mappings.findAccessor("Villager", "DATA_VILLAGER_DATA_FINALIZED");
+        } else {
+            DATA_VILLAGER_DATA_FINALIZED = null;
+        }
     }
 }

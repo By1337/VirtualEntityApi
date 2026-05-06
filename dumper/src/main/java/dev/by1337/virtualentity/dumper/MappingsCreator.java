@@ -332,6 +332,38 @@ public class MappingsCreator {
             }
             enums.putTag("dev.by1337.virtualentity.api.entity.ZombieNautilusVariant", chicken);
         }
+        { // CatSoundVariant
+            CompoundTag chicken = new CompoundTag();
+            var idMap = registryAccess.lookupOrThrow(Registries.CAT_SOUND_VARIANT).asHolderIdMap();
+            for (var holder : idMap) {
+                chicken.putInt(holder.unwrapKey().map(v -> v.identifier().getPath()).get().toUpperCase(Locale.ENGLISH), idMap.getIdOrThrow(holder));
+            }
+            enums.putTag("dev.by1337.virtualentity.api.entity.CatSoundVariant", chicken);
+        }
+        { // ChickenSoundVariant
+            CompoundTag chicken = new CompoundTag();
+            var idMap = registryAccess.lookupOrThrow(Registries.CHICKEN_SOUND_VARIANT).asHolderIdMap();
+            for (var holder : idMap) {
+                chicken.putInt(holder.unwrapKey().map(v -> v.identifier().getPath()).get().toUpperCase(Locale.ENGLISH), idMap.getIdOrThrow(holder));
+            }
+            enums.putTag("dev.by1337.virtualentity.api.entity.ChickenSoundVariant", chicken);
+        }
+        { // CowSoundVariant
+            CompoundTag chicken = new CompoundTag();
+            var idMap = registryAccess.lookupOrThrow(Registries.COW_SOUND_VARIANT).asHolderIdMap();
+            for (var holder : idMap) {
+                chicken.putInt(holder.unwrapKey().map(v -> v.identifier().getPath()).get().toUpperCase(Locale.ENGLISH), idMap.getIdOrThrow(holder));
+            }
+            enums.putTag("dev.by1337.virtualentity.api.entity.CowSoundVariant", chicken);
+        }
+        { // PigSoundVariant
+            CompoundTag chicken = new CompoundTag();
+            var idMap = registryAccess.lookupOrThrow(Registries.PIG_SOUND_VARIANT).asHolderIdMap();
+            for (var holder : idMap) {
+                chicken.putInt(holder.unwrapKey().map(v -> v.identifier().getPath()).get().toUpperCase(Locale.ENGLISH), idMap.getIdOrThrow(holder));
+            }
+            enums.putTag("dev.by1337.virtualentity.api.entity.PigSoundVariant", chicken);
+        }
         { // EntityEvent
             CompoundTag entityEvents = new CompoundTag();
             for (Field field : EntityEvent.class.getDeclaredFields()) {

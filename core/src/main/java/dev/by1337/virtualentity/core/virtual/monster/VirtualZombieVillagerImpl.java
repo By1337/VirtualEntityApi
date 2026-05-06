@@ -1,5 +1,7 @@
 package dev.by1337.virtualentity.core.virtual.monster;
 
+import dev.by1337.core.ServerVersion;
+import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.api.entity.npc.VillagerData;
 import dev.by1337.virtualentity.api.entity.npc.VillagerProfession;
@@ -10,6 +12,7 @@ import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
 public class VirtualZombieVillagerImpl extends VirtualZombieImpl implements dev.by1337.virtualentity.api.virtual.monster.VirtualZombieVillager {
     private static final EntityDataAccessor<Boolean> DATA_CONVERTING_ID;
     private static final EntityDataAccessor<VillagerData> DATA_VILLAGER_DATA;
+    private static final EntityDataAccessor<Boolean> DATA_VILLAGER_DATA_FINALIZED;
 
     public VirtualZombieVillagerImpl() {
         super(VirtualEntityType.ZOMBIE_VILLAGER);
@@ -19,6 +22,19 @@ public class VirtualZombieVillagerImpl extends VirtualZombieImpl implements dev.
         super.defineSynchedData();
         this.entityData.define(DATA_CONVERTING_ID, false);
         this.entityData.define(DATA_VILLAGER_DATA, new VillagerData(VillagerType.PLAINS, VillagerProfession.NONE, 1));
+        if (ServerVersion.is26_1orNewer()) {
+            entityData.define(DATA_VILLAGER_DATA_FINALIZED, false);
+        }
+    }
+
+    @SinceMinecraftVersion("26.1")
+    public boolean isDataFinalized() {
+        return entityData.get(DATA_VILLAGER_DATA_FINALIZED);
+    }
+
+    @SinceMinecraftVersion("26.1")
+    public void setDataFinalized(boolean value) {
+        entityData.set(DATA_VILLAGER_DATA_FINALIZED, value);
     }
 
     /**
@@ -60,5 +76,10 @@ public class VirtualZombieVillagerImpl extends VirtualZombieImpl implements dev.
     static {
         DATA_CONVERTING_ID = Mappings.findAccessor("ZombieVillager", "DATA_CONVERTING_ID");
         DATA_VILLAGER_DATA = Mappings.findAccessor("ZombieVillager", "DATA_VILLAGER_DATA");
+        if (ServerVersion.is26_1orNewer()) {
+            DATA_VILLAGER_DATA_FINALIZED = Mappings.findAccessor("ZombieVillager", "DATA_VILLAGER_DATA_FINALIZED");
+        } else {
+            DATA_VILLAGER_DATA_FINALIZED = null;
+        }
     }
 }
