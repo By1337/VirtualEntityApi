@@ -220,6 +220,14 @@ public enum VirtualEntityType {
     MANNEQUIN(Version.V1_21_9),
     @SinceMinecraftVersion("1.21.9")
     COPPER_GOLEM(Version.V1_21_9),
+    @SinceMinecraftVersion("1.21.11")
+    CAMEL_HUSK(Version.V1_21_11),
+    @SinceMinecraftVersion("1.21.11")
+    NAUTILUS(Version.V1_21_11),
+    @SinceMinecraftVersion("1.21.11")
+    PARCHED(Version.V1_21_11),
+    @SinceMinecraftVersion("1.21.11")
+    ZOMBIE_NAUTILUS(Version.V1_21_11),
 
     ;
     public static final Codec<VirtualEntityType> CODEC = DefaultCodecs.createEnumCodec(VirtualEntityType.class);

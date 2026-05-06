@@ -1,0 +1,36 @@
+1.16.5 754
+1.17 755
+1.17.1 756
+1.18 757
+1.18.1 757
+1.18.2 758
+1.19 759
+1.19.1 760
+1.19.2 760
+1.19.3 761
+1.19.4 762
+1.20 763
+1.20.1 763
+1.20.2 764
+1.20.3 765
+1.20.4 765
+1.20.5 766
+1.20.6 766
+1.21 767
+1.21.1 767
+1.21.2 768
+1.21.3 768
+1.21.4 769
+1.21.5 770
+1.21.6 771
+1.21.7 772
+1.21.8 772
+1.21.9 773
+1.21.10 773
+1.21.11 774
+26.1 775
+26.1.1 775
+26.1.2 775
+
+
+com.google.common.collect.ForwardingMultimap.<init>()' (dev.by1337.virtualentity.core.virtual.player.VirtualPlayerImpl is in unnamed module of loader 'VirtualEntityApi-1.3.jar' @3563728a; com.google.common.collect.ForwardingMultimap is in unnamed module of loader java.net.URLClassLoader @7dcf94f8)

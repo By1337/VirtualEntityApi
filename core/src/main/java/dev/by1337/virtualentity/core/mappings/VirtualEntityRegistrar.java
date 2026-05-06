@@ -8,12 +8,15 @@ import dev.by1337.virtualentity.core.virtual.animal.*;
 import dev.by1337.virtualentity.core.virtual.animal.allay.VirtualAllayImpl;
 import dev.by1337.virtualentity.core.virtual.animal.armadillo.VirtualArmadilloImpl;
 import dev.by1337.virtualentity.core.virtual.animal.axolotl.VirtualAxolotlImpl;
+import dev.by1337.virtualentity.core.virtual.animal.camel.VirtualCamelHuskImpl;
 import dev.by1337.virtualentity.core.virtual.animal.camel.VirtualCamelImpl;
 import dev.by1337.virtualentity.core.virtual.animal.coppergolem.VirtualCopperGolemImpl;
 import dev.by1337.virtualentity.core.virtual.animal.frog.VirtualFrogImpl;
 import dev.by1337.virtualentity.core.virtual.animal.frog.VirtualTadpoleImpl;
 import dev.by1337.virtualentity.core.virtual.animal.goat.VirtualGoatImpl;
 import dev.by1337.virtualentity.core.virtual.animal.horse.*;
+import dev.by1337.virtualentity.core.virtual.animal.nautilus.VirtualNautilusImpl;
+import dev.by1337.virtualentity.core.virtual.animal.nautilus.VirtualZombieNautilusImpl;
 import dev.by1337.virtualentity.core.virtual.animal.sniffer.VirtualSnifferImpl;
 import dev.by1337.virtualentity.core.virtual.boss.enderdragon.VirtualEndCrystalImpl;
 import dev.by1337.virtualentity.core.virtual.boss.enderdragon.VirtualEnderDragonImpl;
@@ -220,6 +223,10 @@ public class VirtualEntityRegistrar {
 
         factory.register(VirtualEntityType.MANNEQUIN, VirtualMannequinImpl::new, Version.V1_21_9);
         factory.register(VirtualEntityType.COPPER_GOLEM, VirtualCopperGolemImpl::new, Version.V1_21_9);
+        factory.register(VirtualEntityType.CAMEL_HUSK, VirtualCamelHuskImpl::new, Version.V1_21_11);
+        factory.register(VirtualEntityType.NAUTILUS, VirtualNautilusImpl::new, Version.V1_21_11);
+        factory.register(VirtualEntityType.PARCHED, VirtualParchedImpl::new, Version.V1_21_11);
+        factory.register(VirtualEntityType.ZOMBIE_NAUTILUS, VirtualZombieNautilusImpl::new, Version.V1_21_11);
     }
 
     private static void registerBoats() {

@@ -1,6 +1,5 @@
 package dev.by1337.virtualentity.dumper;
 
-import net.minecraft.Util;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -8,22 +7,20 @@ import net.minecraft.network.protocol.game.ClientboundAnimatePacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ClassTreeIdRegistry;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.animal.Fox;
-import net.minecraft.world.entity.animal.Panda;
 import net.minecraft.world.entity.animal.armadillo.Armadillo;
 import net.minecraft.world.entity.animal.axolotl.Axolotl;
-import net.minecraft.world.entity.animal.coppergolem.CopperGolemState;
+import net.minecraft.world.entity.animal.fox.Fox;
+import net.minecraft.world.entity.animal.golem.CopperGolemState;
+import net.minecraft.world.entity.animal.panda.Panda;
 import net.minecraft.world.entity.animal.sniffer.Sniffer;
 import net.minecraft.world.entity.boss.enderdragon.phases.EnderDragonPhase;
-import net.minecraft.world.entity.decoration.PaintingVariant;
-import net.minecraft.world.entity.monster.SpellcasterIllager;
-import net.minecraft.world.entity.npc.VillagerProfession;
-import net.minecraft.world.entity.npc.VillagerType;
+import net.minecraft.world.entity.decoration.painting.PaintingVariant;
+import net.minecraft.world.entity.monster.illager.SpellcasterIllager;
+import net.minecraft.world.entity.npc.villager.VillagerProfession;
+import net.minecraft.world.entity.npc.villager.VillagerType;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemDisplayContext;
 import org.by1337.blib.nbt.MojangNbtReader;
@@ -92,15 +89,6 @@ public class MappingsCreator {
 
         CompoundTag typeToData = new CompoundTag();
 
-        ClassTreeIdRegistry ID_REGISTRY = Util.make(() -> {
-            try {
-                var f = SynchedEntityData.class.getDeclaredField("ID_REGISTRY");
-                f.setAccessible(true);
-                return (ClassTreeIdRegistry) f.get(null);
-            } catch (Throwable t) {
-                throw new RuntimeException(t);
-            }
-        });
         for (Field field : EntityType.class.getDeclaredFields()) {
             field.setAccessible(true);
             if (field.getType() != EntityType.class) continue;
@@ -166,6 +154,7 @@ public class MappingsCreator {
             }
             enums.putTag("dev.by1337.virtualentity.api.entity.EquipmentSlot", equipmentSlotToId);
         }
+
         { // FoxType
             CompoundTag foxTypeToId = new CompoundTag();
             for (var value : Fox.Variant.values()) {
@@ -243,7 +232,7 @@ public class MappingsCreator {
             var idMap = MinecraftServer.getServer().registryAccess().lookupOrThrow(Registries.PAINTING_VARIANT).asHolderIdMap();
             CompoundTag paiting = new CompoundTag();
             for (Holder<PaintingVariant> holder : idMap) {
-                paiting.putInt(holder.unwrapKey().map(v -> v.location().getPath()).get().toUpperCase(Locale.ENGLISH), idMap.getIdOrThrow(holder));
+                paiting.putInt(holder.unwrapKey().map(v -> v.identifier().getPath()).get().toUpperCase(Locale.ENGLISH), idMap.getIdOrThrow(holder));
             }
             enums.putTag("dev.by1337.virtualentity.api.entity.PaintingMotive", paiting);
         }
@@ -253,7 +242,7 @@ public class MappingsCreator {
             CompoundTag cat = new CompoundTag();
             var idMap = registryAccess.lookupOrThrow(Registries.CAT_VARIANT).asHolderIdMap();
             for (var holder : idMap) {
-                cat.putInt(holder.unwrapKey().map(v -> v.location().getPath()).get().toUpperCase(Locale.ENGLISH), idMap.getIdOrThrow(holder));
+                cat.putInt(holder.unwrapKey().map(v -> v.identifier().getPath()).get().toUpperCase(Locale.ENGLISH), idMap.getIdOrThrow(holder));
             }
             enums.putTag("dev.by1337.virtualentity.api.entity.CatVariant", cat);
         }
@@ -261,7 +250,7 @@ public class MappingsCreator {
             CompoundTag frog = new CompoundTag();
             var idMap = registryAccess.lookupOrThrow(Registries.FROG_VARIANT).asHolderIdMap();
             for (var holder : idMap) {
-                frog.putInt(holder.unwrapKey().map(v -> v.location().getPath()).get().toUpperCase(Locale.ENGLISH), idMap.getIdOrThrow(holder));
+                frog.putInt(holder.unwrapKey().map(v -> v.identifier().getPath()).get().toUpperCase(Locale.ENGLISH), idMap.getIdOrThrow(holder));
             }
             enums.putTag("dev.by1337.virtualentity.api.entity.FrogVariant", frog);
         }
@@ -270,7 +259,7 @@ public class MappingsCreator {
             var idMap = MinecraftServer.getServer().registryAccess().lookupOrThrow(Registries.WOLF_VARIANT).asHolderIdMap();
             CompoundTag wolf = new CompoundTag();
             for (var holder : idMap) {
-                wolf.putInt(holder.unwrapKey().map(v -> v.location().getPath()).get().toUpperCase(Locale.ENGLISH), idMap.getIdOrThrow(holder));
+                wolf.putInt(holder.unwrapKey().map(v -> v.identifier().getPath()).get().toUpperCase(Locale.ENGLISH), idMap.getIdOrThrow(holder));
             }
             enums.putTag("dev.by1337.virtualentity.api.entity.WolfVariant", wolf);
         }
@@ -307,7 +296,7 @@ public class MappingsCreator {
             CompoundTag pig = new CompoundTag();
             var idMap = registryAccess.lookupOrThrow(Registries.PIG_VARIANT).asHolderIdMap();
             for (var holder : idMap) {
-                pig.putInt(holder.unwrapKey().map(v -> v.location().getPath()).get().toUpperCase(Locale.ENGLISH), idMap.getIdOrThrow(holder));
+                pig.putInt(holder.unwrapKey().map(v -> v.identifier().getPath()).get().toUpperCase(Locale.ENGLISH), idMap.getIdOrThrow(holder));
             }
             enums.putTag("dev.by1337.virtualentity.api.entity.PigVariant", pig);
         }
@@ -315,7 +304,7 @@ public class MappingsCreator {
             CompoundTag cow = new CompoundTag();
             var idMap = registryAccess.lookupOrThrow(Registries.COW_VARIANT).asHolderIdMap();
             for (var holder : idMap) {
-                cow.putInt(holder.unwrapKey().map(v -> v.location().getPath()).get().toUpperCase(Locale.ENGLISH), idMap.getIdOrThrow(holder));
+                cow.putInt(holder.unwrapKey().map(v -> v.identifier().getPath()).get().toUpperCase(Locale.ENGLISH), idMap.getIdOrThrow(holder));
             }
             enums.putTag("dev.by1337.virtualentity.api.entity.CowVariant", cow);
         }
@@ -323,7 +312,7 @@ public class MappingsCreator {
             CompoundTag chicken = new CompoundTag();
             var idMap = registryAccess.lookupOrThrow(Registries.CHICKEN_VARIANT).asHolderIdMap();
             for (var holder : idMap) {
-                chicken.putInt(holder.unwrapKey().map(v -> v.location().getPath()).get().toUpperCase(Locale.ENGLISH), idMap.getIdOrThrow(holder));
+                chicken.putInt(holder.unwrapKey().map(v -> v.identifier().getPath()).get().toUpperCase(Locale.ENGLISH), idMap.getIdOrThrow(holder));
             }
             enums.putTag("dev.by1337.virtualentity.api.entity.ChickenVariant", chicken);
         }
@@ -331,9 +320,17 @@ public class MappingsCreator {
             CompoundTag chicken = new CompoundTag();
             var idMap = registryAccess.lookupOrThrow(Registries.WOLF_SOUND_VARIANT).asHolderIdMap();
             for (var holder : idMap) {
-                chicken.putInt(holder.unwrapKey().map(v -> v.location().getPath()).get().toUpperCase(Locale.ENGLISH), idMap.getIdOrThrow(holder));
+                chicken.putInt(holder.unwrapKey().map(v -> v.identifier().getPath()).get().toUpperCase(Locale.ENGLISH), idMap.getIdOrThrow(holder));
             }
             enums.putTag("dev.by1337.virtualentity.api.entity.WolfSoundVariant", chicken);
+        }
+        { // ZombieNautilusVariant
+            CompoundTag chicken = new CompoundTag();
+            var idMap = registryAccess.lookupOrThrow(Registries.ZOMBIE_NAUTILUS_VARIANT).asHolderIdMap();
+            for (var holder : idMap) {
+                chicken.putInt(holder.unwrapKey().map(v -> v.identifier().getPath()).get().toUpperCase(Locale.ENGLISH), idMap.getIdOrThrow(holder));
+            }
+            enums.putTag("dev.by1337.virtualentity.api.entity.ZombieNautilusVariant", chicken);
         }
         { // EntityEvent
             CompoundTag entityEvents = new CompoundTag();

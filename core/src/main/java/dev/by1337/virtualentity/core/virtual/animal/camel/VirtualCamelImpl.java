@@ -15,6 +15,10 @@ public class VirtualCamelImpl extends VirtualAbstractHorseImpl implements dev.by
         super(VirtualEntityType.CAMEL);
     }
 
+    public VirtualCamelImpl(VirtualEntityType type) {
+        super(type);
+    }
+
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();

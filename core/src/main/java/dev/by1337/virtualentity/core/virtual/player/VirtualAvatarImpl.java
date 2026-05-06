@@ -2,6 +2,7 @@ package dev.by1337.virtualentity.core.virtual.player;
 
 import dev.by1337.core.ServerVersion;
 import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
+import dev.by1337.virtualentity.api.entity.HumanoidArm;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.api.virtual.player.VirtualAvatar;
 import dev.by1337.virtualentity.core.mappings.Mappings;
@@ -10,7 +11,7 @@ import dev.by1337.virtualentity.core.virtual.VirtualLivingEntityImpl;
 
 @SinceMinecraftVersion("1.21.9")
 public class VirtualAvatarImpl extends VirtualLivingEntityImpl implements VirtualAvatar {
-    private static final EntityDataAccessor<Byte> DATA_PLAYER_MAIN_HAND;
+    private static final EntityDataAccessor DATA_PLAYER_MAIN_HAND;
     private static final EntityDataAccessor<Byte> DATA_PLAYER_MODE_CUSTOMISATION;
 
     public VirtualAvatarImpl(VirtualEntityType type) {
@@ -21,7 +22,11 @@ public class VirtualAvatarImpl extends VirtualLivingEntityImpl implements Virtua
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(DATA_PLAYER_MODE_CUSTOMISATION, (byte) 0);
-        this.entityData.define(DATA_PLAYER_MAIN_HAND, (byte) 1);
+        if (ServerVersion.is1_21_9orOlder()) {
+            this.entityData.define(DATA_PLAYER_MAIN_HAND, (byte) 1);
+        } else {
+            this.entityData.define(DATA_PLAYER_MAIN_HAND, HumanoidArm.RIGHT);
+        }
     }
 
     /**
@@ -50,8 +55,12 @@ public class VirtualAvatarImpl extends VirtualLivingEntityImpl implements Virtua
      * @return основная рука игрока в виде байта (1 — правая, 0 — левая).
      */
     @Override
-    public byte getPlayerMainHand() {
-        return this.entityData.get(DATA_PLAYER_MAIN_HAND);
+    public HumanoidArm getPlayerMainHand() {
+        if (ServerVersion.is1_21_9orOlder()) {
+            var v = (byte) this.entityData.get(DATA_PLAYER_MAIN_HAND);
+            return v == 0 ? HumanoidArm.LEFT : HumanoidArm.RIGHT;
+        }
+        return (HumanoidArm) this.entityData.get(DATA_PLAYER_MAIN_HAND);
     }
 
     /**
@@ -60,8 +69,12 @@ public class VirtualAvatarImpl extends VirtualLivingEntityImpl implements Virtua
      * @param mainHand байт, представляющий основную руку игрока (1 — правая, 0 — левая).
      */
     @Override
-    public void setPlayerMainHand(byte mainHand) {
-        this.entityData.set(DATA_PLAYER_MAIN_HAND, mainHand);
+    public void setPlayerMainHand(HumanoidArm mainHand) {
+        if (ServerVersion.is1_21_9orOlder()) {
+            this.entityData.set(DATA_PLAYER_MAIN_HAND, mainHand.getId());
+        } else {
+            this.entityData.set(DATA_PLAYER_MAIN_HAND, mainHand);
+        }
     }
 
 

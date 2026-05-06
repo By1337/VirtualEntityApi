@@ -111,6 +111,7 @@ public class EntityDataSerializers {
     public static final EntityDataSerializer<ArmadilloState> ARMADILLO_STATE = register(ByteBufUtil::writeEnum, "ARMADILLO_STATE");
     public static final EntityDataSerializer<CopperWeatherState> WEATHERING_COPPER_STATE = register(ByteBufUtil::writeEnum, "WEATHERING_COPPER_STATE");
     public static final EntityDataSerializer<CopperGolemState> COPPER_GOLEM_STATE = register(ByteBufUtil::writeEnum, "COPPER_GOLEM_STATE");
+    public static final EntityDataSerializer<ZombieNautilusVariant> ZOMBIE_NAUTILUS_VARIANT = register(ByteBufUtil::writeEnum, "ZOMBIE_NAUTILUS_VARIANT");
     public static final EntityDataSerializer<Long> LONG = register(ByteBufUtil::writeVarLong, "LONG");
     public static final EntityDataSerializer<Optional<BlockData>> OPTIONAL_BLOCK_STATE = register((val, buff) -> {
         if (val.isPresent()) {
@@ -125,6 +126,7 @@ public class EntityDataSerializers {
         buff.writeFloat(val.z);
     }, "VECTOR3");
 
+    public static final EntityDataSerializer<HumanoidArm> HUMANOID_ARM = register((val, byteBuf) -> byteBuf.writeByte(val.getId()), "HUMANOID_ARM");
     // OPTIONAL_GLOBAL_POS unused
 
     private static <T> EntityDataSerializer<T> register(EntityDataSerializer<T> serializer, String name) {
