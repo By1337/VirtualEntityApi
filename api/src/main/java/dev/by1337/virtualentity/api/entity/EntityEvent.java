@@ -109,4 +109,7 @@ public enum EntityEvent implements MappedEnum {
     public int getId() {
         return MappedEnumUtils.getId(this, TO_ID);
     }
+    public int getIdOr(int def) {
+        return MappedEnumUtils.getIdOr(this, TO_ID, def);
+    }
 }

@@ -1,5 +1,6 @@
 package dev.by1337.virtualentity.core.network.impl;
 
+import dev.by1337.core.ServerVersion;
 import dev.by1337.virtualentity.api.virtual.VirtualEntity;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.mappings.Packets;
@@ -29,7 +30,7 @@ public class AddEntityPacket extends Packet {
         byteBuf.writeDouble(virtualEntity.getPos().z);
         byteBuf.writeByte(virtualEntity.pitch());
         byteBuf.writeByte(virtualEntity.yaw());
-        if (Version.VERSION.newerThanOrEqual(Version.V1_19_4)) {
+        if (ServerVersion.CURRENT_PROTOCOL >= ServerVersion.Protocol.V1_19_4) {
             byteBuf.writeByte(virtualEntity.yaw()); // хз здесь должен быть yHeadRot
             ByteBufUtil.writeVarInt(virtualEntity.getCustomEntityData(), byteBuf);
         } else {

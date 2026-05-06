@@ -1,5 +1,6 @@
 package dev.by1337.virtualentity.core.virtual;
 
+import dev.by1337.core.ServerVersion;
 import dev.by1337.virtualentity.api.entity.EntityAnimation;
 import dev.by1337.virtualentity.api.entity.EntityEvent;
 import dev.by1337.virtualentity.api.entity.EquipmentSlot;
@@ -167,11 +168,6 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
         }
     }
 
-    @Override
-    public void sendEntityEvent(EntityEvent event) {
-        broadcast(new EntityEventPacket(id, event));
-    }
-
     protected void broadcast(Packet packet, Consumer<Player> pre, Consumer<Player> post) {
         lastViewers.forEach(p -> {
             pre.accept(p);
@@ -203,8 +199,22 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
 
     }
 
+    @Override
+    public void sendEntityEvent(EntityEvent event) {
+        int x = event.getIdOr(-1);
+        if (x == -1) return;
+        broadcast(new EntityEventPacket(id, x));
+    }
+
     public void playAnimation(EntityAnimation animation) {
-        broadcast(new AnimatePacket(id, animation));
+        int x = animation.getIdOr(-1);
+        if (x == -1) {
+            if (animation == EntityAnimation.TAKE_DAMAGE && ServerVersion.CURRENT_PROTOCOL >= 765){
+                broadcast(new DamageEventPacket(id));
+            }
+            return;
+        }
+        broadcast(new AnimatePacket(id, x));
     }
 
     public void lookAt(Vec3d at) {

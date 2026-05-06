@@ -18,8 +18,8 @@ import java.util.Arrays;
 import java.util.function.BiConsumer;
 
 public class PlayerInfoPacket extends Packet {
-    private static final boolean IS_1_19_4_OR_NEWER = ServerVersion.is1_19_4orNewer();
-    private static final boolean IS_1_21_3_OR_NEWER = ServerVersion.is1_21_3orNewer();
+    private static final boolean IS_1_19_4_OR_NEWER = ServerVersion.CURRENT_PROTOCOL >= ServerVersion.Protocol.V1_19_4;
+    private static final boolean IS_1_21_3_OR_NEWER = ServerVersion.CURRENT_PROTOCOL >= ServerVersion.Protocol.V1_21_3;
     private static final int PLAYER_INFO_PACKET = Packets.play.clientbound.getId("minecraft:player_info");
     private static final int REMOVE_PLAYER_PACKET = Packets.play.clientbound.getId("minecraft:player_info_remove");
     private static final int UPDATE_PLAYER_INFO_PACKET = Packets.play.clientbound.getId("minecraft:player_info_update");

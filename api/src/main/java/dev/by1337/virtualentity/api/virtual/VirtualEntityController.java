@@ -66,23 +66,7 @@ public interface VirtualEntityController extends ViewTracker, Identifiable {
     void sendEntityEvent(EntityEvent event);
 
     default void broadcastEntityEvent(EntityEvent event) {
-        if (event == EntityEvent.TALISMAN_ACTIVATE && Version.is1_21_3orNewer()) {
-            return;
-        }
-        if (event == EntityEvent.BAD_OMEN_TRIGGERED && Version.is1_20_6orNewer()) {
-            return;
-        }
-        if (Version.is1_19_4orNewer()) {
-            switch (event) {
-                case DROWNED, HURT, FROZEN, POKED, BURNED -> {
-                    //todo play take damage
-                    return;
-                }
-                case THORNED -> {
-                    return;
-                }
-            }
-        }
+        sendEntityEvent(event);
     }
 
     void respawn();

@@ -1,34 +1,33 @@
 package dev.by1337.virtualentity.core.network.impl;
 
-import dev.by1337.virtualentity.api.entity.EntityAnimation;
 import dev.by1337.virtualentity.core.mappings.Packets;
 import dev.by1337.virtualentity.core.network.ByteBufUtil;
 import dev.by1337.virtualentity.core.network.Packet;
-import dev.by1337.virtualentity.core.network.PacketType;
 import io.netty.buffer.ByteBuf;
 
-public class AnimatePacket extends Packet {
-    private static final int PACKET_ID = Packets.play.clientbound.getId("minecraft:animate");
+public class DamageEventPacket extends Packet {
+    private static final int PACKET_ID = Packets.play.clientbound.getId("minecraft:damage_event");
     private final int id;
-    private final int animation;
 
-    public AnimatePacket(int id, int animation) {
+
+    public DamageEventPacket(int id) {
         this.id = id;
-        this.animation = animation;
     }
 
     @Override
     public void write(ByteBuf byteBuf) {
         ByteBufUtil.writeVarInt(PACKET_ID, byteBuf);
         ByteBufUtil.writeVarInt(id, byteBuf);
-        byteBuf.writeByte(animation);
+        ByteBufUtil.writeVarInt(0, byteBuf); //damage type
+        ByteBufUtil.writeVarInt(-1, byteBuf);
+        ByteBufUtil.writeVarInt(-1, byteBuf);
+        byteBuf.writeBoolean(false);
     }
 
     @Override
     public String toString() {
-        return "AnimatePacket{" +
+        return "DamageEventPacket{" +
                 "id=" + id +
-                ", animation=" + animation +
                 '}';
     }
 }

@@ -10,9 +10,9 @@ import io.netty.buffer.ByteBuf;
 public class EntityEventPacket extends Packet {
     private static final int PACKET_ID = Packets.play.clientbound.getId("minecraft:entity_event");
     private final int id;
-    private final EntityEvent event;
+    private final int event;
 
-    public EntityEventPacket(int id, EntityEvent event) {
+    public EntityEventPacket(int id, int event) {
         this.id = id;
         this.event = event;
     }
@@ -21,7 +21,7 @@ public class EntityEventPacket extends Packet {
     public void write(ByteBuf byteBuf) {
         ByteBufUtil.writeVarInt(PACKET_ID, byteBuf);
         byteBuf.writeInt(id);
-        byteBuf.writeByte(event.getId());
+        byteBuf.writeByte(event);
     }
 
     @Override

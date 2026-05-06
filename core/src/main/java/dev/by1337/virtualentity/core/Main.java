@@ -1,6 +1,7 @@
 package dev.by1337.virtualentity.core;
 
 import dev.by1337.virtualentity.api.VirtualEntityApi;
+import dev.by1337.virtualentity.api.entity.EntityAnimation;
 import dev.by1337.virtualentity.api.entity.EquipmentSlot;
 import dev.by1337.virtualentity.api.entity.Pose;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
@@ -150,6 +151,9 @@ public class Main extends JavaPlugin {
                                         item.setPos(armorStand.getPos());
                                         item.setItem(new ItemStack(Material.values()[random.nextInt(50)]));
                                         tracker.addEntity(item);
+                                        armorStand.playAnimation(EntityAnimation.CRITICAL_EFFECT);
+                                        armorStand.playAnimation(EntityAnimation.TAKE_DAMAGE);
+                                        creeper.playAnimation(EntityAnimation.TAKE_DAMAGE);
                                     }
                                     if (tick % 3 == 0 && areaEffectCloud.getRadius() < 10) {
                                         areaEffectCloud.setRadius(areaEffectCloud.getRadius() + 0.25f);

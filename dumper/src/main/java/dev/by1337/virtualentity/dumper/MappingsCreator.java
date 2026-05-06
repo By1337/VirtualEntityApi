@@ -252,39 +252,6 @@ public class MappingsCreator {
             }
             enums.putTag("dev.by1337.virtualentity.api.entity.npc.VillagerType", villagerType);
         }
-
-        { // PacketType
-            MinecraftServer server = ((CraftServer) Bukkit.getServer()).getServer();
-            ProtocolInfo<?> protocolInfo = GameProtocols.CLIENTBOUND_TEMPLATE.bind(RegistryFriendlyByteBuf.decorator(server.registryAccess()));
-            IdDispatchCodec idDispatchCodec = (IdDispatchCodec) protocolInfo.codec();
-            Field field = IdDispatchCodec.class.getDeclaredField("toId");
-            field.setAccessible(true);
-            Object2IntMap map = (Object2IntMap) field.get(idDispatchCodec);
-
-            CompoundTag packets = new CompoundTag();
-            // PLAYER_INFO_PACKET removed in 1.19.4
-            packets.putInt("REMOVE_PLAYER_PACKET", map.getInt(((Packet<?>) unsafe.allocateInstance(ClientboundPlayerInfoRemovePacket.class)).type())); // new 1.19.4
-            packets.putInt("UPDATE_PLAYER_INFO_PACKET", map.getInt(((Packet<?>) unsafe.allocateInstance(ClientboundPlayerInfoUpdatePacket.class)).type()));
-            packets.putInt("SET_PLAYER_TEAM_PACKET", map.getInt(((Packet<?>) unsafe.allocateInstance(ClientboundSetPlayerTeamPacket.class)).type()));
-            packets.putInt("SET_ENTITY_DATA_PACKET", map.getInt(((Packet<?>) unsafe.allocateInstance(ClientboundSetEntityDataPacket.class)).type()));
-            packets.putInt("ANIMATE_PACKET", map.getInt(((Packet<?>) unsafe.allocateInstance(ClientboundAnimatePacket.class)).type()));
-            packets.putInt("ROTATE_HEAD_PACKET", map.getInt(((Packet<?>) unsafe.allocateInstance(ClientboundRotateHeadPacket.class)).type()));
-            packets.putInt("TELEPORT_ENTITY_PACKET", map.getInt(((Packet<?>) unsafe.allocateInstance(ClientboundTeleportEntityPacket.class)).type()));
-            packets.putInt("ENTITY_POSITION_SYNC_PACKET", map.getInt(((Packet<?>) unsafe.allocateInstance(ClientboundEntityPositionSyncPacket.class)).type()));
-            packets.putInt("ADD_ENTITY_PACKET", map.getInt(((Packet<?>) unsafe.allocateInstance(ClientboundAddEntityPacket.class)).type()));
-            //packets.putInt("ADD_MOB_PACKET", map.getInt(unsafe .allocateInstance(ClientboundAddMobPacket.class))); // removed in 1.19.4
-            //packets.putInt("ADD_PLAYER_PACKET", map.getInt(unsafe .allocateInstance(ClientboundAddPlayerPacket.class))); // removed in 1.20.4
-            //packets.putInt("ADD_EXPERIENCE_ORB_PACKET", map.getInt(((Packet<?>) unsafe.allocateInstance(ClientboundAddExperienceOrbPacket.class)).type())); // removed im 1.21.5
-            //packets.putInt("ADD_PAINTING_PACKET", map.getInt(unsafe .allocateInstance(ClientboundAddPaintingPacket.class))); // removed in 1.19.4
-            packets.putInt("REMOVE_ENTITIES_PACKET", map.getInt(((Packet<?>) unsafe.allocateInstance(ClientboundRemoveEntitiesPacket.class)).type()));
-            packets.putInt("SET_EQUIPMENT_PACKET", map.getInt(((Packet<?>) unsafe.allocateInstance(ClientboundSetEquipmentPacket.class)).type()));
-            packets.putInt("MOVE_ENTITY_PACKET_POS", map.getInt(((Packet<?>) unsafe.allocateInstance(ClientboundMoveEntityPacket.Pos.class)).type()));
-            packets.putInt("MOVE_ENTITY_PACKET_POS_ROT", map.getInt(((Packet<?>) unsafe.allocateInstance(ClientboundMoveEntityPacket.PosRot.class)).type()));
-            packets.putInt("MOVE_ENTITY_PACKET_ROT", map.getInt(((Packet<?>) unsafe.allocateInstance(ClientboundMoveEntityPacket.Rot.class)).type()));
-            packets.putInt("SET_ENTITY_MOTION_PACKET", map.getInt(((Packet<?>) unsafe.allocateInstance(ClientboundSetEntityMotionPacket.class)).type()));
-            packets.putInt("ENTITY_EVENT_PACKET", map.getInt(((Packet<?>) unsafe.allocateInstance(ClientboundEntityEventPacket.class)).type()));
-            enums.putTag("dev.by1337.virtualentity.core.network.PacketType", packets);
-        }
         { // PaintingMotive
             var idMap = MinecraftServer.getServer().registryAccess().lookupOrThrow(Registries.PAINTING_VARIANT).asHolderIdMap();
             CompoundTag paiting = new CompoundTag();
