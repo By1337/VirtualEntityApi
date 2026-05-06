@@ -2,6 +2,7 @@ package dev.by1337.virtualentity.core.mappings;
 
 import blib.com.mojang.serialization.Codec;
 import blib.com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.by1337.core.ServerVersion;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.core.network.PacketType;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
@@ -134,7 +135,7 @@ public class Mappings {
                 throw new RuntimeException(e);
             }
         } else {
-           in = getMappingsInputStream(Version.VERSION);
+           in = getMappingsInputStream(ServerVersion.CURRENT_PROTOCOL);
         }
 
         try (in) {
@@ -147,12 +148,12 @@ public class Mappings {
     }
 
     @NotNull
-    public static InputStream getMappingsInputStream(Version version) {
+    public static InputStream getMappingsInputStream(int version) {
         InputStream in;
         ClassLoader loader = Mappings.class.getClassLoader();
-        URL url = loader.getResource("entity/" + version + "/mappings.nbt");
+        URL url = loader.getResource("entity/" + version + ".nbt");
         if (url == null) {
-            throw new RuntimeException("Could not find mappings file for version " + version.getVer());
+            throw new RuntimeException("Could not find mappings file for version " + version);
         }
         try {
             URLConnection connection = url.openConnection();
@@ -162,7 +163,7 @@ public class Mappings {
             throw new RuntimeException(e);
         }
         if (in == null) {
-            throw new RuntimeException("Could not find mappings file for version " + version.getVer());
+            throw new RuntimeException("Could not find mappings file for version " + version);
         }
         return in;
     }

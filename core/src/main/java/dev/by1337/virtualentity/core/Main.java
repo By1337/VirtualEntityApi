@@ -1,5 +1,6 @@
 package dev.by1337.virtualentity.core;
 
+import dev.by1337.core.ServerVersion;
 import dev.by1337.virtualentity.api.VirtualEntityApi;
 import dev.by1337.virtualentity.api.entity.EntityAnimation;
 import dev.by1337.virtualentity.api.entity.EquipmentSlot;
@@ -32,6 +33,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.by1337.blib.command.Command;
 import org.by1337.blib.command.CommandWrapper;
 import org.by1337.blib.command.argument.ArgumentEnumValue;
+import org.by1337.blib.command.argument.ArgumentInteger;
 import org.by1337.blib.command.requires.RequiresPermission;
 import org.by1337.blib.geom.Vec3d;
 import org.by1337.blib.nbt.MojangNbtReader;
@@ -268,10 +270,10 @@ public class Main extends JavaPlugin {
                             }.runTaskTimerAsynchronously(plugin, 0, 20);
                         }))
                 ).addSubCommand(new Command<CommandSender>("diff")
-                        .argument(new ArgumentEnumValue<>("version", Version.class))
+                        .argument(new ArgumentInteger<>("version"))
                         .executor(((sender, args) -> {
-                            Version current = Version.VERSION;
-                            Version version = (Version) args.getOrThrow("version", "version is not selected");
+                            int current = ServerVersion.CURRENT_PROTOCOL;
+                            int version = (int) args.getOrThrow("version", "version is not selected");
                             CompoundTag tags1;
                             CompoundTag tags2;
                             try (var in = Mappings.getMappingsInputStream(current)) {
@@ -286,7 +288,7 @@ public class Main extends JavaPlugin {
                             }
                             String result = MappingsDiffGenerator.createDiff(tags1, tags2);
                             try {
-                                Path out = plugin.getDataFolder().toPath().resolve(current.getVer() + "_and_" + version.getVer() + "_diff.txt");
+                                Path out = plugin.getDataFolder().toPath().resolve(current + "_and_" + version + "_diff.txt");
                                 plugin.getDataFolder().mkdirs();
                                 Files.writeString(out, result, StandardCharsets.UTF_8);
                                 sender.sendMessage("saved to " + out);

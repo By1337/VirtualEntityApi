@@ -31,6 +31,3 @@
 26.1 775
 26.1.1 775
 26.1.2 775
-
-
-com.google.common.collect.ForwardingMultimap.<init>()' (dev.by1337.virtualentity.core.virtual.player.VirtualPlayerImpl is in unnamed module of loader 'VirtualEntityApi-1.3.jar' @3563728a; com.google.common.collect.ForwardingMultimap is in unnamed module of loader java.net.URLClassLoader @7dcf94f8)

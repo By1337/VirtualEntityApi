@@ -17,7 +17,7 @@ import java.util.*;
 
 public class DiffGenerator {
 
-    @Test
+    //@Test
     public void run() throws IOException {
         Path home = Path.of("./diff");
         Path newFolder =  home.resolve("actual");
