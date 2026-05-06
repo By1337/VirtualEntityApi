@@ -64,7 +64,7 @@
             <plugin>
                 <groupId>ca.bkaw</groupId>
                 <artifactId>paper-nms-maven-plugin</artifactId>
-                <version>1.4.9</version>
+                <version>1.4.10</version>
             </plugin>
         </plugins>
         <resources>
@@ -97,15 +97,38 @@
             <name>BDev repository</name>
             <url>https://repo.by1337.space/releases</url>
         </repository>
+        <repository>
+            <id>minecraft-libraries</id>
+            <name>Minecraft Libraries</name>
+            <url>https://libraries.minecraft.net</url>
+        </repository>
     </repositories>
 
 
     <dependencies>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.113.Final</version>
+            <scope>provided</scope>
+        </dependency>
         <!-- server -->
         <dependency>
             <groupId>ca.bkaw</groupId>
             <artifactId>paper-nms</artifactId>
-            <version>1.21.7-SNAPSHOT</version>
+            <version>1.21.9-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.mojang</groupId>
+            <artifactId>authlib</artifactId>
+            <version>6.0.58</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.mojang</groupId>
+            <artifactId>datafixerupper</artifactId>
+            <version>9.0.19</version>
             <scope>provided</scope>
         </dependency>
 
@@ -129,6 +152,12 @@
             <scope>provided</scope>
         </dependency>
         <!-- tests -->
+        <dependency>
+            <groupId>io.github.java-diff-utils</groupId>
+            <artifactId>java-diff-utils</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

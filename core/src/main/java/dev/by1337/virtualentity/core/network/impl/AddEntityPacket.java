@@ -12,7 +12,6 @@ import org.by1337.blib.util.Version;
 
 public class AddEntityPacket extends Packet {
     private static final int PACKET_ID = Packets.play.clientbound.getId("minecraft:add_entity");
-    //private static final int PACKET_ID = PacketType.ADD_ENTITY_PACKET.getId();
     private final VirtualEntity virtualEntity;
 
     public AddEntityPacket(VirtualEntity virtualEntity) {
@@ -28,6 +27,9 @@ public class AddEntityPacket extends Packet {
         byteBuf.writeDouble(virtualEntity.getPos().x);
         byteBuf.writeDouble(virtualEntity.getPos().y);
         byteBuf.writeDouble(virtualEntity.getPos().z);
+        if (ServerVersion.CURRENT_PROTOCOL >= ServerVersion.Protocol.V1_21_9){
+            byteBuf.writeByte(0); // LpVec3 (velocity)
+        }
         byteBuf.writeByte(virtualEntity.pitch());
         byteBuf.writeByte(virtualEntity.yaw());
         if (ServerVersion.CURRENT_PROTOCOL >= ServerVersion.Protocol.V1_19_4) {
@@ -36,9 +38,9 @@ public class AddEntityPacket extends Packet {
         } else {
             byteBuf.writeInt(virtualEntity.getCustomEntityData());
         }
-        byteBuf.writeShort(0);
-        byteBuf.writeShort(0);
-        byteBuf.writeShort(0);
+        if (ServerVersion.CURRENT_PROTOCOL < ServerVersion.Protocol.V1_21_9){
+            byteBuf.writeZero(6); // (velocity)
+        }
     }
 
     @Override

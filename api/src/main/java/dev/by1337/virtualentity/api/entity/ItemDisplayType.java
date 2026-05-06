@@ -15,6 +15,8 @@ public enum ItemDisplayType implements MappedEnum {
     GUI,
     GROUND,
     FIXED,
+    @SinceMinecraftVersion("1.21.9")
+    ON_SHELF
     ;
     private static final EnumMap<ItemDisplayType, Integer> TO_ID = new EnumMap<>(ItemDisplayType.class);
 

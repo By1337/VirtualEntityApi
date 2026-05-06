@@ -2,12 +2,13 @@ package dev.by1337.virtualentity.core.virtual.player;
 
 import com.mojang.authlib.properties.Property;
 import com.mojang.authlib.properties.PropertyMap;
+import dev.by1337.core.ServerVersion;
+import dev.by1337.virtualentity.api.annotations.RemovedInMinecraftVersion;
 import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.network.impl.PlayerInfoPacket;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
-import dev.by1337.virtualentity.core.virtual.VirtualLivingEntityImpl;
 import net.kyori.adventure.text.Component;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -16,12 +17,18 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
-public class VirtualPlayerImpl extends VirtualLivingEntityImpl implements dev.by1337.virtualentity.api.virtual.player.VirtualPlayer {
+public class VirtualPlayerImpl extends VirtualAvatarImpl implements dev.by1337.virtualentity.api.virtual.player.VirtualPlayer {
     private static final EntityDataAccessor<Float> DATA_PLAYER_ABSORPTION_ID;
     private static final EntityDataAccessor<Integer> DATA_SCORE_ID;
-    private static final EntityDataAccessor<Byte> DATA_PLAYER_MODE_CUSTOMISATION;
-    private static final EntityDataAccessor<Byte> DATA_PLAYER_MAIN_HAND;
+    // private static final EntityDataAccessor<Byte> DATA_PLAYER_MODE_CUSTOMISATION;
+    //  private static final EntityDataAccessor<Byte> DATA_PLAYER_MAIN_HAND;
+    @Deprecated
+    @RemovedInMinecraftVersion("1.21.9")
+    @Nullable
     private static final EntityDataAccessor<CompoundTag> DATA_SHOULDER_LEFT;
+    @Deprecated
+    @RemovedInMinecraftVersion("1.21.9")
+    @Nullable
     private static final EntityDataAccessor<CompoundTag> DATA_SHOULDER_RIGHT;
 
     private String name = "VirtualPlayer";
@@ -51,10 +58,10 @@ public class VirtualPlayerImpl extends VirtualLivingEntityImpl implements dev.by
         super.defineSynchedData();
         this.entityData.define(DATA_PLAYER_ABSORPTION_ID, 0.0F);
         this.entityData.define(DATA_SCORE_ID, 0);
-        this.entityData.define(DATA_PLAYER_MODE_CUSTOMISATION, (byte) 0);
-        this.entityData.define(DATA_PLAYER_MAIN_HAND, (byte) 1);
-        this.entityData.define(DATA_SHOULDER_LEFT, new CompoundTag());
-        this.entityData.define(DATA_SHOULDER_RIGHT, new CompoundTag());
+        if (ServerVersion.is1_21_8orOlder()) {
+            this.entityData.define(DATA_SHOULDER_LEFT, new CompoundTag());
+            this.entityData.define(DATA_SHOULDER_RIGHT, new CompoundTag());
+        }
     }
 
     @Override
@@ -225,52 +232,13 @@ public class VirtualPlayerImpl extends VirtualLivingEntityImpl implements dev.by
     }
 
     /**
-     * Получает текущий режим кастомизации игрока.
-     *
-     * @return режим кастомизации в виде байта.
-     */
-    @Override
-    public byte getPlayerModeCustomisation() {
-        return this.entityData.get(DATA_PLAYER_MODE_CUSTOMISATION);
-    }
-
-    /**
-     * Устанавливает новый режим кастомизации для игрока.
-     *
-     * @param customisation новый режим кастомизации.
-     */
-    @Override
-    public void setPlayerModeCustomisation(byte customisation) {
-        this.entityData.set(DATA_PLAYER_MODE_CUSTOMISATION, customisation);
-    }
-
-    /**
-     * Получает текущую основную руку игрока.
-     *
-     * @return основная рука игрока в виде байта (1 — правая, 0 — левая).
-     */
-    @Override
-    public byte getPlayerMainHand() {
-        return this.entityData.get(DATA_PLAYER_MAIN_HAND);
-    }
-
-    /**
-     * Устанавливает основную руку для игрока.
-     *
-     * @param mainHand байт, представляющий основную руку игрока (1 — правая, 0 — левая).
-     */
-    @Override
-    public void setPlayerMainHand(byte mainHand) {
-        this.entityData.set(DATA_PLAYER_MAIN_HAND, mainHand);
-    }
-
-    /**
      * Получает данные о левом плече игрока.
      *
      * @return данные о левом плече в виде {@link CompoundTag}.
      */
     @Override
     public CompoundTag getShoulderLeft() {
+        if (ServerVersion.is1_21_9orNewer()) return new CompoundTag();
         return this.entityData.get(DATA_SHOULDER_LEFT);
     }
 
@@ -281,6 +249,7 @@ public class VirtualPlayerImpl extends VirtualLivingEntityImpl implements dev.by
      */
     @Override
     public void setShoulderLeft(CompoundTag tag) {
+        if (ServerVersion.is1_21_9orNewer()) return;
         this.entityData.set(DATA_SHOULDER_LEFT, tag);
     }
 
@@ -291,6 +260,7 @@ public class VirtualPlayerImpl extends VirtualLivingEntityImpl implements dev.by
      */
     @Override
     public CompoundTag getShoulderRight() {
+        if (ServerVersion.is1_21_9orNewer()) return new CompoundTag();
         return this.entityData.get(DATA_SHOULDER_RIGHT);
     }
 
@@ -301,6 +271,7 @@ public class VirtualPlayerImpl extends VirtualLivingEntityImpl implements dev.by
      */
     @Override
     public void setShoulderRight(CompoundTag tag) {
+        if (ServerVersion.is1_21_9orNewer()) return;
         this.entityData.set(DATA_SHOULDER_RIGHT, tag);
     }
 
@@ -308,8 +279,6 @@ public class VirtualPlayerImpl extends VirtualLivingEntityImpl implements dev.by
     static {
         DATA_PLAYER_ABSORPTION_ID = Mappings.findAccessor("Player", "DATA_PLAYER_ABSORPTION_ID");
         DATA_SCORE_ID = Mappings.findAccessor("Player", "DATA_SCORE_ID");
-        DATA_PLAYER_MODE_CUSTOMISATION = Mappings.findAccessor("Player", "DATA_PLAYER_MODE_CUSTOMISATION");
-        DATA_PLAYER_MAIN_HAND = Mappings.findAccessor("Player", "DATA_PLAYER_MAIN_HAND");
         DATA_SHOULDER_LEFT = Mappings.findAccessor("Player", "DATA_SHOULDER_LEFT");
         DATA_SHOULDER_RIGHT = Mappings.findAccessor("Player", "DATA_SHOULDER_RIGHT");
     }

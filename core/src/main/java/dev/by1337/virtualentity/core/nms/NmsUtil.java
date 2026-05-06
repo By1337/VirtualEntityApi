@@ -920,10 +920,11 @@ public class NmsUtil {
                 Method method = cl2.getDeclaredMethod("codec");
                 method.setAccessible(true);
                 return method.invoke(val);
+            } catch (NoSuchFieldException e) {
+                return null;
             } catch (Throwable t) {
                 throw new RuntimeException(t);
             }
-
         }
 
         @ASM

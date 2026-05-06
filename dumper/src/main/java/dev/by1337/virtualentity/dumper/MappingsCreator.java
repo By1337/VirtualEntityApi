@@ -1,22 +1,15 @@
 package dev.by1337.virtualentity.dumper;
 
-import com.mojang.authlib.GameProfile;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.Util;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.ProtocolInfo;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.IdDispatchCodec;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.*;
-import net.minecraft.network.syncher.*;
+import net.minecraft.network.protocol.game.ClientboundAnimatePacket;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializer;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerEntity;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.ClassTreeIdRegistry;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.*;
@@ -24,19 +17,15 @@ import net.minecraft.world.entity.animal.Fox;
 import net.minecraft.world.entity.animal.Panda;
 import net.minecraft.world.entity.animal.armadillo.Armadillo;
 import net.minecraft.world.entity.animal.axolotl.Axolotl;
+import net.minecraft.world.entity.animal.coppergolem.CopperGolemState;
 import net.minecraft.world.entity.animal.sniffer.Sniffer;
 import net.minecraft.world.entity.boss.enderdragon.phases.EnderDragonPhase;
 import net.minecraft.world.entity.decoration.PaintingVariant;
 import net.minecraft.world.entity.monster.SpellcasterIllager;
-import net.minecraft.world.entity.monster.warden.Warden;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerType;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemDisplayContext;
-import net.minecraft.world.phys.Vec3;
-import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.CraftServer;
 import org.by1337.blib.nbt.MojangNbtReader;
 import org.by1337.blib.nbt.NBT;
 import org.by1337.blib.nbt.NBTToStringStyle;
@@ -44,9 +33,7 @@ import org.by1337.blib.nbt.impl.CompoundTag;
 import org.by1337.blib.nbt.impl.ListNBT;
 import sun.misc.Unsafe;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -110,7 +97,7 @@ public class MappingsCreator {
                 var f = SynchedEntityData.class.getDeclaredField("ID_REGISTRY");
                 f.setAccessible(true);
                 return (ClassTreeIdRegistry) f.get(null);
-            }catch (Throwable t){
+            } catch (Throwable t) {
                 throw new RuntimeException(t);
             }
         });
@@ -301,6 +288,20 @@ public class MappingsCreator {
             }
             enums.putTag("dev.by1337.virtualentity.api.entity.ArmadilloState", billboardConstraints);
         }
+        { // CopperWeatherState
+            CompoundTag billboardConstraints = new CompoundTag();
+            for (var value : net.minecraft.world.level.block.WeatheringCopper.WeatherState.values()) {
+                billboardConstraints.putInt(value.name(), value.ordinal());
+            }
+            enums.putTag("dev.by1337.virtualentity.api.entity.CopperWeatherState", billboardConstraints);
+        }
+        { // CopperGolemState
+            CompoundTag billboardConstraints = new CompoundTag();
+            for (var value : CopperGolemState.values()) {
+                billboardConstraints.putInt(value.name(), value.ordinal());
+            }
+            enums.putTag("dev.by1337.virtualentity.api.entity.CopperGolemState", billboardConstraints);
+        }
 
         { // PigVariant
             CompoundTag pig = new CompoundTag();
@@ -342,6 +343,7 @@ public class MappingsCreator {
             }
             enums.putTag("dev.by1337.virtualentity.api.entity.EntityEvent", entityEvents);
         }
+
         data.putTag("enums", enums);
 
         Files.writeString(dataFolder.resolve("mappings.json"), data.toString(NBTToStringStyle.JSON_STYLE_COMPACT));

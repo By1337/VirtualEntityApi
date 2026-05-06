@@ -109,6 +109,8 @@ public class EntityDataSerializers {
     public static final EntityDataSerializer<PaintingMotive> PAINTING_VARIANT = register(ByteBufUtil::writeEnum, "PAINTING_VARIANT");
     public static final EntityDataSerializer<WolfVariant> WOLF_VARIANT = register(ByteBufUtil::writeEnum, "WOLF_VARIANT");
     public static final EntityDataSerializer<ArmadilloState> ARMADILLO_STATE = register(ByteBufUtil::writeEnum, "ARMADILLO_STATE");
+    public static final EntityDataSerializer<CopperWeatherState> WEATHERING_COPPER_STATE = register(ByteBufUtil::writeEnum, "WEATHERING_COPPER_STATE");
+    public static final EntityDataSerializer<CopperGolemState> COPPER_GOLEM_STATE = register(ByteBufUtil::writeEnum, "COPPER_GOLEM_STATE");
     public static final EntityDataSerializer<Long> LONG = register(ByteBufUtil::writeVarLong, "LONG");
     public static final EntityDataSerializer<Optional<BlockData>> OPTIONAL_BLOCK_STATE = register((val, buff) -> {
         if (val.isPresent()) {
