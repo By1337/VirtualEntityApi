@@ -43,7 +43,7 @@ public class MappingsCreator {
 
         Set<Class<?>> entities = new HashSet<>();
         // find all entities class
-        for (Field field : EntityType.class.getDeclaredFields()) {
+        for (Field field : EntityTypes.class.getDeclaredFields()) {
             field.setAccessible(true);
             if (field.getType() != EntityType.class) continue;
             Class<?> entityClazz = Class.forName(((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0].getTypeName());
@@ -89,11 +89,11 @@ public class MappingsCreator {
 
         CompoundTag typeToData = new CompoundTag();
 
-        for (Field field : EntityType.class.getDeclaredFields()) {
+        for (Field field : EntityTypes.class.getDeclaredFields()) {
             field.setAccessible(true);
             if (field.getType() != EntityType.class) continue;
             EntityType<?> type = (EntityType<?>) field.get(null);
-            if (type == EntityType.MARKER) continue;
+            if (type == EntityTypes.MARKER) continue;
             CompoundTag info = new CompoundTag();
             info.putInt("networkId", BuiltInRegistries.ENTITY_TYPE.getId(type));
             info.putString("spawnPacket", "ADD_ENTITY_PACKET");

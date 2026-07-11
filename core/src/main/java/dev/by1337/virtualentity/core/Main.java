@@ -80,8 +80,8 @@ public class Main extends JavaPlugin {
                 .addSubCommand(new Command<CommandSender>("spawn")
                         .requires(sender -> sender instanceof Player)
                         .argument(new ArgumentEnumValue<>("type", VirtualEntityType.class,
-                                        v -> Version.VERSION.newerThanOrEqual(v.availableSinceVersion()) &&
-                                                (v.removedIn() == null || Version.VERSION.olderThan(v.removedIn()))
+                                        v -> ServerVersion.CURRENT >= v.availableSinceVersion() &&
+                                                (v.removedIn() == -1 || ServerVersion.CURRENT < v.removedIn())
                                 )
                         )
                         .executor(((sender, args) -> {
@@ -172,8 +172,8 @@ public class Main extends JavaPlugin {
                             PlayerTracker tracker = new PlayerTracker(player.getWorld(), new Vec3d(player.getLocation()));
                             Vec3d pos = new Vec3d(player.getLocation());
                             for (VirtualEntityType value : VirtualEntityType.values()) {
-                                if (Version.VERSION.olderThan(value.availableSinceVersion())) continue;
-                                if (value.removedIn() != null && Version.VERSION.newerThanOrEqual(value.removedIn()))
+                                if (ServerVersion.CURRENT < value.availableSinceVersion()) continue;
+                                if (value.removedIn() != -1 && ServerVersion.CURRENT > value.removedIn())
                                     continue;
                                 try {
                                     VirtualEntity entity = VirtualEntityApi.getFactory().create(value);

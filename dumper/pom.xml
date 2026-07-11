@@ -4,7 +4,7 @@
     <parent>
         <groupId>dev.by1337.virtualentity</groupId>
         <artifactId>VirtualEntityApi</artifactId>
-        <version>1.4.1</version>
+        <version>1.4.2</version>
     </parent>
     <groupId>dev.by1337.virtualentity.dumper</groupId>
     <artifactId>dumper</artifactId>
@@ -64,7 +64,7 @@
             <plugin>
                 <groupId>ca.bkaw</groupId>
                 <artifactId>paper-nms-maven-plugin</artifactId>
-                <version>1.4.11-SNAPSHOT</version>
+                <version>1.4.5</version>
             </plugin>
         </plugins>
         <resources>
@@ -116,9 +116,16 @@
         <dependency>
             <groupId>ca.bkaw</groupId>
             <artifactId>paper-nms</artifactId>
-            <version>26.1.2.build.19-alpha-SNAPSHOT</version>
+            <version>26.2.build.56-alpha</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>io.papermc.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <version>26.2.build.56-alpha</version>
+            <scope>provided</scope>
+        </dependency>
+
         <dependency>
             <groupId>com.mojang</groupId>
             <artifactId>authlib</artifactId>
@@ -129,13 +136,6 @@
             <groupId>com.mojang</groupId>
             <artifactId>datafixerupper</artifactId>
             <version>9.0.19</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>io.papermc.paper</groupId>
-            <artifactId>paper-api</artifactId>
-            <version>1.21.10-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

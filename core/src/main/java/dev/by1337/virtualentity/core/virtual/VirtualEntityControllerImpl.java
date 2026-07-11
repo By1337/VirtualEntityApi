@@ -29,12 +29,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
 
 public abstract class VirtualEntityControllerImpl implements VirtualEntityController {
-    @SuppressWarnings("deprecation")
-    protected final int id = Bukkit.getUnsafe().nextEntityId();
+    private static final AtomicInteger counter = new AtomicInteger(1<<30);
+    protected final int id = counter.getAndIncrement();
     private final EntityPosition position = new EntityPosition();
     private final UUID uuid = UUID.randomUUID();
     private boolean onGround = true;

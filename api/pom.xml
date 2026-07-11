@@ -4,7 +4,7 @@
     <parent>
         <groupId>dev.by1337.virtualentity</groupId>
         <artifactId>VirtualEntityApi</artifactId>
-        <version>1.4.1</version>
+        <version>1.4.2</version>
     </parent>
     <groupId>dev.by1337.virtualentity.api</groupId>
     <artifactId>VirtualEntityApi-api</artifactId>
@@ -107,6 +107,12 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>33.2.1-jre</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>dev.by1337.core</groupId>
+            <artifactId>BLibV2</artifactId>
+            <version>1.7.4</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

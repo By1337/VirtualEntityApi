@@ -1,47 +1,41 @@
-package dev.by1337.virtualentity.core.virtual.monster;
+package dev.by1337.virtualentity.core.virtual.monster.cubemob;
 
 import dev.by1337.core.ServerVersion;
+import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
-import dev.by1337.virtualentity.core.virtual.monster.cubemob.VirtualAbstractCubeMobImpl;
+import dev.by1337.virtualentity.core.virtual.VirtualAgeableMobImpl;
 
-public class VirtualSlimeImpl extends VirtualAbstractCubeMobImpl implements dev.by1337.virtualentity.api.virtual.monster.VirtualSlime {
+@SinceMinecraftVersion("26.2")
+public class VirtualAbstractCubeMobImpl extends VirtualAgeableMobImpl implements dev.by1337.virtualentity.api.virtual.monster.cubemob.VirtualAbstractCubeMob {
     private static final EntityDataAccessor<Integer> ID_SIZE;
 
-    protected VirtualSlimeImpl(VirtualEntityType type) {
+    public VirtualAbstractCubeMobImpl(VirtualEntityType type) {
         super(type);
     }
 
-    public VirtualSlimeImpl() {
-        super(VirtualEntityType.SLIME);
-    }
-
+    @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
         if (ID_SIZE != null)
             this.entityData.define(ID_SIZE, 1);
     }
 
+
     @Override
     public int getSize() {
-        if (ServerVersion.is26_2orNewer()) return super.getSize();
         return entityData.get(ID_SIZE);
     }
 
     @Override
     public void setSize(int size) {
-        if (ServerVersion.is26_2orNewer()) {
-            super.setSize(size);
-            return;
-        }
         entityData.set(ID_SIZE, size);
     }
 
     static {
         if (ServerVersion.is26_2orNewer())
-            ID_SIZE = null;
-        else
-            ID_SIZE = Mappings.findAccessor("Slime", "ID_SIZE");
+            ID_SIZE = Mappings.findAccessor("AbstractCubeMob", "ID_SIZE");
+        else ID_SIZE = null;
     }
 }

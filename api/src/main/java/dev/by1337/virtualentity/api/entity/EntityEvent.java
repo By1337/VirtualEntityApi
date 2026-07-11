@@ -103,6 +103,8 @@ public enum EntityEvent implements MappedEnum {
     RAVAGER_ROARED,
     @SinceMinecraftVersion("1.21.11")
     KINETIC_HIT,
+    @SinceMinecraftVersion("26.2")
+    TNT_PRIME,
     ;
     public static final Codec<EntityEvent> CODEC = DefaultCodecs.createEnumCodec(EntityEvent.class);
     private static final EnumMap<EntityEvent, Integer> TO_ID = new EnumMap<>(EntityEvent.class);

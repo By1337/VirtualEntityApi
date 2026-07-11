@@ -2,6 +2,7 @@ package dev.by1337.virtualentity.dumper;
 
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import org.by1337.blib.text.MessageFormatter;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,7 +19,7 @@ public class EasyEntityDumper {
     public static void dump(File dataFolder) throws Throwable {
         Set<Class<?>> set = new HashSet<>();
         Set<Class<?>> entity = new HashSet<>();
-        for (Field field : EntityType.class.getDeclaredFields()) {
+        for (Field field : EntityTypes.class.getDeclaredFields()) {
             field.setAccessible(true);
             if (field.getType() != EntityType.class) continue;
             //EntityType<?> type = (EntityType<?>) field.get(null);

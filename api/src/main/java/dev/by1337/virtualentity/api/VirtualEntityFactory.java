@@ -1,5 +1,6 @@
 package dev.by1337.virtualentity.api;
 
+import dev.by1337.core.ServerVersion;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.api.virtual.VirtualEntity;
 import org.by1337.blib.text.MessageFormatter;
@@ -12,7 +13,7 @@ import java.util.function.Supplier;
 public class VirtualEntityFactory {
     private final Map<VirtualEntityType, VirtualEntityCreator> entityCreatorMap = new EnumMap<>(VirtualEntityType.class);
 
-    public void register(VirtualEntityType type, Supplier<VirtualEntity> creator, Version supportedVersion) {
+    public void register(VirtualEntityType type, Supplier<VirtualEntity> creator, int supportedVersion) {
         if (entityCreatorMap.containsKey(type)) {
             throw new IllegalStateException(MessageFormatter.apply("The creator of the {} entity is already registered!", type));
         }
@@ -29,12 +30,12 @@ public class VirtualEntityFactory {
         if (creator == null) {
             throw new IllegalStateException(MessageFormatter.apply("The creator of the {} entity isn't registered!", type));
         }
-        if (Version.VERSION.olderThan(creator.supportedVersion)) {
-            throw new IllegalStateException(MessageFormatter.apply("Entity {} is not supported on version {}, must be version >= {}", type, Version.VERSION, creator.supportedVersion));
+        if (ServerVersion.CURRENT < creator.supportedVersion) {
+            throw new IllegalStateException(MessageFormatter.apply("Entity {} is not supported on version {}, must be version >= {}", type, ServerVersion.CURRENT_ID, creator.supportedVersion));
         }
         return creator.creator.get();
     }
 
-    public record VirtualEntityCreator(Supplier<VirtualEntity> creator, Version supportedVersion) {
+    public record VirtualEntityCreator(Supplier<VirtualEntity> creator, int supportedVersion) {
     }
 }
