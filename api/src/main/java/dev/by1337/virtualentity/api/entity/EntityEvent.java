@@ -105,6 +105,9 @@ public enum EntityEvent implements MappedEnum {
     KINETIC_HIT,
     @SinceMinecraftVersion("26.2")
     TNT_PRIME,
+    @SinceMinecraftVersion("26.3")
+    BOAT_LAUNCH,
+    BOAT_SINK,
     ;
     public static final Codec<EntityEvent> CODEC = DefaultCodecs.createEnumCodec(EntityEvent.class);
     private static final EnumMap<EntityEvent, Integer> TO_ID = new EnumMap<>(EntityEvent.class);

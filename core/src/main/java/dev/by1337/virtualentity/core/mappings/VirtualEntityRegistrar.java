@@ -230,6 +230,7 @@ public class VirtualEntityRegistrar {
         factory.register(VirtualEntityType.PARCHED, VirtualParchedImpl::new, ServerVersion.V1_21_11);
         factory.register(VirtualEntityType.ZOMBIE_NAUTILUS, VirtualZombieNautilusImpl::new, ServerVersion.V1_21_11);
         factory.register(VirtualEntityType.SULFUR_CUBE, VirtualSulfurCubeImpl::new, ServerVersion.V26_2);
+        factory.register(VirtualEntityType.CUSHION, VirtualCushionImpl::new, ServerVersion.V26_3);
     }
 
     private static void registerBoats() {
@@ -242,6 +243,7 @@ public class VirtualEntityRegistrar {
                 VirtualEntityType.MANGROVE_BOAT,
                 VirtualEntityType.OAK_BOAT,
                 VirtualEntityType.PALE_OAK_BOAT,
+                VirtualEntityType.POPLAR_BOAT,
                 VirtualEntityType.SPRUCE_BOAT
         );
         Set<VirtualEntityType> chestBoats = Set.of(
@@ -253,6 +255,7 @@ public class VirtualEntityRegistrar {
                 VirtualEntityType.MANGROVE_CHEST_BOAT,
                 VirtualEntityType.OAK_CHEST_BOAT,
                 VirtualEntityType.PALE_OAK_CHEST_BOAT,
+                VirtualEntityType.POPLAR_CHEST_BOAT,
                 VirtualEntityType.SPRUCE_CHEST_BOAT
         );
         VirtualEntityFactory factory = VirtualEntityApi.getFactory();

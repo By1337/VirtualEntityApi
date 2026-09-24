@@ -131,6 +131,8 @@ public class EntityDataSerializers {
     }, "VECTOR3");
 
     public static final EntityDataSerializer<HumanoidArm> HUMANOID_ARM = register((val, byteBuf) -> byteBuf.writeByte(val.getId()), "HUMANOID_ARM");
+
+    public static final EntityDataSerializer<DyeColor> DYE_COLOR = register(ByteBufUtil::writeEnum, "DYE_COLOR");
     // OPTIONAL_GLOBAL_POS unused
 
     private static <T> EntityDataSerializer<T> register(EntityDataSerializer<T> serializer, String name) {

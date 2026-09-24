@@ -138,10 +138,10 @@ public class MappingsCreator {
 
         { // animationToId
             CompoundTag animationToId = new CompoundTag();
-            animationToId.putInt("SWING_MAIN_ARM", ClientboundAnimatePacket.SWING_MAIN_HAND);
+            //animationToId.putInt("SWING_MAIN_ARM", 0); // removed
             //animationToId.putInt("TAKE_DAMAGE", 1); // removed
             animationToId.putInt("LEAVE_BED", ClientboundAnimatePacket.WAKE_UP);
-            animationToId.putInt("SWING_OFFHAND", ClientboundAnimatePacket.SWING_OFF_HAND);
+            //animationToId.putInt("SWING_OFFHAND", 3); // removed
             animationToId.putInt("CRITICAL_EFFECT", ClientboundAnimatePacket.CRITICAL_HIT);
             animationToId.putInt("MAGIC_CRITICAL_EFFECT", ClientboundAnimatePacket.MAGIC_CRITICAL_HIT);
             enums.putTag("dev.by1337.virtualentity.api.entity.EntityAnimation", animationToId);

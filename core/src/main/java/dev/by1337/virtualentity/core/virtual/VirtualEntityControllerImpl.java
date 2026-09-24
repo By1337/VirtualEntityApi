@@ -212,6 +212,10 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
         if (x == -1) {
             if (animation == EntityAnimation.TAKE_DAMAGE && ServerVersion.CURRENT_PROTOCOL >= 765){
                 broadcast(new DamageEventPacket(id));
+            } else if (animation == EntityAnimation.SWING_MAIN_ARM && ServerVersion.CURRENT_PROTOCOL >= ServerVersion.Protocol.V26_3) {
+                broadcast(new SwingAnimationPacket(id, SwingAnimationPacket.MAIN_HAND));
+            } else if (animation == EntityAnimation.SWING_OFFHAND && ServerVersion.CURRENT_PROTOCOL >= ServerVersion.Protocol.V26_3) {
+                broadcast(new SwingAnimationPacket(id, SwingAnimationPacket.OFF_HAND));
             }
             return;
         }

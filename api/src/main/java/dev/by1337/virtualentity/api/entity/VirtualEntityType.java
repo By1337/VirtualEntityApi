@@ -231,6 +231,10 @@ public enum VirtualEntityType {
     ZOMBIE_NAUTILUS(ServerVersion.V1_21_11),
     @SinceMinecraftVersion("26.2")
     SULFUR_CUBE(ServerVersion.V26_2),
+    @SinceMinecraftVersion("26.3")
+    CUSHION(ServerVersion.V26_3),
+    POPLAR_BOAT(ServerVersion.V26_3),
+    POPLAR_CHEST_BOAT(ServerVersion.V26_3),
 
     ;
     public static final Codec<VirtualEntityType> CODEC = DefaultCodecs.createEnumCodec(VirtualEntityType.class);

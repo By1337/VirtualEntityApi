@@ -7,10 +7,11 @@ import org.by1337.blib.configuration.serialization.DefaultCodecs;
 import java.util.EnumMap;
 
 public enum EntityAnimation implements MappedEnum {
-    SWING_MAIN_ARM,
     @RemovedInMinecraftVersion("1.20.6")
     TAKE_DAMAGE,
     LEAVE_BED,
+    @RemovedInMinecraftVersion("26.3")
+    SWING_MAIN_ARM,
     SWING_OFFHAND,
     CRITICAL_EFFECT,
     MAGIC_CRITICAL_EFFECT;

@@ -4,7 +4,7 @@
     <parent>
         <groupId>dev.by1337.virtualentity</groupId>
         <artifactId>VirtualEntityApi</artifactId>
-        <version>1.4.2</version>
+        <version>1.4.3</version>
     </parent>
     <groupId>dev.by1337.virtualentity.dumper</groupId>
     <artifactId>dumper</artifactId>
@@ -64,7 +64,7 @@
             <plugin>
                 <groupId>ca.bkaw</groupId>
                 <artifactId>paper-nms-maven-plugin</artifactId>
-                <version>1.4.5</version>
+                <version>1.5</version>
             </plugin>
         </plugins>
         <resources>
@@ -116,13 +116,13 @@
         <dependency>
             <groupId>ca.bkaw</groupId>
             <artifactId>paper-nms</artifactId>
-            <version>26.2.build.56-alpha</version>
+            <version>26.3.build.26-alpha</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>26.2.build.56-alpha</version>
+            <version>26.3.build.26-alpha</version>
             <scope>provided</scope>
         </dependency>
 
@@ -148,7 +148,7 @@
         <dependency>
             <groupId>org.by1337.blib</groupId>
             <artifactId>Blib-api</artifactId>
-            <version>1.9.6</version>
+            <version>1.9.8</version>
             <scope>provided</scope>
         </dependency>
         <!-- tests -->

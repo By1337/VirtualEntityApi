@@ -4,6 +4,7 @@ import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
 import dev.by1337.virtualentity.core.virtual.VirtualMobImpl;
+import dev.by1337.core.ServerVersion;
 import org.bukkit.block.data.BlockData;
 
 import javax.annotation.Nullable;
@@ -57,8 +58,9 @@ public class VirtualEnderManImpl extends VirtualMobImpl implements dev.by1337.vi
     }
 
     static {
-        DATA_CARRY_STATE = Mappings.findAccessor("EnderMan", "DATA_CARRY_STATE");
-        DATA_CREEPY = Mappings.findAccessor("EnderMan", "DATA_CREEPY");
-        DATA_STARED_AT = Mappings.findAccessor("EnderMan", "DATA_STARED_AT");
+        String className = ServerVersion.is26_3orNewer() ? "Enderman" : "EnderMan";
+        DATA_CARRY_STATE = Mappings.findAccessor(className, "DATA_CARRY_STATE");
+        DATA_CREEPY = Mappings.findAccessor(className, "DATA_CREEPY");
+        DATA_STARED_AT = Mappings.findAccessor(className, "DATA_STARED_AT");
     }
 }
