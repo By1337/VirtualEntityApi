@@ -1,6 +1,6 @@
 name: VirtualEntityApi
 main: dev.by1337.virtualentity.core.Main
-version: 1.0
+version: 1.4.3
 api-version: '1.21.11'
 depend:
   - BLib

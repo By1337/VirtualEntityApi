@@ -13,7 +13,7 @@ class ModernResourcesTest {
             assertNull(loader.getResource("entity/" + protocol + ".nbt"));
             assertNull(loader.getResource("packets/" + protocol + ".json"));
         }
-        for (int protocol = 774; protocol <= 776; protocol++) {
+        for (int protocol = 774; protocol <= 777; protocol++) {
             assertNotNull(loader.getResource("entity/" + protocol + ".nbt"));
             assertNotNull(loader.getResource("packets/" + protocol + ".json"));
         }

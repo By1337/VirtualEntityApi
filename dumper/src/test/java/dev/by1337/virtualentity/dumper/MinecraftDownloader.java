@@ -14,7 +14,6 @@ import java.util.Map;
 
 public class MinecraftDownloader {
 
-    //@Test Блять не вклбючай это не тест он просто wget команды создаёт!
     public void run() {
         //java "-DbundlerMainClass=net.minecraft.data.Main" -jar ./server.jar --all
         Gson gson = new Gson();

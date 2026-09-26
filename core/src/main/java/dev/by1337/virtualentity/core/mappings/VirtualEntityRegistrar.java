@@ -105,7 +105,7 @@ public class VirtualEntityRegistrar {
         factory.register(VirtualEntityType.BLAZE, VirtualBlazeImpl::new, ServerVersion.V1_21_11);
         factory.register(VirtualEntityType.CAVE_SPIDER, VirtualCaveSpiderImpl::new, ServerVersion.V1_21_11);
         factory.register(VirtualEntityType.ELDER_GUARDIAN, VirtualElderGuardianImpl::new, ServerVersion.V1_21_11);
-        factory.register(VirtualEntityType.ENDERMAN, VirtualEnderManImpl::new, ServerVersion.V1_21_11);
+        factory.register(VirtualEntityType.ENDERMAN, VirtualEndermanImpl::new, ServerVersion.V1_21_11);
         factory.register(VirtualEntityType.ENDERMITE, VirtualEndermiteImpl::new, ServerVersion.V1_21_11);
         factory.register(VirtualEntityType.GHAST, VirtualGhastImpl::new, ServerVersion.V1_21_11);
         factory.register(VirtualEntityType.GIANT, VirtualGiantImpl::new, ServerVersion.V1_21_11);
@@ -212,6 +212,9 @@ public class VirtualEntityRegistrar {
         factory.register(VirtualEntityType.PARCHED, VirtualParchedImpl::new, ServerVersion.V1_21_11);
         factory.register(VirtualEntityType.ZOMBIE_NAUTILUS, VirtualZombieNautilusImpl::new, ServerVersion.V1_21_11);
         factory.register(VirtualEntityType.SULFUR_CUBE, VirtualSulfurCubeImpl::new, ServerVersion.V26_2);
+        factory.register(VirtualEntityType.CUSHION, VirtualCushionImpl::new, ServerVersion.V26_3);
+        factory.register(VirtualEntityType.POPLAR_BOAT, () -> new VirtualBoatImpl(VirtualEntityType.POPLAR_BOAT), ServerVersion.V26_3);
+        factory.register(VirtualEntityType.POPLAR_CHEST_BOAT, () -> new VirtualChestBoatImpl(VirtualEntityType.POPLAR_CHEST_BOAT), ServerVersion.V26_3);
     }
 
     private static void registerBoats() {

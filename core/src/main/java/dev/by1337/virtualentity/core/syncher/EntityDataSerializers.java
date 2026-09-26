@@ -125,9 +125,9 @@ public class EntityDataSerializers {
     }, "VECTOR3");
 
     public static final EntityDataSerializer<HumanoidArm> HUMANOID_ARM = register((val, byteBuf) -> ByteBufUtil.writeVarInt(val.getId(), byteBuf), "HUMANOID_ARM");
-    // Keep the integer API used by collar-color accessors; DyeColor.STREAM_CODEC is a VarInt id mapper.
+
     @SinceMinecraftVersion("26.3")
-    public static final EntityDataSerializer<Integer> DYE_COLOR = register(ByteBufUtil::writeVarInt, "DYE_COLOR");
+    public static final EntityDataSerializer<dev.by1337.virtualentity.api.entity.DyeColor> DYE_COLOR = register(ByteBufUtil::writeEnum, "DYE_COLOR");
     // OPTIONAL_GLOBAL_POS unused
 
     private static <T> EntityDataSerializer<T> register(EntityDataSerializer<T> serializer, String name) {

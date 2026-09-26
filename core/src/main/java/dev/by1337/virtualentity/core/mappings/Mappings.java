@@ -3,8 +3,8 @@ package dev.by1337.virtualentity.core.mappings;
 import blib.com.mojang.serialization.Codec;
 import blib.com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.by1337.core.ServerVersion;
-import dev.by1337.virtualentity.core.SupportedVersions;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
+import dev.by1337.virtualentity.core.SupportedVersions;
 import dev.by1337.virtualentity.core.network.PacketType;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
 import dev.by1337.virtualentity.core.syncher.EntityDataSerializer;
@@ -16,7 +16,8 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.net.URLConnection;
@@ -126,14 +127,15 @@ public class Mappings {
 
     static {
         final InputStream in = getMappingsInputStream(ServerVersion.CURRENT_PROTOCOL);
-
+        Mappings v = null;
         try (in) {
             CompoundTag nbt = MojangNbtReader.readCompressed(in);
-            instance = CODEC.decode(NbtOps.INSTANCE, nbt).getOrThrow().getFirst();
-            instance.applyEnumMappings();
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to read mappings file for version " + ServerVersion.CURRENT_ID, e);
+            v = CODEC.decode(NbtOps.INSTANCE, nbt).getOrThrow().getFirst();
+            v.applyEnumMappings();
+        } catch (Exception e) {
+            LOGGER.error("Failed to read mappings file for version {}", ServerVersion.CURRENT_ID, e);
         }
+        instance = v;
     }
 
     @NotNull

@@ -1,5 +1,7 @@
 package dev.by1337.virtualentity.core.virtual.monster;
 
+import dev.by1337.core.ServerVersion;
+
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
@@ -9,12 +11,12 @@ import org.bukkit.block.data.BlockData;
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-public class VirtualEnderManImpl extends VirtualMobImpl implements dev.by1337.virtualentity.api.virtual.monster.VirtualEnderMan {
+public class VirtualEndermanImpl extends VirtualMobImpl implements dev.by1337.virtualentity.api.virtual.monster.VirtualEnderMan {
     private static final EntityDataAccessor<Optional<BlockData>> DATA_CARRY_STATE;
     private static final EntityDataAccessor<Boolean> DATA_CREEPY;
     private static final EntityDataAccessor<Boolean> DATA_STARED_AT;
 
-    public VirtualEnderManImpl() {
+    public VirtualEndermanImpl() {
         super(VirtualEntityType.ENDERMAN);
     }
 
@@ -43,7 +45,7 @@ public class VirtualEnderManImpl extends VirtualMobImpl implements dev.by1337.vi
 
     @Override
     public void setCreepy(boolean flag) {
-        this.entityData.set(DATA_CREEPY, false);
+        this.entityData.set(DATA_CREEPY, flag);
     }
 
     @Override
@@ -57,8 +59,9 @@ public class VirtualEnderManImpl extends VirtualMobImpl implements dev.by1337.vi
     }
 
     static {
-        DATA_CARRY_STATE = Mappings.findAccessor("EnderMan", "DATA_CARRY_STATE");
-        DATA_CREEPY = Mappings.findAccessor("EnderMan", "DATA_CREEPY");
-        DATA_STARED_AT = Mappings.findAccessor("EnderMan", "DATA_STARED_AT");
+        String entity = ServerVersion.CURRENT_PROTOCOL == 777 ? "Enderman" : "EnderMan";
+        DATA_CARRY_STATE = Mappings.findAccessor(entity, "DATA_CARRY_STATE");
+        DATA_CREEPY = Mappings.findAccessor(entity, "DATA_CREEPY");
+        DATA_STARED_AT = Mappings.findAccessor(entity, "DATA_STARED_AT");
     }
 }
