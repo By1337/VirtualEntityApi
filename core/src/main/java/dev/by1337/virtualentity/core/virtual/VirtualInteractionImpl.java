@@ -1,11 +1,9 @@
 package dev.by1337.virtualentity.core.virtual;
 
-import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
 
-@SinceMinecraftVersion("1.19.4")
 public class VirtualInteractionImpl extends VirtualEntityImpl implements dev.by1337.virtualentity.api.virtual.VirtualInteraction {
     private static final EntityDataAccessor<Float> DATA_WIDTH_ID;
     private static final EntityDataAccessor<Float> DATA_HEIGHT_ID;
@@ -51,7 +49,6 @@ public class VirtualInteractionImpl extends VirtualEntityImpl implements dev.by1
     public void setResponse(boolean response) {
         this.entityData.set(DATA_RESPONSE_ID, response);
     }
-
 
     static {
         DATA_WIDTH_ID = Mappings.findAccessor("Interaction", "DATA_WIDTH_ID");

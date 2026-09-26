@@ -9,17 +9,13 @@ import dev.by1337.virtualentity.api.task.TickTask;
 import dev.by1337.virtualentity.api.virtual.VirtualEntity;
 import dev.by1337.virtualentity.api.virtual.VirtualEntityController;
 import dev.by1337.virtualentity.api.virtual.VirtualLivingEntity;
-import dev.by1337.virtualentity.api.virtual.decoration.VirtualPainting;
 import dev.by1337.virtualentity.core.controller.EquipmentController;
 import dev.by1337.virtualentity.core.entity.EntityPosition;
-import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.network.Packet;
-import dev.by1337.virtualentity.core.network.PacketType;
 import dev.by1337.virtualentity.core.network.impl.*;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
 import dev.by1337.virtualentity.core.syncher.SynchedEntityData;
 import dev.by1337.virtualentity.core.util.ConcurrentPlayerHashSet;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.by1337.blib.geom.Vec3d;
@@ -31,7 +27,6 @@ import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
-
 
 public abstract class VirtualEntityControllerImpl implements VirtualEntityController {
     private static final AtomicInteger counter = new AtomicInteger(1<<30);
@@ -48,7 +43,6 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
     private Packet allEntityData;
     private Packet spawnPacket;
     private SetEntityMotionPacket motionPacket;
-    private final PacketType spawnPacketType;
     private final VirtualEntity virtualEntity;
     private final List<TickTask> tickTasks = new CopyOnWriteArrayList<>();
     private long tick;
@@ -59,7 +53,6 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
         entityData = new SynchedEntityData(this::onUpdate);
         defineSynchedData();
         removePacket = new RemoveEntitiesPacket(id);
-        spawnPacketType = Mappings.getSpawnPacket(type);
         rebuildSpawnPacket();
     }
 
@@ -68,14 +61,7 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
     }
 
     private Packet createSpawnPacket() {
-        return switch (spawnPacketType) {
-            case ADD_MOB_PACKET -> new AddMobPacket(virtualEntity);
-            case ADD_ENTITY_PACKET -> new AddEntityPacket(virtualEntity);
-            case ADD_PLAYER_PACKET -> new AddPlayerPacket(virtualEntity);
-            case ADD_EXPERIENCE_ORB_PACKET -> new AddExperienceOrbPacket(virtualEntity);
-            case ADD_PAINTING_PACKET -> new AddPaintingPacket((VirtualPainting) this);
-            default -> throw new IllegalStateException("Unknown spawn packet type: " + spawnPacket);
-        };
+        return new AddEntityPacket(virtualEntity);
     }
 
     @Override
@@ -100,7 +86,8 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
         }
         final SetEquipmentPacket changedSlots;
         if (equipment.isDirty()) {
-            changedSlots = new SetEquipmentPacket(id, equipment.packDirty());
+            var slots = equipment.packDirty();
+            changedSlots = slots.isEmpty() ? null : new SetEquipmentPacket(id, slots);
         } else {
             changedSlots = null;
         }
@@ -208,9 +195,14 @@ public abstract class VirtualEntityControllerImpl implements VirtualEntityContro
     }
 
     public void playAnimation(EntityAnimation animation) {
+        if (ServerVersion.CURRENT_PROTOCOL == 777 &&
+                (animation == EntityAnimation.SWING_MAIN_ARM || animation == EntityAnimation.SWING_OFFHAND)) {
+            broadcast(new SwingAnimationPacket(id, animation == EntityAnimation.SWING_OFFHAND));
+            return;
+        }
         int x = animation.getIdOr(-1);
         if (x == -1) {
-            if (animation == EntityAnimation.TAKE_DAMAGE && ServerVersion.CURRENT_PROTOCOL >= 765){
+            if (animation == EntityAnimation.TAKE_DAMAGE){
                 broadcast(new DamageEventPacket(id));
             }
             return;

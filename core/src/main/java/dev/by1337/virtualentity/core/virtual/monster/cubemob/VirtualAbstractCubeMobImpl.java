@@ -16,12 +16,15 @@ public class VirtualAbstractCubeMobImpl extends VirtualAgeableMobImpl implements
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        if (ID_SIZE != null)
-            this.entityData.define(ID_SIZE, 1);
+    protected boolean hasAgeableData() {
+        return ServerVersion.is26_2orNewer();
     }
 
+    @Override
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(ID_SIZE, 1);
+    }
 
     @Override
     public int getSize() {
@@ -36,6 +39,7 @@ public class VirtualAbstractCubeMobImpl extends VirtualAgeableMobImpl implements
     static {
         if (ServerVersion.is26_2orNewer())
             ID_SIZE = Mappings.findAccessor("AbstractCubeMob", "ID_SIZE");
-        else ID_SIZE = null;
+        else
+            ID_SIZE = Mappings.findAccessor("Slime", "ID_SIZE");
     }
 }

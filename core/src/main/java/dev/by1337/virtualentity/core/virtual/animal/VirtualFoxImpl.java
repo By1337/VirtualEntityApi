@@ -131,7 +131,6 @@ public class VirtualFoxImpl extends VirtualAgeableMobImpl implements dev.by1337.
         return this.getFlag(8);
     }
 
-
     static {
         DATA_TYPE_ID = Mappings.findAccessor("Fox", "DATA_TYPE_ID");
         DATA_FLAGS_ID = Mappings.findAccessor("Fox", "DATA_FLAGS_ID");

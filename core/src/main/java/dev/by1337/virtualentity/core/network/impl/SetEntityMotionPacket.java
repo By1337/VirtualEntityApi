@@ -1,6 +1,5 @@
 package dev.by1337.virtualentity.core.network.impl;
 
-import dev.by1337.core.ServerVersion;
 import dev.by1337.virtualentity.core.mappings.Packets;
 import dev.by1337.virtualentity.core.network.ByteBufUtil;
 import dev.by1337.virtualentity.core.network.Packet;
@@ -22,13 +21,7 @@ public class SetEntityMotionPacket extends Packet {
     public void write(ByteBuf byteBuf) {
         ByteBufUtil.writeVarInt(PACKET_ID, byteBuf);
         ByteBufUtil.writeVarInt(id, byteBuf);
-        if (ServerVersion.CURRENT_PROTOCOL >= ServerVersion.Protocol.V1_21_9) {
-            writeLpVec3(byteBuf, motion);
-        } else {
-            byteBuf.writeShort(toUnit(clamp(motion.x, -3.9, 3.9)));
-            byteBuf.writeShort(toUnit(clamp(motion.y, -3.9, 3.9)));
-            byteBuf.writeShort(toUnit(clamp(motion.z, -3.9, 3.9)));
-        }
+        writeLpVec3(byteBuf, motion);
     }
 
     private static short toUnit(double d) {

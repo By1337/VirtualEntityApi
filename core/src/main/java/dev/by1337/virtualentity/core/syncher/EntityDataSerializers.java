@@ -1,6 +1,6 @@
 package dev.by1337.virtualentity.core.syncher;
 
-import dev.by1337.virtualentity.api.annotations.RemovedInMinecraftVersion;
+import dev.by1337.core.ServerVersion;
 import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 import dev.by1337.virtualentity.api.entity.*;
 import dev.by1337.virtualentity.api.entity.npc.VillagerData;
@@ -12,9 +12,7 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.inventory.ItemStack;
 import org.by1337.blib.geom.Vec3f;
 import org.by1337.blib.geom.Vec3i;
-import org.by1337.blib.nbt.impl.CompoundTag;
 import org.by1337.blib.util.Direction;
-import org.by1337.blib.util.Version;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
@@ -43,8 +41,7 @@ public class EntityDataSerializers {
 
     public static final EntityDataSerializer<ItemStack> ITEM_STACK = register(ByteBufUtil::writeItemStack, "ITEM_STACK");
 
-    @SuppressWarnings("rawtypes")
-    public static final EntityDataSerializer BLOCK_STATE; // 1.19.4< is Optional<BlockData> 1.19.4>= is BlockData
+    public static final EntityDataSerializer<BlockData> BLOCK_STATE = register(ByteBufUtil::writeBlockState, "BLOCK_STATE");
 
     public static final EntityDataSerializer<Boolean> BOOLEAN = register((val, byteBuf) -> {
         byteBuf.writeBoolean(val);
@@ -52,7 +49,6 @@ public class EntityDataSerializers {
 
     public static final EntityDataSerializer<ParticleOptions<?>> PARTICLE = register(ByteBufUtil::writeParticle, "PARTICLE");
 
-    @SinceMinecraftVersion("1.20.6")
     public static final EntityDataSerializer<List<ParticleOptions<?>>> PARTICLES = register(ByteBufUtil::writeParticles, "PARTICLES");
 
     public static final EntityDataSerializer<Vec3f> ROTATIONS = register(ByteBufUtil::writeVec3f, "ROTATIONS");
@@ -65,15 +61,9 @@ public class EntityDataSerializers {
 
     public static final EntityDataSerializer<Direction> DIRECTION = register(ByteBufUtil::writeEnum, "DIRECTION");
 
-    @RemovedInMinecraftVersion("1.21.5")
-    public static final EntityDataSerializer<Optional<UUID>> OPTIONAL_UUID = register((val, byteBuf) -> {
+    public static final EntityDataSerializer<Optional<UUID>> OPTIONAL_LIVING_ENTITY_REFERENCE = register((val, byteBuf) -> {
         ByteBufUtil.writeOptional(byteBuf, val.orElse(null), ByteBufUtil::writeUUID);
-    }, "OPTIONAL_UUID");
-
-    @SinceMinecraftVersion("1.21.5")
-    public static EntityDataSerializer<Optional<UUID>> OPTIONAL_LIVING_ENTITY_REFERENCE = register(OPTIONAL_UUID, "OPTIONAL_LIVING_ENTITY_REFERENCE");
-
-    public static final EntityDataSerializer<CompoundTag> COMPOUND_TAG = register(ByteBufUtil::writeNbt, "COMPOUND_TAG");
+    }, "OPTIONAL_LIVING_ENTITY_REFERENCE");
 
     public static final EntityDataSerializer<VillagerData> VILLAGER_DATA = register((val, byteBuf) -> {
         INT.write(val.type().getId(), byteBuf);
@@ -82,7 +72,9 @@ public class EntityDataSerializers {
     }, "VILLAGER_DATA");
 
     public static final EntityDataSerializer<OptionalInt> OPTIONAL_UNSIGNED_INT = register((val, byteBuf) -> {
-        INT.write(val.orElse(-1) + 1, byteBuf);
+       // INT.write(val.orElse(-1) + 1, byteBuf);
+        ByteBufUtil.writeVarInt(val.orElse(-1) + 1, byteBuf);
+        //INT.write(val.orElse(-1) + 1, byteBuf);
     }, "OPTIONAL_UNSIGNED_INT");
 
     public static final EntityDataSerializer<Pose> POSE = register(ByteBufUtil::writeEnum, "POSE");
@@ -94,19 +86,21 @@ public class EntityDataSerializers {
         byteBuf.writeFloat(val.w);
     }, "QUATERNION");
 
-    @SinceMinecraftVersion("1.21.5")
     public static final EntityDataSerializer<PigVariant> PIG_VARIANT = register(ByteBufUtil::writeEnum, "PIG_VARIANT");
-    @SinceMinecraftVersion("1.21.5")
+
     public static final EntityDataSerializer<ChickenVariant> CHICKEN_VARIANT = register(ByteBufUtil::writeEnum, "CHICKEN_VARIANT");
-    @SinceMinecraftVersion("1.21.5")
+
     public static final EntityDataSerializer<CowVariant> COW_VARIANT = register(ByteBufUtil::writeEnum, "COW_VARIANT");
-    @SinceMinecraftVersion("1.21.5")
+
     public static final EntityDataSerializer<WolfSoundVariant> WOLF_SOUND_VARIANT = register(ByteBufUtil::writeEnum, "WOLF_SOUND_VARIANT");
 
     public static final EntityDataSerializer<SnifferState> SNIFFER_STATE = register(ByteBufUtil::writeEnum, "SNIFFER_STATE");
     public static final EntityDataSerializer<CatVariant> CAT_VARIANT = register(ByteBufUtil::writeEnum, "CAT_VARIANT");
     public static final EntityDataSerializer<FrogVariant> FROG_VARIANT = register(ByteBufUtil::writeEnum, "FROG_VARIANT");
-    public static final EntityDataSerializer<PaintingMotive> PAINTING_VARIANT = register(ByteBufUtil::writeEnum, "PAINTING_VARIANT");
+    public static final EntityDataSerializer<PaintingMotive> PAINTING_VARIANT = register((val, byteBuf) -> {
+        // ByteBufCodecs.holder reserves zero for a direct (inline) holder.
+        ByteBufUtil.writeVarInt(val.getId() + 1, byteBuf);
+    }, "PAINTING_VARIANT");
     public static final EntityDataSerializer<WolfVariant> WOLF_VARIANT = register(ByteBufUtil::writeEnum, "WOLF_VARIANT");
     public static final EntityDataSerializer<ArmadilloState> ARMADILLO_STATE = register(ByteBufUtil::writeEnum, "ARMADILLO_STATE");
     public static final EntityDataSerializer<CopperWeatherState> WEATHERING_COPPER_STATE = register(ByteBufUtil::writeEnum, "WEATHERING_COPPER_STATE");
@@ -130,11 +124,14 @@ public class EntityDataSerializers {
         buff.writeFloat(val.z);
     }, "VECTOR3");
 
-    public static final EntityDataSerializer<HumanoidArm> HUMANOID_ARM = register((val, byteBuf) -> byteBuf.writeByte(val.getId()), "HUMANOID_ARM");
+    public static final EntityDataSerializer<HumanoidArm> HUMANOID_ARM = register((val, byteBuf) -> ByteBufUtil.writeVarInt(val.getId(), byteBuf), "HUMANOID_ARM");
+    // Keep the integer API used by collar-color accessors; DyeColor.STREAM_CODEC is a VarInt id mapper.
+    @SinceMinecraftVersion("26.3")
+    public static final EntityDataSerializer<Integer> DYE_COLOR = register(ByteBufUtil::writeVarInt, "DYE_COLOR");
     // OPTIONAL_GLOBAL_POS unused
 
     private static <T> EntityDataSerializer<T> register(EntityDataSerializer<T> serializer, String name) {
-        if (SERIALIZERS.put(name, serializer) != null) {
+        if (SERIALIZERS.putIfAbsent(name, serializer) != null) {
             throw new IllegalArgumentException("Duplicate serializer: " + name);
         }
         Integer id = Mappings.instance.serializerToId().get(name);
@@ -152,23 +149,9 @@ public class EntityDataSerializers {
     public static int getId(EntityDataSerializer<?> serializer) {
         Integer id = SERIALIZER_TO_ID.get(serializer);
         if (id == null) {
-            throw new IllegalStateException("Has no EntityDataSerializer id for serializer " + SERIALIZER_TO_NAME.get(serializer) + " Version: " + Version.VERSION.getVer());
+            throw new IllegalStateException("Has no EntityDataSerializer id for serializer " + SERIALIZER_TO_NAME.get(serializer) + " Version: " + ServerVersion.CURRENT_ID);
         }
         return id;
     }
 
-    static {
-        if (Version.VERSION.newerThanOrEqual(Version.V1_19_4)) {
-            BLOCK_STATE = register((val, byteBuf) -> {
-                BlockData blockData = (BlockData) val;
-                ByteBufUtil.writeBlockState(blockData, byteBuf);
-            }, "BLOCK_STATE");
-        } else {
-            BLOCK_STATE = register((val, byteBuf) -> {
-                @SuppressWarnings("unchecked")
-                Optional<BlockData> opt = (Optional<BlockData>) val;
-                ByteBufUtil.writeOptional(byteBuf, opt.orElse(null), ByteBufUtil::writeBlockState);
-            }, "BLOCK_STATE");
-        }
-    }
 }

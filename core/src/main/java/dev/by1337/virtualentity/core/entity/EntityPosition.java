@@ -1,6 +1,5 @@
 package dev.by1337.virtualentity.core.entity;
 
-
 import org.by1337.blib.geom.Vec3d;
 import org.by1337.blib.geom.Vec3f;
 
@@ -118,7 +117,7 @@ public class EntityPosition {
     public byte yaw() {
         lock.readLock().lock();
         try {
-            return (byte) ((int) (rotation.x % 360.0F * 256.0F / 360.0F));
+            return (byte) ((int) Math.floor(rotation.x * 256.0F / 360.0F));
         } finally {
             lock.readLock().unlock();
         }
@@ -127,7 +126,7 @@ public class EntityPosition {
     public byte pitch() {
         lock.readLock().lock();
         try {
-            return (byte) ((int) (rotation.y % 360.0F * 256.0F / 360.0F));
+            return (byte) ((int) Math.floor(rotation.y * 256.0F / 360.0F));
         } finally {
             lock.readLock().unlock();
         }

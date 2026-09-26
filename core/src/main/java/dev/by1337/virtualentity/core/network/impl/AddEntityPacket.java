@@ -1,14 +1,11 @@
 package dev.by1337.virtualentity.core.network.impl;
 
-import dev.by1337.core.ServerVersion;
 import dev.by1337.virtualentity.api.virtual.VirtualEntity;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.mappings.Packets;
 import dev.by1337.virtualentity.core.network.ByteBufUtil;
 import dev.by1337.virtualentity.core.network.Packet;
-import dev.by1337.virtualentity.core.network.PacketType;
 import io.netty.buffer.ByteBuf;
-import org.by1337.blib.util.Version;
 
 public class AddEntityPacket extends Packet {
     private static final int PACKET_ID = Packets.play.clientbound.getId("minecraft:add_entity");
@@ -27,20 +24,12 @@ public class AddEntityPacket extends Packet {
         byteBuf.writeDouble(virtualEntity.getPos().x);
         byteBuf.writeDouble(virtualEntity.getPos().y);
         byteBuf.writeDouble(virtualEntity.getPos().z);
-        if (ServerVersion.CURRENT_PROTOCOL >= ServerVersion.Protocol.V1_21_9){
-            byteBuf.writeByte(0); // LpVec3 (velocity)
-        }
+        byteBuf.writeByte(0); // LpVec3 (velocity)
         byteBuf.writeByte(virtualEntity.pitch());
         byteBuf.writeByte(virtualEntity.yaw());
-        if (ServerVersion.CURRENT_PROTOCOL >= ServerVersion.Protocol.V1_19_4) {
-            byteBuf.writeByte(virtualEntity.yaw()); // хз здесь должен быть yHeadRot
-            ByteBufUtil.writeVarInt(virtualEntity.getCustomEntityData(), byteBuf);
-        } else {
-            byteBuf.writeInt(virtualEntity.getCustomEntityData());
-        }
-        if (ServerVersion.CURRENT_PROTOCOL < ServerVersion.Protocol.V1_21_9){
-            byteBuf.writeZero(6); // (velocity)
-        }
+        byteBuf.writeByte(virtualEntity.yaw()); // хз здесь должен быть yHeadRot
+        ByteBufUtil.writeVarInt(virtualEntity.getCustomEntityData(), byteBuf);
+
     }
 
     @Override

@@ -7,7 +7,6 @@ import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
 import dev.by1337.virtualentity.core.virtual.animal.VirtualAbstractFishImpl;
 
-@SinceMinecraftVersion("1.19.4")
 public class VirtualTadpoleImpl extends VirtualAbstractFishImpl implements dev.by1337.virtualentity.api.virtual.animal.frog.VirtualTadpole {
     @SinceMinecraftVersion("26.1")
     private static final EntityDataAccessor<Boolean> AGE_LOCKED;

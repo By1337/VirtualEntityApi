@@ -17,7 +17,6 @@ public class VirtualWitherSkullImpl extends VirtualEntityImpl implements dev.by1
         this.entityData.define(DATA_DANGEROUS, false);
     }
 
-
     /**
      * Проверяет, является ли голова Визера опасной.
      * Опасная голова Визера может нанести урон при попадании в цель.

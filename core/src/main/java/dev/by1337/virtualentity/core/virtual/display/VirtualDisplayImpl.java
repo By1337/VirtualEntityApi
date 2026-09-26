@@ -1,6 +1,5 @@
 package dev.by1337.virtualentity.core.virtual.display;
 
-import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 import dev.by1337.virtualentity.api.entity.BillboardConstraints;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.api.util.Transformation;
@@ -10,16 +9,14 @@ import dev.by1337.virtualentity.core.syncher.SynchedEntityData;
 import dev.by1337.virtualentity.core.util.ColorUtil;
 import dev.by1337.virtualentity.core.virtual.VirtualEntityImpl;
 import org.bukkit.Color;
-import org.by1337.blib.util.Version;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
-@SinceMinecraftVersion("1.19.4")
 public class VirtualDisplayImpl extends VirtualEntityImpl implements dev.by1337.virtualentity.api.virtual.display.VirtualDisplay {
     private static final EntityDataAccessor<Integer> DATA_TRANSFORMATION_INTERPOLATION_START_DELTA_TICKS_ID;
     private static final EntityDataAccessor<Integer> DATA_TRANSFORMATION_INTERPOLATION_DURATION_ID;
-    @SinceMinecraftVersion("1.20.4")
+
     private static final EntityDataAccessor<Integer> DATA_POS_ROT_INTERPOLATION_DURATION_ID;
     private static final EntityDataAccessor<Vector3f> DATA_TRANSLATION_ID;
     private static final EntityDataAccessor<Vector3f> DATA_SCALE_ID;
@@ -33,7 +30,6 @@ public class VirtualDisplayImpl extends VirtualEntityImpl implements dev.by1337.
     private static final EntityDataAccessor<Float> DATA_WIDTH_ID;
     private static final EntityDataAccessor<Float> DATA_HEIGHT_ID;
     private static final EntityDataAccessor<Integer> DATA_GLOW_COLOR_OVERRIDE_ID;
-
 
     protected VirtualDisplayImpl(VirtualEntityType type) {
         super(type);
@@ -63,9 +59,7 @@ public class VirtualDisplayImpl extends VirtualEntityImpl implements dev.by1337.
         this.entityData.define(DATA_WIDTH_ID, 0.0F);
         this.entityData.define(DATA_HEIGHT_ID, 0.0F);
         this.entityData.define(DATA_GLOW_COLOR_OVERRIDE_ID, -1);
-        if (Version.VERSION.newerThanOrEqual(Version.V1_20_4)) {
-            entityData.define(DATA_POS_ROT_INTERPOLATION_DURATION_ID, 0);
-        }
+        entityData.define(DATA_POS_ROT_INTERPOLATION_DURATION_ID, 0);
     }
 
     @Override
@@ -76,16 +70,13 @@ public class VirtualDisplayImpl extends VirtualEntityImpl implements dev.by1337.
         this.entityData.set(DATA_RIGHT_ROTATION_ID, transformation.getRightRotation());
     }
 
-    @SinceMinecraftVersion("1.20.4")
     public void setPosRotInterpolationDuration(int i) {
         this.entityData.set(DATA_POS_ROT_INTERPOLATION_DURATION_ID, i);
     }
 
-    @SinceMinecraftVersion("1.20.4")
     public int getPosRotInterpolationDuration() {
         return this.entityData.get(DATA_POS_ROT_INTERPOLATION_DURATION_ID);
     }
-
 
     @Override
     public void setInterpolationDuration(int i) {
@@ -203,15 +194,9 @@ public class VirtualDisplayImpl extends VirtualEntityImpl implements dev.by1337.
     }
 
     static {
-        if (Version.VERSION.olderThan(Version.V1_20_4)) {
-            DATA_TRANSFORMATION_INTERPOLATION_START_DELTA_TICKS_ID = Mappings.findAccessor("Display", "DATA_INTERPOLATION_START_DELTA_TICKS_ID");
-            DATA_TRANSFORMATION_INTERPOLATION_DURATION_ID = Mappings.findAccessor("Display", "DATA_INTERPOLATION_DURATION_ID");
-            DATA_POS_ROT_INTERPOLATION_DURATION_ID = null;
-        } else {
-            DATA_TRANSFORMATION_INTERPOLATION_START_DELTA_TICKS_ID = Mappings.findAccessor("Display", "DATA_TRANSFORMATION_INTERPOLATION_START_DELTA_TICKS_ID");
-            DATA_TRANSFORMATION_INTERPOLATION_DURATION_ID = Mappings.findAccessor("Display", "DATA_TRANSFORMATION_INTERPOLATION_DURATION_ID");
-            DATA_POS_ROT_INTERPOLATION_DURATION_ID = Mappings.findAccessor("Display", "DATA_POS_ROT_INTERPOLATION_DURATION_ID");
-        }
+        DATA_TRANSFORMATION_INTERPOLATION_START_DELTA_TICKS_ID = Mappings.findAccessor("Display", "DATA_TRANSFORMATION_INTERPOLATION_START_DELTA_TICKS_ID");
+        DATA_TRANSFORMATION_INTERPOLATION_DURATION_ID = Mappings.findAccessor("Display", "DATA_TRANSFORMATION_INTERPOLATION_DURATION_ID");
+        DATA_POS_ROT_INTERPOLATION_DURATION_ID = Mappings.findAccessor("Display", "DATA_POS_ROT_INTERPOLATION_DURATION_ID");
         DATA_TRANSLATION_ID = Mappings.findAccessor("Display", "DATA_TRANSLATION_ID");
         DATA_SCALE_ID = Mappings.findAccessor("Display", "DATA_SCALE_ID");
         DATA_LEFT_ROTATION_ID = Mappings.findAccessor("Display", "DATA_LEFT_ROTATION_ID");

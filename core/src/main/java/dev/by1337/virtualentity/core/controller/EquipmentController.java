@@ -22,7 +22,6 @@ public class EquipmentController {
     private boolean isDirty;
     private final Lock lock = new ReentrantLock();
 
-
     public void clear() {
         lock.lock();
         try {

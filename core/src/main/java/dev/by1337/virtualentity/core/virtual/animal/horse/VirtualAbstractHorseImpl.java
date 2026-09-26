@@ -5,16 +5,12 @@ import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
 import dev.by1337.virtualentity.core.virtual.VirtualAgeableMobImpl;
-import org.by1337.blib.util.Version;
 
 import javax.annotation.Nullable;
-import java.util.Optional;
 import java.util.UUID;
 
 public abstract class VirtualAbstractHorseImpl extends VirtualAgeableMobImpl implements dev.by1337.virtualentity.api.virtual.animal.horse.VirtualAbstractHorse {
     private static final EntityDataAccessor<Byte> DATA_ID_FLAGS;
-    @RemovedInMinecraftVersion("1.19.4")
-    private static final EntityDataAccessor<Optional<UUID>> DATA_ID_OWNER_UUID;
 
     protected VirtualAbstractHorseImpl(VirtualEntityType type) {
         super(type);
@@ -23,9 +19,7 @@ public abstract class VirtualAbstractHorseImpl extends VirtualAgeableMobImpl imp
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(DATA_ID_FLAGS, (byte) 0);
-        if (Version.VERSION.olderThan(Version.V1_19_4)) {
-            this.entityData.define(DATA_ID_OWNER_UUID, Optional.empty());
-        }
+
     }
 
     protected boolean getFlag(int mask) {
@@ -45,13 +39,13 @@ public abstract class VirtualAbstractHorseImpl extends VirtualAgeableMobImpl imp
     @Override
     @RemovedInMinecraftVersion("1.19.4")
     public UUID getOwnerUUID() {
-        return (this.entityData.get(DATA_ID_OWNER_UUID)).orElse(null);
+        throw new UnsupportedOperationException("Horse owner UUID is no longer synchronized");
     }
 
     @Override
     @RemovedInMinecraftVersion("1.19.4")
     public void setOwnerUUID(@Nullable UUID param0) {
-        this.entityData.set(DATA_ID_OWNER_UUID, Optional.ofNullable(param0));
+        throw new UnsupportedOperationException("Horse owner UUID is no longer synchronized");
     }
 
     @Override
@@ -116,10 +110,6 @@ public abstract class VirtualAbstractHorseImpl extends VirtualAgeableMobImpl imp
 
     static {
         DATA_ID_FLAGS = Mappings.findAccessor("AbstractHorse", "DATA_ID_FLAGS");
-        if (Version.VERSION.olderThan(Version.V1_19_4)) {
-            DATA_ID_OWNER_UUID = Mappings.findAccessor("AbstractHorse", "DATA_ID_OWNER_UUID");
-        } else {
-            DATA_ID_OWNER_UUID = null;
-        }
+
     }
 }

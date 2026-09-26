@@ -1,6 +1,5 @@
 package dev.by1337.virtualentity.core.virtual.decoration;
 
-
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.api.virtual.decoration.VirtualArmorStand;
 import dev.by1337.virtualentity.core.mappings.Mappings;

@@ -3,6 +3,7 @@ package dev.by1337.virtualentity.core.mappings;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import dev.by1337.core.ServerVersion;
+import dev.by1337.virtualentity.core.SupportedVersions;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import org.jetbrains.annotations.NotNull;
@@ -24,7 +25,6 @@ public class Packets {
     public static void load() {
     }
 
-
     public static class Flows {
         public final IdHolder serverbound = new IdHolder();
         public final IdHolder clientbound = new IdHolder();
@@ -44,6 +44,7 @@ public class Packets {
     }
 
     static {
+        SupportedVersions.requireProtocol(ServerVersion.CURRENT_PROTOCOL);
         try (var in = new InputStreamReader(getMappingsInputStream("packets/" + ServerVersion.CURRENT_PROTOCOL + ".json"))) {
             Map<String, Map<String, Map<String, Map<String, Integer>>>> rawMap =
                     new Gson().fromJson(in, new TypeToken<Map<String, Map<String, Map<String, Map<String, Integer>>>>>() {}.getType());

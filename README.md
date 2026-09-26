@@ -6,7 +6,9 @@
 - **Minimal use of NMS**.
 - **Maximum ease of use**.
 
-Supported versions: 1.16.5, 1.17.1, 1.18.2, 1.19.4, 1.20.x, 1.21.x, 26.1.2, 26.2
+Supported versions: Paper 1.21.11, 26.1.2, 26.2 (protocols 774–776). Java 21+ is required.
+
+Versions below 1.21.11 are no longer supported. Protocol 777 / 26.3 has prepared packet changes but is not yet fully supported.
 
 ---
 

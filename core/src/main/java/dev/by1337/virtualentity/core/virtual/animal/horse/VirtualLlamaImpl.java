@@ -10,15 +10,11 @@ import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.by1337.blib.util.Version;
 
 import javax.annotation.Nullable;
 
 public class VirtualLlamaImpl extends VirtualAbstractChestedHorseImpl implements dev.by1337.virtualentity.api.virtual.animal.horse.VirtualLlama {
-    private static final boolean OLDER_THAN_1_20_6 = Version.VERSION.olderThan(Version.V1_20_6);
     private static final EntityDataAccessor<Integer> DATA_STRENGTH_ID;
-    @RemovedInMinecraftVersion("1.20.6")
-    private static final EntityDataAccessor<Integer> DATA_SWAG_ID;
     private static final EntityDataAccessor<Integer> DATA_VARIANT_ID;
     private static final BiMap<DyeColor, Material> COLOR_TO_MATERIAL;
 
@@ -33,7 +29,7 @@ public class VirtualLlamaImpl extends VirtualAbstractChestedHorseImpl implements
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(DATA_STRENGTH_ID, 0);
-        if (OLDER_THAN_1_20_6) this.entityData.define(DATA_SWAG_ID, -1);
+
         this.entityData.define(DATA_VARIANT_ID, 0);
     }
 
@@ -64,25 +60,16 @@ public class VirtualLlamaImpl extends VirtualAbstractChestedHorseImpl implements
     @Override
     @RemovedInMinecraftVersion("1.20.6")
     public void setSwag(@Nullable DyeColor color) {
-        if (OLDER_THAN_1_20_6) {
-            this.entityData.set(DATA_SWAG_ID, color == null ? -1 : color.getId());
-        } else {
-            setEquipment(EquipmentSlot.BODY, new ItemStack(COLOR_TO_MATERIAL.getOrDefault(color, Material.WHITE_CARPET)));
-        }
+        setEquipment(EquipmentSlot.BODY, new ItemStack(COLOR_TO_MATERIAL.getOrDefault(color, Material.WHITE_CARPET)));
     }
 
     @Nullable
     @Override
     @RemovedInMinecraftVersion("1.20.6")
     public DyeColor getSwag() {
-        if (OLDER_THAN_1_20_6) {
-            int var1 = this.entityData.get(DATA_SWAG_ID);
-            return var1 == -1 ? null : DyeColor.values()[var1];
-        } else {
-            var item = getEquipment(EquipmentSlot.BODY);
-            if (item == null) return null;
-            return COLOR_TO_MATERIAL.inverse().get(item.getType());
-        }
+        var item = getEquipment(EquipmentSlot.BODY);
+        if (item == null) return null;
+        return COLOR_TO_MATERIAL.inverse().get(item.getType());
     }
 
     @Override
@@ -92,11 +79,7 @@ public class VirtualLlamaImpl extends VirtualAbstractChestedHorseImpl implements
 
     static {
         DATA_STRENGTH_ID = Mappings.findAccessor("Llama", "DATA_STRENGTH_ID");
-        if (OLDER_THAN_1_20_6) {
-            DATA_SWAG_ID = Mappings.findAccessor("Llama", "DATA_SWAG_ID");
-        } else {
-            DATA_SWAG_ID = null;
-        }
+
         DATA_VARIANT_ID = Mappings.findAccessor("Llama", "DATA_VARIANT_ID");
 
         COLOR_TO_MATERIAL = HashBiMap.create();

@@ -4,10 +4,8 @@ import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.api.virtual.VirtualExperienceOrb;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
-import org.by1337.blib.util.Version;
 
 public class VirtualExperienceOrbImpl extends VirtualEntityImpl implements VirtualExperienceOrb {
-    private int value = 1;
     private static final EntityDataAccessor<Integer> DATA_VALUE;
 
     public VirtualExperienceOrbImpl() {
@@ -17,31 +15,20 @@ public class VirtualExperienceOrbImpl extends VirtualEntityImpl implements Virtu
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
-        if (DATA_VALUE != null)
-            entityData.define(DATA_VALUE, 1);
+        entityData.define(DATA_VALUE, 1);
     }
 
     @Override
     public int value() {
-        if (DATA_VALUE != null){
-            return entityData.get(DATA_VALUE);
-        }
-        return value;
+        return entityData.get(DATA_VALUE);
     }
 
     @Override
     public void setValue(int value) {
-        this.value = value;
-        if (DATA_VALUE != null){
-            entityData.set(DATA_VALUE, value);
-        }
+        entityData.set(DATA_VALUE, value);
     }
 
     static {
-        if (Version.is1_21_5orNewer()){
-            DATA_VALUE = Mappings.findAccessor("ExperienceOrb", "DATA_VALUE");
-        }else {
-            DATA_VALUE = null;
-        }
+        DATA_VALUE = Mappings.findAccessor("ExperienceOrb", "DATA_VALUE");
     }
 }

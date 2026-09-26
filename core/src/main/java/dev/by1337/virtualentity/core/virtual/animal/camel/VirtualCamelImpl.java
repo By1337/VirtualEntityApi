@@ -1,12 +1,10 @@
 package dev.by1337.virtualentity.core.virtual.animal.camel;
 
-import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
 import dev.by1337.virtualentity.core.virtual.animal.horse.VirtualAbstractHorseImpl;
 
-@SinceMinecraftVersion("1.19.4")
 public class VirtualCamelImpl extends VirtualAbstractHorseImpl implements dev.by1337.virtualentity.api.virtual.animal.camel.VirtualCamel {
     private static final EntityDataAccessor<Boolean> DASH;
     private static final EntityDataAccessor<Long> LAST_POSE_CHANGE_TICK;

@@ -1,17 +1,13 @@
 package dev.by1337.virtualentity.core.virtual.player;
 
-import dev.by1337.core.ServerVersion;
-import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
 import net.kyori.adventure.text.Component;
-import org.by1337.blib.nbt.impl.CompoundTag;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-@SinceMinecraftVersion("1.21.9")
 public class VirtualMannequinImpl extends VirtualAvatarImpl implements dev.by1337.virtualentity.api.virtual.player.VirtualMannequin {
     private static final Component DEFAULT_DESCRIPTION = Component.translatable("entity.minecraft.mannequin.label");
     //todo?

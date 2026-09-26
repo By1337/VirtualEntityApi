@@ -4,7 +4,6 @@ import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
 import dev.by1337.virtualentity.core.virtual.VirtualEntityImpl;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 public abstract class VirtualThrowableItemProjectileImpl extends VirtualEntityImpl implements dev.by1337.virtualentity.api.virtual.projectile.VirtualThrowableItemProjectile {

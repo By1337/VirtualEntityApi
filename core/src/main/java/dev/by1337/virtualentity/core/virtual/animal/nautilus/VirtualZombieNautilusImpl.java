@@ -1,12 +1,10 @@
 package dev.by1337.virtualentity.core.virtual.animal.nautilus;
 
-import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.api.entity.ZombieNautilusVariant;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
 
-@SinceMinecraftVersion("1.21.11")
 public class VirtualZombieNautilusImpl extends VirtualAbstractNautilusImpl implements dev.by1337.virtualentity.api.virtual.animal.nautilus.VirtualZombieNautilus {
     private static final EntityDataAccessor<ZombieNautilusVariant> DATA_VARIANT_ID;
 

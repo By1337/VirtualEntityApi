@@ -1,6 +1,5 @@
 package dev.by1337.virtualentity.core.virtual.animal.coppergolem;
 
-import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 import dev.by1337.virtualentity.api.entity.CopperGolemState;
 import dev.by1337.virtualentity.api.entity.CopperWeatherState;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
@@ -8,7 +7,6 @@ import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
 import dev.by1337.virtualentity.core.virtual.VirtualMobImpl;
 
-@SinceMinecraftVersion("1.21.9")
 public class VirtualCopperGolemImpl extends VirtualMobImpl implements dev.by1337.virtualentity.api.virtual.animal.coppergolem.VirtualCopperGolem {
     private static final EntityDataAccessor<CopperWeatherState> DATA_WEATHER_STATE;
     private static final EntityDataAccessor<CopperGolemState> COPPER_GOLEM_STATE;

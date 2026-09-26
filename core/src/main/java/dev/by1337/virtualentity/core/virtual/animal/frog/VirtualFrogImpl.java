@@ -1,6 +1,5 @@
 package dev.by1337.virtualentity.core.virtual.animal.frog;
 
-import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 import dev.by1337.virtualentity.api.entity.FrogVariant;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.core.mappings.Mappings;
@@ -9,7 +8,6 @@ import dev.by1337.virtualentity.core.virtual.VirtualAgeableMobImpl;
 
 import java.util.OptionalInt;
 
-@SinceMinecraftVersion("1.19.4")
 public class VirtualFrogImpl extends VirtualAgeableMobImpl implements dev.by1337.virtualentity.api.virtual.animal.frog.VirtualFrog {
     private static final EntityDataAccessor<FrogVariant> DATA_VARIANT_ID;
     private static final EntityDataAccessor<OptionalInt> DATA_TONGUE_TARGET_ID;

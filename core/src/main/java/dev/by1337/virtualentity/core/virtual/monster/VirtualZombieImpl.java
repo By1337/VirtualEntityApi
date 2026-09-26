@@ -11,7 +11,6 @@ public class VirtualZombieImpl extends VirtualMobImpl implements VirtualZombie {
     private static final EntityDataAccessor<Integer> DATA_SPECIAL_TYPE_ID ;
     public static final EntityDataAccessor<Boolean> DATA_DROWNED_CONVERSION_ID;
 
-
     protected VirtualZombieImpl(VirtualEntityType type) {
         super(type);
     }

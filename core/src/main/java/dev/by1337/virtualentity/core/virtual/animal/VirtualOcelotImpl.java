@@ -12,7 +12,6 @@ public class VirtualOcelotImpl extends VirtualAgeableMobImpl implements dev.by13
         super(VirtualEntityType.OCELOT);
     }
 
-
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(DATA_TRUSTING, false);

@@ -111,7 +111,6 @@ public class VirtualPandaImpl extends VirtualAgeableMobImpl implements dev.by133
         return PandaGene.values()[this.entityData.get(HIDDEN_GENE_ID)];
     }
 
-
     @Override
     public void setHiddenGene(PandaGene pandaGene) {
         if (pandaGene.getId() > 6) {

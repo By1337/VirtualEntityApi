@@ -1,6 +1,5 @@
 package dev.by1337.virtualentity.core.virtual.display;
 
-import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
@@ -8,7 +7,6 @@ import dev.by1337.virtualentity.core.util.ColorUtil;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Color;
 
-@SinceMinecraftVersion("1.19.4")
 public class VirtualTextDisplayImpl extends VirtualDisplayImpl implements dev.by1337.virtualentity.api.virtual.display.VirtualTextDisplay {
     // todo version sensitive
     public static final byte FLAG_SHADOW = 1; // 00000001
@@ -56,7 +54,6 @@ public class VirtualTextDisplayImpl extends VirtualDisplayImpl implements dev.by
         this.entityData.set(VirtualTextDisplayImpl.DATA_LINE_WIDTH_ID, id);
     }
 
-
     @Override
     public byte getTextOpacity() {
         return this.entityData.get(DATA_TEXT_OPACITY_ID);
@@ -66,7 +63,6 @@ public class VirtualTextDisplayImpl extends VirtualDisplayImpl implements dev.by
     public void setTextOpacity(byte textOpacity) {
         this.entityData.set(DATA_TEXT_OPACITY_ID, textOpacity);
     }
-
 
     @Override
     public Color getBackgroundColor() {
@@ -92,7 +88,6 @@ public class VirtualTextDisplayImpl extends VirtualDisplayImpl implements dev.by
     public boolean isFlagSet(byte mask) {
         return (getFlags() & mask) != 0;
     }
-
 
     @Override
     public void setFlag(byte mask, boolean value) {

@@ -9,7 +9,6 @@ public class DamageEventPacket extends Packet {
     private static final int PACKET_ID = Packets.play.clientbound.getId("minecraft:damage_event");
     private final int id;
 
-
     public DamageEventPacket(int id) {
         this.id = id;
     }
@@ -19,8 +18,8 @@ public class DamageEventPacket extends Packet {
         ByteBufUtil.writeVarInt(PACKET_ID, byteBuf);
         ByteBufUtil.writeVarInt(id, byteBuf);
         ByteBufUtil.writeVarInt(0, byteBuf); //damage type
-        ByteBufUtil.writeVarInt(-1, byteBuf);
-        ByteBufUtil.writeVarInt(-1, byteBuf);
+        ByteBufUtil.writeVarInt(0, byteBuf); // absent source cause: entity id (-1) + 1
+        ByteBufUtil.writeVarInt(0, byteBuf); // absent direct source
         byteBuf.writeBoolean(false);
     }
 

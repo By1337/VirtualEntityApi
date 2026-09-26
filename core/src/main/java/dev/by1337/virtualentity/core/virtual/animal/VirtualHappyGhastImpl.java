@@ -1,12 +1,10 @@
 package dev.by1337.virtualentity.core.virtual.animal;
 
-import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
 import dev.by1337.virtualentity.core.virtual.VirtualAgeableMobImpl;
 
-@SinceMinecraftVersion("1.21.6")
 public class VirtualHappyGhastImpl extends VirtualAgeableMobImpl implements dev.by1337.virtualentity.api.virtual.animal.VirtualHappyGhast {
     private static final EntityDataAccessor<Boolean> IS_LEASH_HOLDER;
     private static final EntityDataAccessor<Boolean> STAYS_STILL;

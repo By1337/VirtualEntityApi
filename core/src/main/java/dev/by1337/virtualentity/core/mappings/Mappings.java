@@ -3,6 +3,7 @@ package dev.by1337.virtualentity.core.mappings;
 import blib.com.mojang.serialization.Codec;
 import blib.com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.by1337.core.ServerVersion;
+import dev.by1337.virtualentity.core.SupportedVersions;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.core.network.PacketType;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
@@ -11,7 +12,6 @@ import dev.by1337.virtualentity.core.syncher.EntityDataSerializers;
 import org.by1337.blib.nbt.MojangNbtReader;
 import org.by1337.blib.nbt.NbtOps;
 import org.by1337.blib.nbt.impl.CompoundTag;
-import org.by1337.blib.util.Version;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -111,7 +111,7 @@ public class Mappings {
     public static int getNetworkId(VirtualEntityType type) {
         EntityInfo entityInfo = instance.entityTypeToEntityInfo.get(type);
         if (entityInfo == null) {
-            throw new IllegalStateException("Has no EntityInfo for type " + type + " Version: " + Version.VERSION);
+            throw new IllegalStateException("Has no EntityInfo for type " + type + " Version: " + ServerVersion.CURRENT_ID);
         }
         return entityInfo.networkId;
     }
@@ -119,36 +119,26 @@ public class Mappings {
     public static PacketType getSpawnPacket(VirtualEntityType type) {
         EntityInfo entityInfo = instance.entityTypeToEntityInfo.get(type);
         if (entityInfo == null) {
-            throw new IllegalStateException("Has no EntityInfo for type " + type + " Version: " + Version.VERSION);
+            throw new IllegalStateException("Has no EntityInfo for type " + type + " Version: " + ServerVersion.CURRENT_ID);
         }
         return entityInfo.spawnPacket;
     }
 
     static {
-        final InputStream in;
-        File file = new File("src/test/resources/mappings.nbt");
-        if (file.exists()) {
-            LOGGER.info("Using test file mappings");
-            try {
-                in = new FileInputStream(file);
-            } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-           in = getMappingsInputStream(ServerVersion.CURRENT_PROTOCOL);
-        }
+        final InputStream in = getMappingsInputStream(ServerVersion.CURRENT_PROTOCOL);
 
         try (in) {
             CompoundTag nbt = MojangNbtReader.readCompressed(in);
             instance = CODEC.decode(NbtOps.INSTANCE, nbt).getOrThrow().getFirst();
             instance.applyEnumMappings();
         } catch (IOException e) {
-            throw new RuntimeException("Failed to read mappings file for version " + Version.VERSION.getVer(), e);
+            throw new RuntimeException("Failed to read mappings file for version " + ServerVersion.CURRENT_ID, e);
         }
     }
 
     @NotNull
     public static InputStream getMappingsInputStream(int version) {
+        SupportedVersions.requireProtocol(version);
         InputStream in;
         ClassLoader loader = Mappings.class.getClassLoader();
         URL url = loader.getResource("entity/" + version + ".nbt");
@@ -174,7 +164,6 @@ public class Mappings {
                 PacketType.CODEC.fieldOf("spawnPacket").forGetter(EntityInfo::spawnPacket)
         ).apply(instance, EntityInfo::new));
     }
-
 
     public record NetworkValue(String name, int id, String type) {
         public static final Codec<NetworkValue> CODEC = RecordCodecBuilder.create(instance -> instance.group(

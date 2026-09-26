@@ -1,13 +1,11 @@
 package dev.by1337.virtualentity.core.virtual.animal.sniffer;
 
-import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 import dev.by1337.virtualentity.api.entity.SnifferState;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
 import dev.by1337.virtualentity.core.virtual.VirtualAgeableMobImpl;
 
-@SinceMinecraftVersion("1.19.4")
 public class VirtualSnifferImpl extends VirtualAgeableMobImpl implements dev.by1337.virtualentity.api.virtual.animal.sniffer.VirtualSniffer {
     private static final EntityDataAccessor<SnifferState> DATA_STATE;
     private static final EntityDataAccessor<Integer> DATA_DROP_SEED_AT_TICK;

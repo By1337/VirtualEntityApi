@@ -1,13 +1,12 @@
 package dev.by1337.virtualentity.core.network.impl;
 
+import dev.by1337.core.ServerVersion;
 import dev.by1337.virtualentity.api.virtual.VirtualEntity;
 import dev.by1337.virtualentity.core.mappings.Packets;
 import dev.by1337.virtualentity.core.network.ByteBufUtil;
 import dev.by1337.virtualentity.core.network.Packet;
-import dev.by1337.virtualentity.core.network.PacketType;
 import io.netty.buffer.ByteBuf;
 import org.by1337.blib.geom.Vec3d;
-import org.by1337.blib.geom.Vec3s;
 
 public abstract class MoveEntityPacket extends Packet {
     protected final VirtualEntity entity;
@@ -34,9 +33,14 @@ public abstract class MoveEntityPacket extends Packet {
         @Override
         public void write(ByteBuf byteBuf) {
             super.write(byteBuf);
+            if (ServerVersion.CURRENT_PROTOCOL == 777) {
+                byteBuf.writeBoolean(entity.isOnGround());
+            }
             byteBuf.writeByte(entity.yaw());
             byteBuf.writeByte(entity.pitch());
-            byteBuf.writeBoolean(entity.isOnGround());
+            if (ServerVersion.CURRENT_PROTOCOL != 777) {
+                byteBuf.writeBoolean(entity.isOnGround());
+            }
         }
 
         @Override
@@ -57,16 +61,13 @@ public abstract class MoveEntityPacket extends Packet {
             super(entity);
         }
 
-
         @Override
         public void write(ByteBuf byteBuf) {
             super.write(byteBuf);
-            Vec3d deltaD = entity.getPos().mul(4096).sub(entity.getOldPos().mul(4096));
-            Vec3s delta = new Vec3s(deltaD.x, deltaD.y, deltaD.z);
-            byteBuf.writeShort(delta.x);
-            byteBuf.writeShort(delta.y);
-            byteBuf.writeShort(delta.z);
-            byteBuf.writeBoolean(entity.isOnGround());
+            writePositionDelta(byteBuf, entity);
+            if (ServerVersion.CURRENT_PROTOCOL != 777) {
+                byteBuf.writeBoolean(entity.isOnGround());
+            }
         }
 
         @Override
@@ -86,18 +87,15 @@ public abstract class MoveEntityPacket extends Packet {
             super(entity);
         }
 
-
         @Override
         public void write(ByteBuf byteBuf) {
             super.write(byteBuf);
-            Vec3d deltaD = entity.getPos().mul(4096).sub(entity.getOldPos().mul(4096));
-            Vec3s delta = new Vec3s(deltaD.x, deltaD.y, deltaD.z);
-            byteBuf.writeShort(delta.x);
-            byteBuf.writeShort(delta.y);
-            byteBuf.writeShort(delta.z);
+            writePositionDelta(byteBuf, entity);
             byteBuf.writeByte(entity.yaw());
             byteBuf.writeByte(entity.pitch());
-            byteBuf.writeBoolean(entity.isOnGround());
+            if (ServerVersion.CURRENT_PROTOCOL != 777) {
+                byteBuf.writeBoolean(entity.isOnGround());
+            }
         }
 
         @Override
@@ -108,5 +106,18 @@ public abstract class MoveEntityPacket extends Packet {
         public String toString() {
             return "MoveEntityPacket$PosRot{}";
         }
+    }
+
+    private static void writePositionDelta(ByteBuf byteBuf, VirtualEntity entity) {
+        if (ServerVersion.CURRENT_PROTOCOL == 777) {
+            // packProperties(onGround, 0): a linear VecDelta has no intermediate steps.
+            ByteBufUtil.writeVarInt(entity.isOnGround() ? 1 : 0, byteBuf);
+        }
+        Vec3d pos = entity.getPos();
+        Vec3d oldPos = entity.getOldPos();
+        // VecDeltaCodec quantizes each endpoint before subtracting them.
+        byteBuf.writeShort((int) (Math.round(pos.x * 4096) - Math.round(oldPos.x * 4096)));
+        byteBuf.writeShort((int) (Math.round(pos.y * 4096) - Math.round(oldPos.y * 4096)));
+        byteBuf.writeShort((int) (Math.round(pos.z * 4096) - Math.round(oldPos.z * 4096)));
     }
 }

@@ -2,9 +2,6 @@ package dev.by1337.virtualentity.core.virtual.player;
 
 import com.mojang.authlib.properties.Property;
 import com.mojang.authlib.properties.PropertyMap;
-import dev.by1337.core.ServerVersion;
-import dev.by1337.virtualentity.api.annotations.RemovedInMinecraftVersion;
-import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.network.impl.PlayerInfoPacket;
@@ -22,21 +19,13 @@ public class VirtualPlayerImpl extends VirtualAvatarImpl implements dev.by1337.v
     private static final EntityDataAccessor<Float> DATA_PLAYER_ABSORPTION_ID;
     private static final EntityDataAccessor<Integer> DATA_SCORE_ID;
     private static final Supplier<PropertyMap> PROPERTY_SUPPLIER;
-    @Deprecated
-    @RemovedInMinecraftVersion("1.21.9")
-    @Nullable
-    private static final EntityDataAccessor<CompoundTag> DATA_SHOULDER_LEFT;
-    @Deprecated
-    @RemovedInMinecraftVersion("1.21.9")
-    @Nullable
-    private static final EntityDataAccessor<CompoundTag> DATA_SHOULDER_RIGHT;
 
     private String name = "VirtualPlayer";
     private final PropertyMap properties = PROPERTY_SUPPLIER.get();
     private final ChangingValue<GameMode> gameMode = new ChangingValue<>(GameMode.CREATIVE);
     private int latency = 0;
     private final ChangingValue<@Nullable Component> displayName = new ChangingValue<>(null);
-    @SinceMinecraftVersion("1.21.3")
+
     private final ChangingValue<Integer> listOrder = new ChangingValue<>(0);
     private final PlayerInfoPacket addPlayerPacket;
     private final PlayerInfoPacket removePlayerPacket;
@@ -58,10 +47,7 @@ public class VirtualPlayerImpl extends VirtualAvatarImpl implements dev.by1337.v
         super.defineSynchedData();
         this.entityData.define(DATA_PLAYER_ABSORPTION_ID, 0.0F);
         this.entityData.define(DATA_SCORE_ID, 0);
-        if (ServerVersion.is1_21_8orOlder()) {
-            this.entityData.define(DATA_SHOULDER_LEFT, new CompoundTag());
-            this.entityData.define(DATA_SHOULDER_RIGHT, new CompoundTag());
-        }
+
     }
 
     @Override
@@ -82,25 +68,21 @@ public class VirtualPlayerImpl extends VirtualAvatarImpl implements dev.by1337.v
     }
 
     @Override
-    @SinceMinecraftVersion("1.21.3")
     public int getListOrder() {
         return listOrder.getVal();
     }
 
     @Override
-    @SinceMinecraftVersion("1.21.3")
     public void setListOrder(int val) {
         listOrder.setVal(val);
     }
 
     @Override
-    @SinceMinecraftVersion("1.19.4")
     public boolean isListed() {
         return listed;
     }
 
     @Override
-    @SinceMinecraftVersion("1.19.4")
     public void setListed(boolean listed) {
         this.listed = listed;
     }
@@ -238,8 +220,7 @@ public class VirtualPlayerImpl extends VirtualAvatarImpl implements dev.by1337.v
      */
     @Override
     public CompoundTag getShoulderLeft() {
-        if (ServerVersion.is1_21_9orNewer()) return new CompoundTag();
-        return this.entityData.get(DATA_SHOULDER_LEFT);
+        return new CompoundTag();
     }
 
     /**
@@ -249,8 +230,7 @@ public class VirtualPlayerImpl extends VirtualAvatarImpl implements dev.by1337.v
      */
     @Override
     public void setShoulderLeft(CompoundTag tag) {
-        if (ServerVersion.is1_21_9orNewer()) return;
-        this.entityData.set(DATA_SHOULDER_LEFT, tag);
+        // Shoulder metadata is no longer part of the player protocol.
     }
 
     /**
@@ -260,8 +240,7 @@ public class VirtualPlayerImpl extends VirtualAvatarImpl implements dev.by1337.v
      */
     @Override
     public CompoundTag getShoulderRight() {
-        if (ServerVersion.is1_21_9orNewer()) return new CompoundTag();
-        return this.entityData.get(DATA_SHOULDER_RIGHT);
+        return new CompoundTag();
     }
 
     /**
@@ -271,51 +250,29 @@ public class VirtualPlayerImpl extends VirtualAvatarImpl implements dev.by1337.v
      */
     @Override
     public void setShoulderRight(CompoundTag tag) {
-        if (ServerVersion.is1_21_9orNewer()) return;
-        this.entityData.set(DATA_SHOULDER_RIGHT, tag);
+        // Shoulder metadata is no longer part of the player protocol.
     }
-
 
     static {
         DATA_PLAYER_ABSORPTION_ID = Mappings.findAccessor("Player", "DATA_PLAYER_ABSORPTION_ID");
         DATA_SCORE_ID = Mappings.findAccessor("Player", "DATA_SCORE_ID");
-        if (ServerVersion.is1_21_8orOlder()) {
-            DATA_SHOULDER_LEFT = Mappings.findAccessor("Player", "DATA_SHOULDER_LEFT");
-            DATA_SHOULDER_RIGHT = Mappings.findAccessor("Player", "DATA_SHOULDER_RIGHT");
-        } else {
-            DATA_SHOULDER_LEFT = null;
-            DATA_SHOULDER_RIGHT = null;
-        }
+
         PROPERTY_SUPPLIER = makePropertyMapFactory();
     }
 
     private static Supplier<PropertyMap> makePropertyMapFactory() {
-        Class<?> cl = findClass("io.papermc.paper.profile.MutablePropertyMap");
-        if (cl != null) {
-            try {
-                final var c = cl.getConstructor();
-                return () -> {
-                    try {
-                        return (PropertyMap) c.newInstance();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        return new PropertyMap();
-                    }
-                };
-            } catch (Exception e) {
-                e.printStackTrace();
-                return PropertyMap::new;
-            }
-        } else {
-            return PropertyMap::new;
-        }
-    }
-
-    private static Class<?> findClass(String s) {
+        // Paper's mutable map remains necessary on modern Authlib with immutable PropertyMap.
         try {
-            return Class.forName(s);
-        } catch (ClassNotFoundException e) {
-            return null;
+            var constructor = Class.forName("io.papermc.paper.profile.MutablePropertyMap").getConstructor();
+            return () -> {
+                try {
+                    return (PropertyMap) constructor.newInstance();
+                } catch (ReflectiveOperationException e) {
+                    throw new IllegalStateException("Unable to create Paper profile properties", e);
+                }
+            };
+        } catch (ReflectiveOperationException e) {
+            throw new ExceptionInInitializerError(e);
         }
     }
 

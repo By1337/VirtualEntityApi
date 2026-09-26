@@ -3,7 +3,6 @@ package dev.by1337.virtualentity.core.network.impl;
 import dev.by1337.virtualentity.core.mappings.Packets;
 import dev.by1337.virtualentity.core.network.ByteBufUtil;
 import dev.by1337.virtualentity.core.network.Packet;
-import dev.by1337.virtualentity.core.network.PacketType;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
 import dev.by1337.virtualentity.core.syncher.EntityDataSerializers;
 import dev.by1337.virtualentity.core.syncher.SynchedEntityData;

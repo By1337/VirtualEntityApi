@@ -1,22 +1,15 @@
 package dev.by1337.virtualentity.core.virtual.animal;
 
-import dev.by1337.core.ServerVersion;
 import dev.by1337.virtualentity.api.annotations.RemovedInMinecraftVersion;
-import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 import dev.by1337.virtualentity.api.entity.VirtualEntityType;
 import dev.by1337.virtualentity.api.virtual.animal.VirtualBee;
 import dev.by1337.virtualentity.core.mappings.Mappings;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
 import dev.by1337.virtualentity.core.virtual.VirtualAgeableMobImpl;
-import org.jetbrains.annotations.Nullable;
 
 public class VirtualBeeImpl extends VirtualAgeableMobImpl implements VirtualBee {
     private static final EntityDataAccessor<Byte> DATA_FLAGS_ID;
-    @Deprecated
-    @RemovedInMinecraftVersion("1.21.11")
-    @Nullable
-    private static final EntityDataAccessor<Integer> DATA_REMAINING_ANGER_TIME;
-    @SinceMinecraftVersion("1.21.11")
+
     private static final EntityDataAccessor<Long> DATA_ANGER_END_TIME;
 
     public VirtualBeeImpl() {
@@ -26,37 +19,27 @@ public class VirtualBeeImpl extends VirtualAgeableMobImpl implements VirtualBee 
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(DATA_FLAGS_ID, (byte) 0);
-        if (ServerVersion.is1_21_11orNewer()) {
-            this.entityData.define(DATA_ANGER_END_TIME, -1L);
-        } else {
-            this.entityData.define(DATA_REMAINING_ANGER_TIME, 0);
-        }
+        this.entityData.define(DATA_ANGER_END_TIME, -1L);
     }
 
-    @SinceMinecraftVersion("1.21.11")
     public long getAngerEndTime() {
-        if (DATA_ANGER_END_TIME == null) return 0;
         return entityData.get(DATA_ANGER_END_TIME);
     }
 
-    @SinceMinecraftVersion("1.21.11")
     public void setAngerEndTime(long time) {
-        if (DATA_ANGER_END_TIME == null) return;
         entityData.set(DATA_ANGER_END_TIME, time);
     }
 
     @Override
     @RemovedInMinecraftVersion("1.21.11")
     public int getRemainingPersistentAngerTime() {
-        if (DATA_REMAINING_ANGER_TIME == null) return 0;
-        return this.entityData.get(DATA_REMAINING_ANGER_TIME);
+        return 0;
     }
 
     @Override
     @RemovedInMinecraftVersion("1.21.11")
     public void setRemainingPersistentAngerTime(int time) {
-        if (DATA_REMAINING_ANGER_TIME == null) return;
-        this.entityData.set(DATA_REMAINING_ANGER_TIME, time);
+        return;
     }
 
     @Override
@@ -93,12 +76,7 @@ public class VirtualBeeImpl extends VirtualAgeableMobImpl implements VirtualBee 
 
     static {
         DATA_FLAGS_ID = Mappings.findAccessor("Bee", "DATA_FLAGS_ID");
-        if (ServerVersion.is1_21_10orNewer()) {
-            DATA_ANGER_END_TIME = Mappings.findAccessor("Bee", "DATA_ANGER_END_TIME");
-            DATA_REMAINING_ANGER_TIME = null;
-        } else {
-            DATA_REMAINING_ANGER_TIME = Mappings.findAccessor("Bee", "DATA_REMAINING_ANGER_TIME");
-            DATA_ANGER_END_TIME = null;
-        }
+        DATA_ANGER_END_TIME = Mappings.findAccessor("Bee", "DATA_ANGER_END_TIME");
+
     }
 }

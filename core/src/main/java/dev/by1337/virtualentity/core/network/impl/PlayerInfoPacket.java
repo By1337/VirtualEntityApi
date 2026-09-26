@@ -1,88 +1,75 @@
 package dev.by1337.virtualentity.core.network.impl;
 
 import com.mojang.authlib.properties.PropertyMap;
-import dev.by1337.core.ServerVersion;
 import dev.by1337.virtualentity.api.annotations.RemovedInMinecraftVersion;
-import dev.by1337.virtualentity.api.annotations.SinceMinecraftVersion;
 import dev.by1337.virtualentity.api.virtual.player.VirtualPlayer;
 import dev.by1337.virtualentity.core.mappings.Packets;
 import dev.by1337.virtualentity.core.network.ByteBufUtil;
 import dev.by1337.virtualentity.core.network.Packet;
-import dev.by1337.virtualentity.core.network.PacketType;
 import dev.by1337.virtualentity.core.virtual.player.VirtualPlayerImpl;
 import io.netty.buffer.ByteBuf;
 import org.bukkit.GameMode;
-import org.by1337.blib.util.Version;
 
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.function.BiConsumer;
 
 public class PlayerInfoPacket extends Packet {
-    private static final boolean IS_1_19_4_OR_NEWER = ServerVersion.CURRENT_PROTOCOL >= ServerVersion.Protocol.V1_19_4;
-    private static final boolean IS_1_21_3_OR_NEWER = ServerVersion.CURRENT_PROTOCOL >= ServerVersion.Protocol.V1_21_3;
-    private static final int PLAYER_INFO_PACKET = Packets.play.clientbound.getId("minecraft:player_info");
     private static final int REMOVE_PLAYER_PACKET = Packets.play.clientbound.getId("minecraft:player_info_remove");
     private static final int UPDATE_PLAYER_INFO_PACKET = Packets.play.clientbound.getId("minecraft:player_info_update");
 
-    private final VirtualPlayerImpl player;
+    private final VirtualPlayer player;
     private final Action[] actions;
 
     public PlayerInfoPacket(VirtualPlayerImpl player, Action... actions) {
+        this((VirtualPlayer) player, actions);
+    }
+
+    public PlayerInfoPacket(VirtualPlayer player, Action... actions) {
         this.player = player;
-        this.actions = actions;
-        if (!IS_1_19_4_OR_NEWER && actions.length != 1) {
-            throw new IllegalArgumentException("Actions must contain exactly one action");
-        }
         if (actions.length == 0) {
             throw new IllegalArgumentException("Actions must contain at least one action");
         }
+        EnumSet<Action> actionSet = EnumSet.copyOf(Arrays.asList(actions));
+        if (actionSet.contains(Action.REMOVE_PLAYER) && actionSet.size() != 1) {
+            throw new IllegalArgumentException("REMOVE_PLAYER cannot be combined with update actions");
+        }
+        // The client's EnumSet decoder reads each action once, in enum order.
+        this.actions = actionSet.toArray(new Action[0]);
     }
 
     @Override
     public void write(ByteBuf byteBuf) {
-        if (IS_1_19_4_OR_NEWER) {
-            if (actions[0] == Action.REMOVE_PLAYER) {
-                ByteBufUtil.writeVarInt(REMOVE_PLAYER_PACKET, byteBuf);
-                ByteBufUtil.writeVarInt(1, byteBuf); // players count
-                ByteBufUtil.writeUUID(player.getUuid(), byteBuf);
-            } else {
-                ByteBufUtil.writeVarInt(UPDATE_PLAYER_INFO_PACKET, byteBuf);
-                byte data = 0;
-                for (Action action : actions) {
-                    data |= action.mask;
-                }
-                byteBuf.writeByte(data);
-                ByteBufUtil.writeVarInt(1, byteBuf); // players count
-
-                ByteBufUtil.writeUUID(player.getUuid(), byteBuf);
-
-                for (Action action : actions) {
-                    action.writer.accept(byteBuf, player);
-                }
-
-            }
+        if (actions[0] == Action.REMOVE_PLAYER) {
+            ByteBufUtil.writeVarInt(REMOVE_PLAYER_PACKET, byteBuf);
+            ByteBufUtil.writeVarInt(1, byteBuf); // players count
+            ByteBufUtil.writeUUID(player.getUuid(), byteBuf);
         } else {
-            writeLegacy(byteBuf);
+            ByteBufUtil.writeVarInt(UPDATE_PLAYER_INFO_PACKET, byteBuf);
+            byte data = 0;
+            for (Action action : actions) {
+                data |= action.mask;
+            }
+            byteBuf.writeByte(data);
+            ByteBufUtil.writeVarInt(1, byteBuf); // players count
+
+            ByteBufUtil.writeUUID(player.getUuid(), byteBuf);
+
+            for (Action action : actions) {
+                action.writer.accept(byteBuf, player);
+            }
+
         }
     }
 
     private static void writeGameProfileProperties(ByteBuf byteBuf, VirtualPlayer player) {
         PropertyMap propertyMap = player.getProperties();
         ByteBufUtil.writeVarInt(propertyMap.size(), byteBuf);
-        propertyMap.forEach((key, value) -> {
-            ByteBufUtil.writeUtf(key, byteBuf);
-            ByteBufUtil.writeUtf(value.getValue(), byteBuf);
-            ByteBufUtil.writeOptional(byteBuf, value.getSignature(), ByteBufUtil::writeUtf);
+        propertyMap.values().forEach(value -> {
+            ByteBufUtil.writeUtf(value.name(), byteBuf);
+            ByteBufUtil.writeUtf(value.value(), byteBuf);
+            ByteBufUtil.writeOptional(byteBuf, value.signature(), ByteBufUtil::writeUtf);
         });
-    }
-
-    private void writeLegacy(ByteBuf byteBuf) {
-        ByteBufUtil.writeVarInt(PLAYER_INFO_PACKET, byteBuf);
-        ByteBufUtil.writeVarInt(actions[0].getId(), byteBuf);
-        ByteBufUtil.writeVarInt(1, byteBuf); // players count
-        ByteBufUtil.writeUUID(player.getUuid(), byteBuf);
-
-        actions[0].writer.accept(byteBuf, player);
     }
 
     private static int toId(GameMode gameMode) {
@@ -96,50 +83,27 @@ public class PlayerInfoPacket extends Packet {
 
     public enum Action {
         ADD_PLAYER((byte) 1, (byteBuf, player) -> {
-            if (IS_1_19_4_OR_NEWER) {
-                ByteBufUtil.writeUtf(player.getName(), byteBuf);
-                writeGameProfileProperties(byteBuf, player);
-            } else {
-                ByteBufUtil.writeUtf(player.getName(), byteBuf);
-                writeGameProfileProperties(byteBuf, player);
-                ByteBufUtil.writeVarInt(toId(player.getGameMode()), byteBuf);
-                ByteBufUtil.writeVarInt(player.getLatency(), byteBuf);
-                ByteBufUtil.writeOptional(byteBuf, player.getDisplayName(), ByteBufUtil::writeComponent);
-            }
+            ByteBufUtil.writeUtf(player.getName(), byteBuf);
+            writeGameProfileProperties(byteBuf, player);
         }),
-        @SinceMinecraftVersion("1.19.4")
+
         INITIALIZE_CHAT((byte) (1 << 1), (byteBuf, player) -> {
-            if (IS_1_19_4_OR_NEWER) {
-            } else {
-                throw new UnsupportedOperationException("The INITIALIZE_CHAT operation is not supported in version " + Version.VERSION.getVer());
-            }
+            byteBuf.writeBoolean(false); // no RemoteChatSession.Data for a virtual player
         }),
         UPDATE_GAME_MODE((byte) (1 << 2), (byteBuf, player) -> ByteBufUtil.writeVarInt(toId(player.getGameMode()), byteBuf)),
-        @SinceMinecraftVersion("1.19.4")
+
         UPDATE_LISTED((byte) (1 << 3), (byteBuf, player) -> {
-            if (IS_1_19_4_OR_NEWER) {
-                byteBuf.writeBoolean(player.isListed());
-            } else {
-                throw new UnsupportedOperationException("The UPDATE_LISTED operation is not supported in version " + Version.VERSION.getVer());
-            }
+            byteBuf.writeBoolean(player.isListed());
         }),
         UPDATE_LATENCY((byte) (1 << 4), (byteBuf, player) -> ByteBufUtil.writeVarInt(player.getLatency(), byteBuf)),
         UPDATE_DISPLAY_NAME((byte) (1 << 5), (byteBuf, player) -> ByteBufUtil.writeOptional(byteBuf, player.getDisplayName(), ByteBufUtil::writeComponent)),
-        @SinceMinecraftVersion("1.21.3")
+
         UPDATE_LIST_ORDER((byte) (1 << 6), (byteBuf, player) -> {
-            if (IS_1_21_3_OR_NEWER) {
-                ByteBufUtil.writeVarInt(player.getListOrder(), byteBuf);
-            } else {
-                throw new UnsupportedOperationException("The UPDATE_LIST_ORDER operation is not supported in version " + Version.VERSION.getVer());
-            }
+            ByteBufUtil.writeVarInt(player.getListOrder(), byteBuf);
         }),
         @RemovedInMinecraftVersion("1.19.4")
         REMOVE_PLAYER((byte) 0, (byteBuf, player) -> {
-            if (IS_1_19_4_OR_NEWER) {
-                throw new UnsupportedOperationException("The REMOVE_PLAYER operation is not supported in version " + Version.VERSION.getVer());
-            } else {
-                // none
-            }
+            throw new UnsupportedOperationException("REMOVE_PLAYER uses its own packet");
         });
 
         private final byte mask;
@@ -151,19 +115,8 @@ public class PlayerInfoPacket extends Packet {
         }
 
         public int getId() {
-            if (IS_1_19_4_OR_NEWER) {
-                if (this == REMOVE_PLAYER) throw new IllegalStateException("Not supported in this version!");
-                return ordinal();
-            }
-            return switch (this) {
-                case ADD_PLAYER -> 0;
-                case INITIALIZE_CHAT, UPDATE_LISTED, UPDATE_LIST_ORDER ->
-                        throw new IllegalStateException("Not supported in this version!");
-                case UPDATE_GAME_MODE -> 1;
-                case UPDATE_LATENCY -> 2;
-                case UPDATE_DISPLAY_NAME -> 3;
-                case REMOVE_PLAYER -> 4;
-            };
+            if (this == REMOVE_PLAYER) throw new IllegalStateException("Not supported in this version!");
+            return ordinal();
         }
     }
 

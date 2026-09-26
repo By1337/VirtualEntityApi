@@ -94,7 +94,6 @@ public class SynchedEntityData {
         this.lock.writeLock().unlock();
     }
 
-
     public static class DataItem<T> {
         private final EntityDataAccessor<T> accessor;
         private T value;

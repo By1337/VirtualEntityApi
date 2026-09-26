@@ -39,7 +39,6 @@ import org.by1337.blib.geom.Vec3d;
 import org.by1337.blib.nbt.MojangNbtReader;
 import org.by1337.blib.nbt.impl.CompoundTag;
 import org.by1337.blib.util.Direction;
-import org.by1337.blib.util.Version;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -54,6 +53,7 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onLoad() {
+        SupportedVersions.requireProtocol(ServerVersion.CURRENT_PROTOCOL);
         Mappings.load();
         Packets.load();
         VirtualEntityRegistrar.register();
@@ -64,11 +64,12 @@ public class Main extends JavaPlugin {
         commandWrapper = new CommandWrapper(createCommand(this), this);
         commandWrapper.setPermission("virtualentityapi.admin");
         commandWrapper.register();
+
     }
 
     @Override
     public void onDisable() {
-        commandWrapper.close();
+        if (commandWrapper != null) commandWrapper.close();
     }
 
     public static Command<CommandSender> createCommand(Plugin plugin) {
@@ -126,7 +127,6 @@ public class Main extends JavaPlugin {
                             areaEffectCloud.setRadius(1);
                             areaEffectCloud.setParticle(new ParticleOptions<>(null, Particle.FLAME));
                             tracker.addEntity(areaEffectCloud);
-
 
                             new BukkitRunnable() {
                                 Vec3d vec = new Vec3d(0, 0, (360D / 7D) / 7);
@@ -213,9 +213,7 @@ public class Main extends JavaPlugin {
                                     }
                                     frame.setDirection(arr[pos++]);
                                     frame.tick(Set.of(player));
-                                    if (Version.is1_21_3orNewer()) {
-                                        frame.respawn();
-                                    }
+                                    frame.respawn();
                                 }
                             }.runTaskTimerAsynchronously(plugin, 0, 15);
                         }))
