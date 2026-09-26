@@ -1,7 +1,7 @@
 package dev.by1337.virtualentity.core.nms;
 
+import dev.by1337.core.util.network.ChannelGetter;
 import dev.by1337.virtualentity.api.particles.ParticleOptions;
-import dev.by1337.virtualentity.core.annotations.ASM;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import net.kyori.adventure.text.Component;
@@ -9,165 +9,149 @@ import org.bukkit.Particle;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
 import java.util.List;
 
-public class NmsUtil {
-    private static final NativeCodecs accessor = new NativeCodecs();
+import static java.lang.invoke.MethodType.methodType;
+
+public final class NmsUtil {
+    private NmsUtil() {
+    }
 
     public static int getCombinedId(BlockData blockData) {
-        return accessor.getBlockId(blockData);
+        try {
+            return (int) Bindings.BLOCK_ID.invokeExact(blockData);
+        } catch (Throwable t) {
+            throw failure("resolve block state ID", t);
+        }
     }
 
     public static void writeParticleOptions(ParticleOptions<?> particleOptions, ByteBuf b) {
-        accessor.writeParticle(particleOptions.particle(), particleOptions.value(), b);
+        try {
+            Object particle = (Object) Bindings.PARTICLE.invokeExact(particleOptions.particle(), particleOptions.value());
+            write(Bindings.WRITE_PARTICLE, b, particle);
+        } catch (Throwable t) {
+            throw failure("write particle", t);
+        }
     }
 
     public static void writeItemStack(ItemStack itemStack, ByteBuf b) {
-        accessor.writeItemStack(itemStack, b);
+        try {
+            Object item = (Object) Bindings.ITEM_STACK.invokeExact(itemStack);
+            write(Bindings.WRITE_ITEM_STACK, b, item);
+        } catch (Throwable t) {
+            throw failure("write item stack", t);
+        }
     }
 
     public static Channel getChannel(Player player) {
-        return accessor.getChannel(player);
+        return ChannelGetter.get(player);
     }
 
     public static void writeComponent(Component component, ByteBuf b) {
-        accessor.writeComponent(component, b);
+        try {
+            Object nativeComponent = (Object) Bindings.COMPONENT.invokeExact(component);
+            write(Bindings.WRITE_COMPONENT, b, nativeComponent);
+        } catch (Throwable t) {
+            throw failure("write component", t);
+        }
     }
 
     public static void writeParticles(List<ParticleOptions<?>> list, ByteBuf b) {
-        accessor.writeParticles(list, b);
+        try {
+            List<Object> particles = new ArrayList<>(list.size());
+            for (ParticleOptions<?> particle : list) {
+                particles.add((Object) Bindings.PARTICLE.invokeExact(particle.particle(), particle.value()));
+            }
+            write(Bindings.WRITE_PARTICLES, b, particles);
+        } catch (Throwable t) {
+            throw failure("write particle list", t);
+        }
     }
 
-    private static class NativeCodecs {
-        private static final Object PARTICLE_CODEC = getCodec("PARTICLE");
-        private static final Object PARTICLES_CODEC = getCodec("PARTICLES");
-        private static final Object ITEM_STACK_CODEC = getCodec("ITEM_STACK");
-        private static final Object COMPONENT_CODEC = getCodec("COMPONENT");
+    private static void write(MethodHandle encoder, ByteBuf b, Object value) throws Throwable {
+        // Obtain current registries on each write; only method bindings are cached.
+        Object registries = (Object) Bindings.REGISTRY_ACCESS.invokeExact();
+        Object buffer = (Object) Bindings.REGISTRY_BUFFER.invokeExact(b, registries);
+        encoder.invokeExact(buffer, value);
+    }
 
-        @ASM
-        private void write(Object codec, ByteBuf byteBuf, Object value) {
-            String asm = """
-                    A:
-                        aload 1
-                        checkcast net/minecraft/network/codec/StreamEncoder
-                        new net/minecraft/network/RegistryFriendlyByteBuf
-                        dup
-                        aload 2
-                        invokestatic net/minecraft/server/MinecraftServer getServer ()Lnet/minecraft/server/MinecraftServer;
-                        invokevirtual net/minecraft/server/MinecraftServer registryAccess ()Lnet/minecraft/core/RegistryAccess$Frozen;
-                        invokespecial net/minecraft/network/RegistryFriendlyByteBuf <init> (Lio/netty/buffer/ByteBuf;Lnet/minecraft/core/RegistryAccess;)V
-                        aload 3
-                        invokeinterface net/minecraft/network/codec/StreamEncoder encode (Ljava/lang/Object;Ljava/lang/Object;)V
-                    B:
-                        return
-                    C:
-                    """;
-            throw new IllegalStateException("ASM did not apply! " + asm);
-        }
+    private static IllegalStateException failure(String operation, Throwable cause) {
+        if (cause instanceof Error error) throw error;
+        return new IllegalStateException("Unable to " + operation + " using native Minecraft codecs", cause);
+    }
 
-        @ASM
-        private Object toNMSParticle(Particle particle, Object val) {
-            String asm = """
-                    A:
-                        aload 1
-                        aload 2
-                        invokestatic org/bukkit/craftbukkit/CraftParticle createParticleParam (Lorg/bukkit/Particle;Ljava/lang/Object;)Lnet/minecraft/core/particles/ParticleOptions;
-                        areturn
-                    B:
-                    """;
-            throw new IllegalStateException("ASM did not apply! " + asm);
-        }
+    /** Resolved once, lazily on the first native operation, using Mojang's mapped signatures. */
+    private static final class Bindings {
+        private static final MethodHandle REGISTRY_ACCESS;
+        private static final MethodHandle REGISTRY_BUFFER;
+        private static final MethodHandle PARTICLE;
+        private static final MethodHandle ITEM_STACK;
+        private static final MethodHandle COMPONENT;
+        private static final MethodHandle BLOCK_ID;
+        private static final MethodHandle WRITE_PARTICLE;
+        private static final MethodHandle WRITE_PARTICLES;
+        private static final MethodHandle WRITE_ITEM_STACK;
+        private static final MethodHandle WRITE_COMPONENT;
 
-        @ASM
-        private Object toNMSItemsStack(ItemStack itemStack) {
-            String asm = """
-                    A:
-                        aload 1
-                        invokestatic org/bukkit/craftbukkit/inventory/CraftItemStack unwrap (Lorg/bukkit/inventory/ItemStack;)Lnet/minecraft/world/item/ItemStack;
-                        areturn
-                    B:
-                    """;
-            throw new IllegalStateException("ASM did not apply! " + asm);
-        }
-
-        @ASM
-        private Object toNMSComponent(Component component) {
-            String asm = """
-                    A:
-                        aload 1
-                        invokestatic io/papermc/paper/adventure/PaperAdventure asVanilla (Lnet/kyori/adventure/text/Component;)Lnet/minecraft/network/chat/Component;
-                        areturn
-                    B:
-                    """;
-            throw new IllegalStateException("ASM did not apply! " + asm);
-        }
-
-        private static Object getCodec(String entityDataSerializer) {
+        static {
             try {
-                Class<?> cl = Class.forName("net.minecraft.network.syncher.EntityDataSerializers");
-                Field field = cl.getDeclaredField(entityDataSerializer);
-                field.setAccessible(true);
-                Object val = field.get(null);
+                MethodHandles.Lookup lookup = MethodHandles.publicLookup();
+                Class<?> server = Class.forName("net.minecraft.server.MinecraftServer");
+                Class<?> registryAccess = Class.forName("net.minecraft.core.RegistryAccess");
+                Class<?> frozenRegistries = Class.forName("net.minecraft.core.RegistryAccess$Frozen");
+                Class<?> registryBuffer = Class.forName("net.minecraft.network.RegistryFriendlyByteBuf");
+                Class<?> streamEncoder = Class.forName("net.minecraft.network.codec.StreamEncoder");
+                Class<?> streamCodec = Class.forName("net.minecraft.network.codec.StreamCodec");
+                Class<?> serializer = Class.forName("net.minecraft.network.syncher.EntityDataSerializer");
+                Class<?> serializers = Class.forName("net.minecraft.network.syncher.EntityDataSerializers");
+                Class<?> blockState = Class.forName("net.minecraft.world.level.block.state.BlockState");
 
-                Class<?> cl2 = Class.forName("net.minecraft.network.syncher.EntityDataSerializer");
-                Method method = cl2.getDeclaredMethod("codec");
-                method.setAccessible(true);
-                return method.invoke(val);
+                MethodHandle getServer = lookup.findStatic(server, "getServer", methodType(server));
+                MethodHandle getRegistries = lookup.findVirtual(server, "registryAccess", methodType(frozenRegistries));
+                REGISTRY_ACCESS = MethodHandles.filterReturnValue(getServer, getRegistries)
+                        .asType(methodType(Object.class));
+                REGISTRY_BUFFER = lookup.findConstructor(registryBuffer, methodType(void.class, ByteBuf.class, registryAccess))
+                        .asType(methodType(Object.class, ByteBuf.class, Object.class));
+
+                PARTICLE = lookup.findStatic(Class.forName("org.bukkit.craftbukkit.CraftParticle"), "createParticleParam",
+                                methodType(Class.forName("net.minecraft.core.particles.ParticleOptions"), Particle.class, Object.class))
+                        .asType(methodType(Object.class, Particle.class, Object.class));
+                ITEM_STACK = lookup.findStatic(Class.forName("org.bukkit.craftbukkit.inventory.CraftItemStack"), "unwrap",
+                                methodType(Class.forName("net.minecraft.world.item.ItemStack"), ItemStack.class))
+                        .asType(methodType(Object.class, ItemStack.class));
+                COMPONENT = lookup.findStatic(Class.forName("io.papermc.paper.adventure.PaperAdventure"), "asVanilla",
+                                methodType(Class.forName("net.minecraft.network.chat.Component"), Component.class))
+                        .asType(methodType(Object.class, Component.class));
+
+                MethodHandle getState = lookup.findVirtual(Class.forName("org.bukkit.craftbukkit.block.data.CraftBlockData"),
+                        "getState", methodType(blockState));
+                MethodHandle getId = lookup.findStatic(Class.forName("net.minecraft.world.level.block.Block"),
+                        "getId", methodType(int.class, blockState));
+                BLOCK_ID = MethodHandles.filterReturnValue(getState, getId).asType(methodType(int.class, BlockData.class));
+
+                MethodHandle encode = lookup.findVirtual(streamEncoder, "encode",
+                        methodType(void.class, Object.class, Object.class));
+                MethodHandle codec = lookup.findVirtual(serializer, "codec", methodType(streamCodec))
+                        .asType(methodType(Object.class, Object.class));
+                WRITE_PARTICLE = encoder(lookup, serializers, serializer, codec, encode, "PARTICLE");
+                WRITE_PARTICLES = encoder(lookup, serializers, serializer, codec, encode, "PARTICLES");
+                WRITE_ITEM_STACK = encoder(lookup, serializers, serializer, codec, encode, "ITEM_STACK");
+                WRITE_COMPONENT = encoder(lookup, serializers, serializer, codec, encode, "COMPONENT");
             } catch (Throwable t) {
-                throw new IllegalStateException("Cannot load native metadata codec " + entityDataSerializer, t);
+                throw new ExceptionInInitializerError(new IllegalStateException("Cannot bind native Minecraft codecs", t));
             }
         }
 
-        @ASM
-        public int getBlockId(BlockData blockData) {
-            String asm = """
-                    A:
-                        aload 1
-                        checkcast org/bukkit/craftbukkit/block/data/CraftBlockData
-                        invokevirtual org/bukkit/craftbukkit/block/data/CraftBlockData getState ()Lnet/minecraft/world/level/block/state/BlockState;
-                        invokestatic net/minecraft/world/level/block/Block getId (Lnet/minecraft/world/level/block/state/BlockState;)I
-                        ireturn
-                    B:
-                    """;
-            throw new IllegalStateException("ASM did not apply! " + asm);
+        private static MethodHandle encoder(MethodHandles.Lookup lookup, Class<?> serializers, Class<?> serializer,
+                                            MethodHandle codec, MethodHandle encode, String name) throws Throwable {
+            MethodHandle getter = lookup.findStaticGetter(serializers, name, serializer).asType(methodType(Object.class));
+            Object value = (Object) getter.invokeExact();
+            Object nativeCodec = (Object) codec.invokeExact(value);
+            return encode.bindTo(nativeCodec);
         }
-
-        public void writeParticle(Particle particle, @Nullable Object value, ByteBuf b) {
-            write(PARTICLE_CODEC, b, toNMSParticle(particle, value));
-        }
-
-        public void writeItemStack(ItemStack itemStack, ByteBuf b) {
-            write(ITEM_STACK_CODEC, b, toNMSItemsStack(itemStack));
-        }
-
-        public void writeParticles(List<ParticleOptions<?>> list, ByteBuf b) {
-            write(PARTICLES_CODEC, b, list.stream().map(p -> toNMSParticle(p.particle(), p.value())).toList());
-        }
-
-        public void writeComponent(Component component, ByteBuf b) {
-            write(COMPONENT_CODEC, b, toNMSComponent(component));
-        }
-
-        @ASM
-        public Channel getChannel(Player player) {
-            String asm = """
-                    A:
-                        aload 1
-                        checkcast org/bukkit/craftbukkit/entity/CraftPlayer
-                        invokevirtual org/bukkit/craftbukkit/entity/CraftPlayer getHandle ()Lnet/minecraft/server/level/ServerPlayer;
-                        getfield net/minecraft/server/level/ServerPlayer connection Lnet/minecraft/server/network/ServerGamePacketListenerImpl;
-                        getfield net/minecraft/server/network/ServerGamePacketListenerImpl connection Lnet/minecraft/network/Connection;
-                        getfield net/minecraft/network/Connection channel Lio/netty/channel/Channel;
-                        areturn
-                    B:
-                    """;
-            throw new IllegalStateException("ASM did not apply! " + asm);
-        }
-
     }
-
 }

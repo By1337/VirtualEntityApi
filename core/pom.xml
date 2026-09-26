@@ -18,19 +18,6 @@
         <defaultGoal>clean install</defaultGoal>
         <plugins>
             <plugin>
-                <groupId>dev.by1337.virtualentity.asm</groupId>
-                <artifactId>asm-maven-plugin</artifactId>
-                <version>1.4.2</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>apply</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.13.0</version>
