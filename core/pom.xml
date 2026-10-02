@@ -4,7 +4,7 @@
     <parent>
         <groupId>dev.by1337.virtualentity</groupId>
         <artifactId>VirtualEntityApi</artifactId>
-        <version>1.4.3</version>
+        <version>${revision}</version>
     </parent>
     <groupId>dev.by1337.virtualentity.core</groupId>
     <artifactId>VirtualEntityApi</artifactId>
@@ -118,7 +118,7 @@
         <dependency>
             <groupId>dev.by1337.virtualentity.api</groupId>
             <artifactId>VirtualEntityApi-api</artifactId>
-            <version>1.4.3</version>
+            <version>${revision}</version>
             <scope>compile</scope>
         </dependency>
         <dependency> <!-- in BLib further in the minecraft -->

@@ -16,6 +16,7 @@ import dev.by1337.virtualentity.core.network.impl.*;
 import dev.by1337.virtualentity.core.syncher.EntityDataAccessor;
 import dev.by1337.virtualentity.core.syncher.SynchedEntityData;
 import dev.by1337.virtualentity.core.util.ConcurrentPlayerHashSet;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.by1337.blib.geom.Vec3d;
@@ -29,7 +30,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
 public abstract class VirtualEntityControllerImpl implements VirtualEntityController {
-    private static final AtomicInteger counter = new AtomicInteger(1<<30);
+    private static final AtomicInteger counter = new AtomicInteger(1<<29);
     protected final int id = counter.getAndIncrement();
     private final EntityPosition position = new EntityPosition();
     private final UUID uuid = UUID.randomUUID();
